@@ -15,9 +15,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/' do
-    "<div align='center'>
-       <img src='#{@image}' alt='Hamburger' />
-    </div>"
+    erb :index
   end
   
   get '/api' do
