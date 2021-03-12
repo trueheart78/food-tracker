@@ -16,3 +16,10 @@ You can also run it via basic Ruby.
 ```
 bundle exec ruby food_tracker.rb
 ```
+
+## Updating the Meta Data
+
+When new files or types are desired, you'll need to edit `meta_data_generator.rb` directly,
+and then run `./meta_data_generator.rb` from the root directory.
+
+Make sure to commit and push the changes.

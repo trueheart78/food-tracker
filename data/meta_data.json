@@ -1,0 +1,68 @@
+[
+  {
+    "supported_types": [
+      "breakfast",
+      "dessert",
+      "dinner",
+      "lunch",
+      "simple",
+      "snack",
+      "sweet"
+    ],
+    "supported_locations": [
+      "counter",
+      "cupboard",
+      "fridge",
+      "freezer"
+    ],
+    "relationships": [
+      {
+        "file": "drinks",
+        "type": [
+          "sweet",
+          "simple"
+        ],
+        "location": [
+          "fridge"
+        ]
+      },
+      {
+        "file": "icecream",
+        "type": [
+          "sweet",
+          "snack",
+          "dessert"
+        ],
+        "location": [
+          "freezer"
+        ]
+      },
+      {
+        "file": "leftovers",
+        "type": [
+          "snack",
+          "dinner"
+        ],
+        "location": [
+          "counter",
+          "fridge",
+          "freezer"
+        ]
+      },
+      {
+        "file": "sweets",
+        "type": [
+          "sweet",
+          "snack",
+          "dessert"
+        ],
+        "location": [
+          "counter",
+          "cupboard",
+          "freezer",
+          "fridge"
+        ]
+      }
+    ]
+  }
+]

@@ -21,17 +21,40 @@ class MetaData
   def save
     return unless valid?
 
-    File.open('data/meta_data.json', 'w+') do |file|
+    File.open(data_file_path, 'w+') do |file|
       file.write JSON.pretty_generate(data)
     end
   end
 
-  def valid?
-    @valid = false
+  def data_file_path
+    'data/meta_data.json'
+  end
 
-    @valid = valid_files? relationships.pluck(:file)
+  def valid?
+    @valid = true
+
+    validate_files
+    validate_types
+    validate_locations
 
     @valid
+  end
+
+  private
+
+  def validate_files
+    local_valid = valid_files? relationships.pluck(:file)
+    @valid = local_valid if @valid
+  end
+
+  def validate_types
+    local_valid = valid_types? relationships.pluck(:type)
+    @valid = local_valid if @valid
+  end
+
+  def validate_locations
+    local_valid = valid_locations? relationships.pluck(:location)
+    @valid = local_valid if @valid
   end
 
   def valid_files?(files)
@@ -39,8 +62,30 @@ class MetaData
     missing_files = files.reject { |f| File.exist? path(f) }
     return true unless new_files.any? || missing_files.any?
 
-    new_files.each     { |file| add_error 'New file does not have metadata.', file }
+    new_files.each     { |file| add_error 'File does not have metadata.', file }
     missing_files.each { |file| add_error 'Data file does not exist.', file }
+
+    false
+  end
+
+  def valid_types?(types)
+    types = types.flatten.uniq.sort
+    new_types = types.reject { |t| supported_types.include? t }
+
+    return true unless new_types.any?
+
+    new_types.each { |type| add_error 'Type not supported.', type }
+
+    false
+  end
+
+  def valid_locations?(locations)
+    locations = locations.flatten.uniq.sort
+    new_locations = locations.reject { |l| supported_locations.include? l }
+
+    return true unless new_locations.any?
+
+    new_locations.each { |location| add_error 'Location not supported.', location }
 
     false
   end
@@ -57,14 +102,15 @@ class MetaData
     @errors.push "#{message} [#{var}]"
   end
 
-  def types
-    %w[dessert drink simple snack sweet]
+  def supported_types
+    @supported_types ||= %w[breakfast dessert dinner lunch simple snack sweet]
   end
 
-  def locations
-    %w[counter cupboard fridge freezer]
+  def supported_locations
+    @supported_locations ||= %w[counter cupboard fridge freezer]
   end
 
+  # rubocop:disable Metrics/MethodLength
   def relationships
     [
       {
@@ -81,25 +127,31 @@ class MetaData
         file: 'leftovers',
         type: %w[snack dinner],
         location: %w[counter fridge freezer]
+      },
+      {
+        file: 'sweets',
+        type: %w[sweet snack dessert],
+        location: %w[counter cupboard freezer fridge]
       }
     ]
   end
+  # rubocop:enable Metrics/MethodLength
 
   def data
     [
       {
-        types: types,
-        locations: locations,
+        supported_types: supported_types,
+        supported_locations: supported_locations,
         relationships: relationships
       }
     ]
   end
-
 end
 
 meta_data = MetaData.new
 if meta_data.valid?
   meta_data.save
+  puts "=> Updated meta data. [#{meta_data.data_file_path}]"
 else
   puts 'Errors Found:'
   meta_data.errors.each do |error|
