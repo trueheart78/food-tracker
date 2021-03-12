@@ -97,12 +97,12 @@ class MetaData
 
 end
 
-md = MetaData.new
-if md.valid?
-  md.save
+meta_data = MetaData.new
+if meta_data.valid?
+  meta_data.save
 else
   puts 'Errors Found:'
-  md.errors.each do |error|
+  meta_data.errors.each do |error|
     puts "=> #{error}"
   end
 end
