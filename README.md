@@ -1,1 +1,3 @@
-# food-tracker
+# Food Tracker :hamburger:
+
+Tracks food.
