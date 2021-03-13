@@ -49,3 +49,13 @@ When new files or types are desired, you'll need to edit `meta_data_generator.rb
 and then run `./meta_data_generator.rb` from the root directory.
 
 Make sure to commit and push the changes.
+
+## Roadmap
+
+1. ~Data entry.~
+1. Create a file auditor to verify entries are valid, especially with the denomiators.
+   * Will require tests.
+1. Create an endpoint that displays the data plainly.
+   * Consider caching via Redis, based on performance.
+   * If caching, create a custom endpoint that is called when no cache is found. It can redirect to the root endpoint when complete.
+1. Finish the `meta_data_generator.rb`

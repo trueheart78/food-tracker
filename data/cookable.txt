@@ -1,7 +1,7 @@
 Corn Dogs |2/4/22| {Kroger} (freezer)
-Chimichangas - Chicken & Cheese (freezer)
+Chimichangas - Chicken & Cheese |8/14/21| {José Olé} (freezer)
 Homestyle Meatballs [11/23/21] {Meijer} (freezer)
-Beef Ravioli [9/15/21 {Great Value} (freezer)
+Beef Ravioli [9/15/21] {Great Value} (freezer)
 Macaroni & Cheese {Kraft}
 Angel Hair Pasta {Barilla}
 Macaroni Noodles {Barilla}
@@ -31,3 +31,4 @@ Hot Pockets - Pepperoni & Sausage (freezer) {Hot Pockets} {Nestle} |12/1/21|
 Hot Pockets - Pepperoni |11/1/21| (freezer) {Hot Pockets} {Nestle}
 Pizza Rolls - Cheese (freezer) {Totino’s}
 Pizza Rolls - Combo (freezer) {Totino’s} |6/24/22|
+Stromboli - 3 Meat |3/1/22| {DiGiorno} (freezer)
