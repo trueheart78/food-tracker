@@ -35,6 +35,7 @@ class MetaData
 
     validate_files
     validate_types
+    # TODO validate_default_locations
     validate_locations
 
     @valid
@@ -52,6 +53,9 @@ class MetaData
     @valid = local_valid if @valid
   end
 
+  # TODO loop through known files and validate their locations (in parens)
+  
+  # TODO validate_default_locations
   def validate_locations
     local_valid = valid_locations? relationships.pluck(:location)
     @valid = local_valid if @valid
@@ -90,8 +94,12 @@ class MetaData
     false
   end
 
-  def existing_files
-    Dir['data/*.txt'].map { |file| file.sub('data/', '').sub('.txt', '') }
+  def existing_files(short_version: true)
+    if short_version
+      Dir['data/*.txt'].map { |file| file.sub('data/', '').sub('.txt', '') }
+    else
+      Dir['data/*.txt']
+    end
   end
 
   def path(file)
@@ -112,6 +120,7 @@ class MetaData
 
   # rubocop:disable Metrics/MethodLength
   def relationships
+    # TODO default_location?
     [
       {
         file: 'drinks',
