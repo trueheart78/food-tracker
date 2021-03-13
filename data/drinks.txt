@@ -1,20 +1,19 @@
-Apple Juice bottles
-Big Red bottles
-Coke mini cans
-Rootbeer mini cans
-Rootbear normal cans
-Rootbear bottles
-Orange Juice (Low Acid)
-Black Cherry Soda bottles
-Diet Coke normal cans
-RedBull
-RedBull Blueberry
-RedBull Peach
-RedBull Watermelon
-Chai Tea
-Sunkist can
-Blue Gatorade
-Purple Gatorade
-Dasani water bottles
-Milk [3/19/21]
-Nesquik - Strawberry (cupboard)
+Apple Juice bottles {Mott’s}
+Red Soda bottles {Big Red}
+Coke mini cans {Coke}
+Rootbeer mini cans {A&W}
+Rootbeer normal cans {A&W}
+Rootbeer bottles {A&W}
+Rootbeer bottles {Virgil’s}
+Orange Juice - Low Acid {Kroger} {Tropicana}
+Black Cherry soda bottles {Virgil’s}
+RedBull {RedBull}
+RedBull Blueberry {RedBull}
+RedBull Peach {RedBull}
+RedBull Watermelon {RedBull}
+Blue Gatorade {Gatorade} (pantry)
+Purple Gatorade {Gatorade}
+Water bottles {Dasani}
+Milk [3/19/21] {Kroger}
+Strawberry Nesquik {Nestle}(cupboard)
+Sunkist mini cans {Sunkist}

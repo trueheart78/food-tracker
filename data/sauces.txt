@@ -1,6 +1,5 @@
-Marinara Sauce
-Marinara Sauce - Opened (fridge)
-Manwich Bold
-Spaghetti Meat Sauce - Ragu
-Spaghetti Super Chunky Mushroom Sauce - Ragu
-Spaghetti Mushroom Sauce - Ragu
+Marinara Sauce {Meijer}
+Marinara Sauce - Opened  {Kroger} (fridge)
+Manwich Bold |7/22/22| {Conagra}
+Spaghetti Meat Sauce [9/22/22] [9/28/22] {Ragu}
+Spaghetti Mushroom Sauce [3/22/21] {Ragu}
