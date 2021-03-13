@@ -52,7 +52,7 @@ Make sure to commit and push the changes.
 
 ## Roadmap
 
-1. ~Data entry.~
+1. ~~Data entry.~~
 1. Create a file auditor to verify entries are valid, especially with the denomiators.
    * Will require tests.
 1. Create an endpoint that displays the data plainly.
