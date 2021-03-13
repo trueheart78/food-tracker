@@ -16,6 +16,10 @@ class Env
   def self.to_s
     ENV['RACK_ENV']
   end
+  
+  def self.to_sym
+    ENV['RACK_ENV'].to_sym
+  end
 
   def self.host(request)
     request.base_url
