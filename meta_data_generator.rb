@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 # frozen_string_literal: true
-require 'booster_pack'
+require './booster_pack'
 
 unless Env.development?
   puts "=> Error: Unable to run outside of development mode. [#{Env}]"
