@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class FoodTracker < Sinatra::Base
+  set :environment, Env.to_sym
+  
   before do
     if Env.force_ssl?(request)
       redirect request.url.sub('http', 'https'), 308
