@@ -1,5 +1,4 @@
-require './load_path.rb'
-require 'bundler_init.rb'
-require 'food_tracker.rb'
+require 'booster_pack'
+require 'food_tracker'
 
 run FoodTracker.new

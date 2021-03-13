@@ -12,6 +12,10 @@ class Env
   def self.test?
     ENV['RACK_ENV'] == 'test'
   end
+  
+  def self.to_s
+    ENV['RACK_ENV']
+  end
 
   def self.host(request)
     request.base_url

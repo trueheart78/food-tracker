@@ -1,8 +1,5 @@
 # frozen_string_literal: true
 
-require 'config/environment'
-require 'env'
-
 class FoodTracker < Sinatra::Base
   before do
     if Env.force_ssl?(request)
