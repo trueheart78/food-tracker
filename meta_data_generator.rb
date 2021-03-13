@@ -2,6 +2,7 @@
 
 # frozen_string_literal: true
 require './booster_pack'
+require 'meta_data'
 
 unless Env.development?
   puts "=> Error: Unable to run outside of development mode. [#{Env}]"
