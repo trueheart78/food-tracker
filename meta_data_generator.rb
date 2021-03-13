@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+# frozen_string_literal: true
+
 require 'json'
 
 # Array gets monkey-patched to include #pluck
