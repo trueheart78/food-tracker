@@ -15,5 +15,5 @@ Granola Bars - Fudge Dipped Coconut {Sunbelt}
 Granola Bars - Chocolate Chip {Sunbelt}
 Granola Bars - Oats & Honey {Sunbelt}
 Rainbow Mentos {Mentos}
-Watermelon Blow Pops {Charms} (candy dish)
+Watermelon Blow Pops {Charms} (candy_dish)
 Key Lime Pie [8/31/21] {Edwards} (fridge)

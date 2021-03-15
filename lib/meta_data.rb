@@ -54,7 +54,7 @@ class MetaData
   end
 
   # TODO loop through known files and validate their locations (in parens)
-  
+
   # TODO validate_default_locations
   def validate_locations
     local_valid = valid_locations? relationships.pluck(:location)
@@ -94,11 +94,11 @@ class MetaData
     false
   end
 
-  def existing_files(short_version: true)
-    if short_version
-      Dir['data/*.txt'].map { |file| file.sub('data/', '').sub('.txt', '') }
+  def existing_files(symbols: true)
+    if symbols
+      Dir['data/*.txt'].map { |file| file.sub('data/', '').sub('.txt', '').to_sym }.sort
     else
-      Dir['data/*.txt']
+      Dir['data/*.txt'].sort
     end
   end
 
@@ -111,36 +111,105 @@ class MetaData
   end
 
   def supported_types
-    @supported_types ||= %w[breakfast dessert dinner lunch simple snack sweet]
+    @supported_types ||= %i[breakfast dessert dinner dip lunch meal salty sauce side simple snack spreadable sweet]
   end
 
   def supported_locations
-    @supported_locations ||= %w[counter cupboard fridge freezer]
+    @supported_locations ||= %i[cookie_dish counter cupboard fridge freezer pantry]
   end
 
   # rubocop:disable Metrics/MethodLength
   def relationships
-    # TODO default_location?
     [
       {
-        file: 'drinks',
-        type: %w[sweet simple],
-        location: %w[fridge]
+        file: :bakeable,
+        type: %i[breakfast dinner lunch meal side],
+        location: :freezer
       },
       {
-        file: 'icecream',
-        type: %w[sweet snack dessert],
-        location: %w[freezer]
+        file: :breakfast,
+        type: %i[breakfast dinner lunch meal],
+        location: :cupboard
       },
       {
-        file: 'leftovers',
-        type: %w[snack dinner],
-        location: %w[counter fridge freezer]
+        file: :bread,
+        type: %i[breakfast dinner lunch meal snack],
+        location: :counter
       },
       {
-        file: 'sweets',
-        type: %w[sweet snack dessert],
-        location: %w[counter cupboard freezer fridge]
+        file: :cereal,
+        type: %i[breakfast dinner meal snack],
+        location: :cupboard
+      },
+      {
+        file: :chips,
+        type: %i[snack salty simple],
+        location: :counter
+      },
+      {
+        file: :cookable,
+        type: %i[breakfast dinner lunch meal snack],
+        location: :cupboard
+      },
+      {
+        file: :dips,
+        type: %i[dip],
+        location: :fridge
+      },
+      {
+        file: :drinks,
+        type: %i[sweet simple],
+        location: :fridge
+      },
+      {
+        file: :fruits,
+        type: %i[snack simple],
+        location: :counter
+      },
+      {
+        file: :ingredients,
+        type: %i[simple spreadable],
+        location: :fridge
+      },
+      {
+        file: :ice_cream,
+        type: %i[sweet snack dessert],
+        location: :freezer
+      },
+      {
+        file: :leftovers,
+        type: %i[snack dinner meal],
+        location: :fridge
+      },
+      {
+        file: :meats,
+        type: %i[breakfast dinner lunch meal],
+        location: :freezer
+      },
+      {
+        file: :sauces,
+        type: %i[sauce],
+        location: :cupboard
+      },
+      {
+        file: :snacks,
+        type: %i[sweet snack dessert],
+        location: :fridge
+      },
+      {
+        file: :soups,
+        type: %i[lunch dinner meal],
+        location: :cupboard
+      },
+      {
+        file: :sweets,
+        type: %i[sweet snack dessert],
+        location: :counter
+      },
+      {
+        file: :vegetables,
+        type: %i[side],
+        location: :freezer
       }
     ]
   end
