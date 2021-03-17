@@ -4,8 +4,6 @@ require 'data_line'
 
 # DataFile consumes a text-based file
 class DataFile
-  attr_reader :file_path
-
   def initialize(file_path)
     @file_path = file_path
     @data_lines = []
@@ -20,7 +18,11 @@ class DataFile
   end
 
   def to_s
-    data_lines.map(&:to_s)
+    data_lines.map { |l| "<li>#{l}</li>\n" }.join
+  end
+
+  def name
+    @name ||= File.basename(@file_path).sub('.txt','').capitalize
   end
 
   private

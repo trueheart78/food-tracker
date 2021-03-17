@@ -1,10 +1,12 @@
 <div align='center'>
   <div style='width: 800px; text-align: center; border-style: none;'>
-    🍔 In The Kitchen 🍔
+    <h1 style='font-size:20pt;'>🍔 In The Kitchen 🍔</h1>
   </div>
   <div style='width: 800px; text-align: left; border-style: none;'>
-    <p>
-      <%= yield %>
-    </p>
+    <% @data_files.each do |data_file| %>
+      <p>
+      <%= erb :_data_file, locals: { data_file: data_file } %>
+      </p>
+    <% end %>
   </div>
 </div>

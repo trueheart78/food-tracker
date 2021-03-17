@@ -24,20 +24,9 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/in-the-kitchen' do
-    files = Dir['data/*.txt'].sort
-    output = []
-    files.each do |file|
-      data = DataFile.new(file)
-      if data.valid?
-        output << data.file_path
-        output += data.to_s
-      end
-    end
+    @data_files = Dir['data/*.txt'].sort.map { |file| DataFile.new(file) }
 
-    data = output.map { |o| "<li>#{o} </li>\n" }
-    erb :kitchen do
-      "<ol>#{data.join}</ol>"
-    end
+    erb :kitchen
   end
 
   get '/caching' do
