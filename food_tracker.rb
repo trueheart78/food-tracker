@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'data_file'
+
 # FoodTracker is a Sinatra-based application to display the proper kitchen-based-items.
 class FoodTracker < Sinatra::Base
   set :environment, Env.to_sym
@@ -28,8 +30,11 @@ class FoodTracker < Sinatra::Base
     files = Dir['data/*.txt'].sort
     output = []
     files.each do |file|
-      output << file
-      output += File.readlines(file).map(&:chomp)
+      data = DataFile.new(file)
+      if data.valid?
+        output << file
+        output += data.to_s
+      end
     end
 
     data = output.reject { |o| o == '' }.map { |o| "<li>#{o} </li>\n" }
