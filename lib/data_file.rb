@@ -18,6 +18,8 @@ class DataFile
   end
 
   def to_s
+    return '<li>🦖</li>' unless data_lines.any?
+
     data_lines.map { |l| "<li>#{l}</li>\n" }.join
   end
 
