@@ -22,7 +22,11 @@ class DataFile
   end
 
   def name
-    @name ||= File.basename(@file_path).sub('.txt','').capitalize
+    @name ||= File.basename(@file_path).sub('.txt','').split('_').map(&:capitalize).join(' ')
+  end
+
+  def safe_name
+    name.downcase.sub(' ', '_')
   end
 
   private
