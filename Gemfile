@@ -11,3 +11,7 @@ gem 'sinatra-contrib'
 group :development do
   gem 'shotgun'
 end
+
+group :development, :test do
+  gem 'dotenv'
+end
