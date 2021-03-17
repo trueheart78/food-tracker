@@ -24,20 +24,17 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/in-the-kitchen' do
-    # TODO: if cache is not up-to-date, redirect to '/caching'
-    @image = image 'hamburger.png'
-
     files = Dir['data/*.txt'].sort
     output = []
     files.each do |file|
       data = DataFile.new(file)
       if data.valid?
-        output << file
+        output << data.file_path
         output += data.to_s
       end
     end
 
-    data = output.reject { |o| o == '' }.map { |o| "<li>#{o} </li>\n" }
+    data = output.map { |o| "<li>#{o} </li>\n" }
     erb :kitchen do
       "<ol>#{data.join}</ol>"
     end
