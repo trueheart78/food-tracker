@@ -13,5 +13,5 @@ group :development do
 end
 
 group :development, :test do
-  gem 'dotenv'
+  gem 'dotenv', require: false
 end

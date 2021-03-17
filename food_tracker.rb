@@ -61,6 +61,12 @@ class FoodTracker < Sinatra::Base
     json food: 'I love to eat it!'
   end
 
+  get '/env' do
+    redirect '/' unless Env.development?
+
+    erb :environment
+  end
+
   # catch-all routes
   get '/*' do
     redirect '/'

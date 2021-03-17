@@ -50,12 +50,20 @@ and then run `./meta_data_generator.rb` from the root directory.
 
 Make sure to commit and push the changes.
 
-## Roadmap
+## Default Environment File (.env)
 
-1. ~~Data entry.~~
-1. Create a file auditor to verify entries are valid, especially with the denomiators.
-   * Will require tests.
-1. Create an endpoint that displays the data plainly.
-   * Consider caching via Redis, based on performance.
-   * If caching, create a custom endpoint that is called when no cache is found. It can redirect to the root endpoint when complete.
-1. Finish the `meta_data_generator.rb`
+Create a copy of the `.env` file, and then make sure to update it with relevant details:
+
+```sh
+cp .env .env.local
+vim .env.local
+```
+
+Load order for `.env` files are as follows:
+
+1. `.env.RACK_ENV`, where `RACK_ENV` is `test` or `development`
+2. `.env.local`
+3. `.env`
+
+You can setup a `.env.local` for data that is general, and put specifics in the
+`RACK_ENV` versions.
