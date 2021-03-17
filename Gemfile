@@ -15,3 +15,7 @@ end
 group :development, :test do
   gem 'dotenv', require: false
 end
+
+group :test do
+  gem 'rspec'
+end
