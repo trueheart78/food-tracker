@@ -12,7 +12,8 @@ class FoodTracker < Sinatra::Base
     else
       @site = { url:    Env.host(request),
                 image:  image('hamburger.png', request: request),
-                domain: Env.domain(request)
+                domain: Env.domain(request),
+                title: 'Food, Pls?'
       }
     end
   end
@@ -26,6 +27,7 @@ class FoodTracker < Sinatra::Base
   get '/in-the-kitchen' do
     @data_files = Dir['data/*.txt'].sort.map { |file| DataFile.new(file) }
 
+    @site[:title] = 'In The Kitchen'
     erb :kitchen
   end
 

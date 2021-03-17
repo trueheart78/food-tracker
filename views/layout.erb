@@ -1,19 +1,19 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Food, Pls?</title>
+    <title><%= @site[:title] %></title>
     <!-- facebook open graph tags -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<%= @site[:url] %>" />
-    <meta property="og:title" content="Food, Pls?" />
-    <meta property="og:description" content="Food, Pls?" />
+    <meta property="og:title" content="<%= @site[:title] %>" />
+    <meta property="og:description" content="<%= @site[:title] %>" />
     <meta property="og:image" content="<%= @site[:image] %>" />
 
     <!-- twitter card tags additive with the og: tags -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:domain" content="<%= @site[:domain] %>" />
-    <meta property="twitter:title" content="Food, Pls?" />
-    <meta property="twitter:description" content="Food, Pls?" />
+    <meta property="twitter:title" content="<%= @site[:title] %>" />
+    <meta property="twitter:description" content="<%= @site[:title] %>" />
     <meta property="twitter:image" content="<%= @site[:image] %>" />
     <meta property="twitter:url" content="<%= @site[:url] %>" />
 
