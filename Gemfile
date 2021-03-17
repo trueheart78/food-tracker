@@ -14,10 +14,10 @@ end
 
 group :development, :test do
   gem 'dotenv', require: false
+  gem 'pry'
 end
 
 group :test do
-  gem 'pry'
   gem 'rspec'
   gem 'simplecov', require: false
 end
