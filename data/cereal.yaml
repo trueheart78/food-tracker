@@ -1,0 +1,19 @@
+---
+:name: Cereal
+:location: Cupboard
+:types:
+  - breakfast
+  - dinner
+  - lunch
+  - meal
+  - snack
+
+:items:
+  - Honey Nut Chex
+  - Strawberry Mini Wheats
+  - Trix - Trolls Edition
+  - Cocoa Pebbles
+  - Frosted Flakes
+  - Honey Roasted Honey Bunches of Oats
+  - Oats ‘N Honey Oat Crunch Cheerios
+  - Rice Krispies

@@ -23,7 +23,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/in-the-kitchen' do
-    @data_files = Dir['data/*.txt'].sort.map { |file| DataFile.new(file) }
+    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }
 
     @site[:title] = 'In The Kitchen'
     erb :kitchen

@@ -1,0 +1,12 @@
+---
+:name: Leftovers
+:location: Fridge
+:types:
+  - breakfast
+  - dinner
+  - lunch
+  - meal
+  - snack
+
+:items:
+  - ""

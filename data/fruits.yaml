@@ -1,0 +1,9 @@
+---
+:name: Fruits
+:location: Counter
+:types:
+  - simple
+  - snack
+
+:items:
+  - Craisins - Dried Cranberries |6/12/21| {Ocean Spray}

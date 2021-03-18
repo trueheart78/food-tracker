@@ -1,0 +1,13 @@
+---
+:name: Meats
+:location: Freezer
+:types:
+  - breakfast
+  - dinner
+  - lunch
+  - meal
+
+:items:
+  - Tuna {StarKist} (cupboard)
+  - Ground Beef - 80% {Kroger}
+  - Steak - Angus Beef Top Sirloin {Kroger}

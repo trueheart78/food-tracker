@@ -4,11 +4,10 @@
 class DataFile
   def initialize(file_path)
     @file_path = file_path
-    @data_lines = []
-    @data_loaded = false
   end
 
   def valid?
+    return false unless File.extname(@file_path) == '.yaml'
     return false unless exists?
     return false if data_lines.none?(&:valid?)
 
@@ -22,7 +21,7 @@ class DataFile
   end
 
   def name
-    @name ||= File.basename(@file_path).sub('.txt','').split('_').map(&:capitalize).join(' ')
+    yaml_data[:name]
   end
 
   def safe_name
@@ -31,21 +30,19 @@ class DataFile
 
   private
 
+  def yaml_data
+    return {} unless exists?
+
+    @yaml_data ||= YAML.load_file(@file_path)
+  end
+
   def data_lines
     return [] unless exists?
-    return @data_lines if data_loaded?
 
-    @data_lines = File.readlines(@file_path).map(&:chomp).reject(&:empty?).map { |s| DataLine.new s }
-    @data_loaded = true
-
-    @data_lines
+    @data_lines ||= yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s }
   end
 
   def exists?
     File.exist? @file_path
-  end
-
-  def data_loaded?
-    @data_loaded
   end
 end

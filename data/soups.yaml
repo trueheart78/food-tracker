@@ -1,0 +1,10 @@
+---
+:name: Soups
+:location: Cupboard
+:types:
+  - dinner
+  - lunch
+  - meal
+
+:items:
+  - Broccoli Cheese {Campbell’s} {Progresso}

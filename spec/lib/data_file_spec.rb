@@ -5,7 +5,7 @@ RSpec.describe DataFile, type: :model do
 
   describe '#valid?' do
     context 'when the file does exist' do
-      let(:file) { fixture_path 'basic_valid_file.txt' }
+      let(:file) { fixture_path 'basic_valid.yaml' }
 
       it 'is valid' do
         expect(data_file).to be_valid
@@ -13,7 +13,7 @@ RSpec.describe DataFile, type: :model do
     end
 
     context 'when the file does not exist' do
-      let(:file) { fixture_path 'non_existing_file.txt' }
+      let(:file) { fixture_path 'non_existing.yaml' }
 
       it 'is invalid' do
         expect(data_file).to_not be_valid
