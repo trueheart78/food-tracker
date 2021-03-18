@@ -3,4 +3,4 @@
 require './load_path'
 require 'environment'
 require 'env'
-require 'bundler_init'
+require './init/bundler'
