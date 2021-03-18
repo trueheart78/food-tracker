@@ -11,7 +11,8 @@ class FoodTracker < Sinatra::Base
       @site = { url:    Env.host(request),
                 image:  image('hamburger.png', request: request),
                 domain: Env.domain(request),
-                title: 'Food, Pls?'
+                title: 'Food, Pls?',
+                color: '#ffdb58'
       }
     end
   end
@@ -26,7 +27,18 @@ class FoodTracker < Sinatra::Base
     @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }
 
     @site[:title] = 'In The Kitchen'
+
     erb :kitchen
+  end
+
+  get '/expiring' do
+    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }.select(&:expiring?)
+
+    @site[:color] = '#ffc0cb'
+    @site[:title] = 'Expiring'
+    @success_gif = image 'hamburger-rotating.gif'
+
+    erb :expiring
   end
 
   get '/caching' do
@@ -45,6 +57,9 @@ class FoodTracker < Sinatra::Base
 
   get '/environment' do
     redirect '/' unless settings.development?
+
+    @site[:title] = 'Environment Variables'
+    @site[:color] = '#ffffff'
 
     erb :environment
   end

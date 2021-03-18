@@ -14,6 +14,10 @@ class DataFile
     true
   end
 
+  def expiring?
+    data_lines.any?(&:expiring?) || data_lines.any?(&:expired?)
+  end
+
   def to_s
     return '<li>🦖</li>' unless data_lines.any?
 

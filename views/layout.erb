@@ -18,7 +18,7 @@
     <meta property="twitter:url" content="<%= @site[:url] %>" />
 
     <%= erb :_icons %>
-    <%= erb :_style %>
+    <%= erb :_style, locals: { color: @site[:color] } %>
   </head>
   <body>
     <%= yield %>

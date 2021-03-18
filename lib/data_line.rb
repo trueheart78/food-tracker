@@ -10,6 +10,14 @@ class DataLine
     @string.nil? || @string.empty?
   end
 
+  def expiring?
+    false
+  end
+
+  def expired?
+    false
+  end
+
   def valid?
     return false if empty?
 
