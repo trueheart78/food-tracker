@@ -32,7 +32,7 @@ bundle exec ruby food_tracker.rb
 
 Each data file supports the use of the following notations (even multiple times per entry):
 
-* Square brackets to denote expiration dates: `[4/30//9]`.
+* Square brackets to denote expiration dates: `[4/30/29]`.
 * Bars to denote "best by" dates: `|4/30/29|`.
 * Curly braces to denote brands: `{Reeses's}`.
 * Parentheses to denote custom location: `(freezer)`.
