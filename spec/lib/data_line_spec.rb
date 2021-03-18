@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'data_line'
-
 RSpec.describe DataLine, type: :model do
   subject(:data_line) { described_class.new string }
 

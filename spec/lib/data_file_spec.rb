@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'data_file'
-
 RSpec.describe DataFile, type: :model do
   subject(:data_file) { described_class.new file }
 
