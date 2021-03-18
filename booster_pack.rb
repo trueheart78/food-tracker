@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require './load_path'
-require 'environment'
-require 'env'
+require './config/environment'
 require './init/bundler'
+require './init/zeitwerk'

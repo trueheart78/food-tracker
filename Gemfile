@@ -7,6 +7,7 @@ ruby '~> 2.6.6' # keep this in sync with .ruby-version
 gem 'puma'
 gem 'sinatra'
 gem 'sinatra-contrib'
+gem 'zeitwerk'
 
 group :development do
   gem 'shotgun'
