@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'data_file'
-
 # FoodTracker is a Sinatra-based application to display the proper kitchen-based-items.
 class FoodTracker < Sinatra::Base
   set :environment, Env.to_sym
@@ -37,25 +35,16 @@ class FoodTracker < Sinatra::Base
     erb :caching
   end
 
-  get '/caching-perform' do
-    # TODO: make sure this isn't already running
-    20.times { sleep 1 }
-
-    redirect '/'
-  end
-
-  get '/caching-flush' do
-    # TODO: flush the cache
-
-    redirect '/in-the-kitchen'
-  end
-
   get '/api' do
     json food: 'I love to eat it!'
   end
 
   get '/env' do
-    redirect '/' unless Env.development?
+    redirect '/environment'
+  end
+
+  get '/environment' do
+    redirect '/' unless settings.development?
 
     erb :environment
   end

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'data_line'
-
 # DataFile consumes a text-based file
 class DataFile
   def initialize(file_path)
