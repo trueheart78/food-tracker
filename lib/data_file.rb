@@ -43,7 +43,7 @@ class DataFile
   def data_lines
     return [] unless exists?
 
-    @data_lines ||= yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s }
+    @data_lines ||= yaml_data[:items].reject(&:empty?).reject(&:out_of_stock?).map { |s| DataLine.new s }
   end
 
   def exists?

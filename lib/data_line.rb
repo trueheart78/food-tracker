@@ -17,6 +17,10 @@ class DataLine
   def expired?
     false
   end
+  
+  def out_of_stock?
+    @string.include? '^oos^'
+  end
 
   def valid?
     return false if empty?
@@ -25,6 +29,6 @@ class DataLine
   end
 
   def to_s
-    @string
+    @string.sub('^oos^', '')
   end
 end

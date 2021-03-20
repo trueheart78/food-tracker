@@ -30,6 +30,8 @@ bundle exec ruby food_tracker.rb
 
 ### Data Files
 
+#### Notations
+
 Each data file supports the use of the following notations (even multiple times per entry):
 
 * Square brackets to denote expiration dates: `[4/30/29]`.
@@ -38,6 +40,10 @@ Each data file supports the use of the following notations (even multiple times 
 * Parentheses to denote custom location: `(freezer)`.
 
 **Note:** For each entry, spacing between the notations does not matter, neither does the order.
+
+##### Out of Stock
+
+The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-rder is required. These items will not show up on any page except the Out of Stock page. 
 
 ### Locations
 
