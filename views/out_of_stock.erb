@@ -1,7 +1,7 @@
 <div align='center'>
   <a name='page_top'></a>
   <div style='width: 800px; text-align: center; border-style: none;'>
-    <h1 style='font-size:20pt;'>📅 Expiring 📅</h1>
+    <h1 style='font-size:20pt;'>🧾 Out of Stock 🧾</h1>
   </div>
   <% if @data_files.any? %>
     <div style='width: 800px; text-align: left; border-style: none;'>
@@ -14,7 +14,7 @@
       <% @data_files.each do |data_file| %>
         <a name='<%= data_file.safe_name %>'></a>
         <p>
-        <%= erb :_data_file, locals: { data_file: data_file, in_stock: true } %>
+        <%= erb :_data_file, locals: { data_file: data_file, in_stock: false } %>
         </p>
       <% end %>
     </div>
@@ -24,7 +24,7 @@
         <img src="<%= @success_gif %>" alt="Spinning Hamburger" />
       </p>
       <p>
-        No expiring food!
+        No out of stock food!
       </p>
     </div>
   <% end %>

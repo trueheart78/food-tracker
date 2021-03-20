@@ -15,13 +15,19 @@ class DataFile
   end
 
   def expiring?
-    data_lines.any?(&:expiring?) || data_lines.any?(&:expired?)
+    in_stock_data_lines.any?(&:expiring?) || in_stock_data_lines.any?(&:expired?)
+  end
+  
+  def out_of_stock?
+    out_of_stock_data_lines.any?
   end
 
-  def to_s
-    return '<li>🦖</li>' unless data_lines.any?
+  def to_s(in_stock: true)
+    lines = (in_stock) ? in_stock_data_lines : out_of_stock_data_lines
+    
+    return '<li>🦖</li>' unless lines.any?
 
-    data_lines.map { |l| "<li>#{l}</li>\n" }.join
+    lines.map { |l| "<li>#{l}</li>\n" }.join
   end
 
   def name
@@ -43,7 +49,15 @@ class DataFile
   def data_lines
     return [] unless exists?
 
-    @data_lines ||= yaml_data[:items].reject(&:empty?).reject(&:out_of_stock?).map { |s| DataLine.new s }
+    @data_lines ||= yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s }
+  end
+  
+  def in_stock_data_lines
+    @in_stock_data_lines ||= data_lines.reject(&:out_of_stock?)
+  end
+  
+  def out_of_stock_data_lines
+    @out_of_stock_data_lines ||= data_lines.select(&:out_of_stock?)    
   end
 
   def exists?

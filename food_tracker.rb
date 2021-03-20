@@ -40,6 +40,16 @@ class FoodTracker < Sinatra::Base
 
     erb :expiring
   end
+  
+  get '/out-of-stock' do
+    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }.select(&:out_of_stock?)
+
+    @site[:color] = '#add8e6'
+    @site[:title] = 'Out of Stock'
+    @success_gif = image 'hamburger-rotating.gif'
+
+    erb :out_of_stock
+  end
 
   get '/caching' do
     @gif = image 'hamburger-rotating.gif'

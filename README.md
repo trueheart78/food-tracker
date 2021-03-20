@@ -11,6 +11,8 @@ Each item supports multiple:
 * "Best by" dates
 * Custom Locations
 
+Items also support a single "out of stock" flag.
+
 ## Development
 
 ### Running the Server Locally
