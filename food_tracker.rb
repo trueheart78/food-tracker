@@ -5,22 +5,26 @@ class FoodTracker < Sinatra::Base
   set :environment, Env.to_sym
 
   before do
-    if Env.force_ssl?(request)
-      redirect request.url.sub('http', 'https'), 308
-    else
-      @site = { url:    Env.host(request),
-                image:  image('hamburger.png', request: request),
-                domain: Env.domain(request),
-                title: 'Food, Pls?',
-                color: '#ffdb58'
-      }
+    redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl?request
+    
+    @default = { color: '#ffdb58' }
+      
+    @site = { url:             Env.host(request),
+              image:           image('hamburger.png', request: request),
+              image_alt:       'hamburger',
+              twitter_creator: Env.twitter_creator,
+              twitter_site:    Env.twitter_site,
+              domain:          Env.domain(request),
+              title:           'Food, Pls?',
+              color:           @default[:color]
+    }
     end
   end
 
   get '/' do
     @image = image 'hamburger.png'
 
-    erb :index
+    site_erb :index
   end
 
   get '/in-the-kitchen' do
@@ -28,7 +32,7 @@ class FoodTracker < Sinatra::Base
 
     @site[:title] = 'In The Kitchen'
 
-    erb :kitchen
+    site_erb :kitchen
   end
 
   get '/expiring' do
@@ -38,7 +42,7 @@ class FoodTracker < Sinatra::Base
     @site[:title] = 'Expiring'
     @success_gif = image 'hamburger-rotating.gif'
 
-    erb :expiring
+    site_erb :expiring
   end
   
   get '/out-of-stock' do
@@ -48,13 +52,13 @@ class FoodTracker < Sinatra::Base
     @site[:title] = 'Out of Stock'
     @success_gif = image 'hamburger-rotating.gif'
 
-    erb :out_of_stock
+    site_erb :out_of_stock
   end
 
   get '/caching' do
     @gif = image 'hamburger-rotating.gif'
 
-    erb :caching
+    site_erb :caching
   end
 
   get '/api' do
@@ -71,7 +75,7 @@ class FoodTracker < Sinatra::Base
     @site[:title] = 'Environment Variables'
     @site[:color] = '#ffffff'
 
-    erb :environment
+    site_erb :environment
   end
 
   # catch-all routes
@@ -83,7 +87,35 @@ class FoodTracker < Sinatra::Base
     404
   end
 
-  # private
+  private
+  
+  def site_erb(view)
+    set_site_icons
+    
+    erb view.to_sym
+  end
+  
+  def set_site_icons
+    @site[:touch_icon] = 'apple-touch-icon.png'
+    @site[:precomposed_icon] = 'apple-touch-icon-procomposed.png'
+    
+    unless @site[:color] == @default[:color]
+      @site[:touch_icon] = touch_icon if public_file? touch_icon
+      @site[:precomposed_icon] = precomposed_icon if public_file? precomposed_json
+    end
+  end
+  
+  def public_file?(file)
+    File.exist? File.join('public', file)
+  end
+  
+  def touch_icon
+    "apple-touch-icon-#{@site[:color].sub('#', '')}.png"
+  end
+  
+  def precomposed_icon
+    "apple-touch-icon-precomposed-#{@site[:color].sub('#', '')}.png"
+  end
 
   def image(name, request: nil)
     return [Env.host(request), 'images', name].join('/') if request

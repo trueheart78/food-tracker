@@ -8,16 +8,21 @@
     <meta property="og:title" content="<%= @site[:title] %>" />
     <meta property="og:description" content="<%= @site[:title] %>" />
     <meta property="og:image" content="<%= @site[:image] %>" />
+    
+    <% if Env.twitter_handle? %>
+      <!-- twitter card tags additive with the og: tags -->
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:site" content="<%= @site[:twitter_site] %>" />
+      <meta property="twitter:creator" content="<%= @site[:twitter_creator] %>" />
+      <meta property="twitter:domain" content="<%= @site[:domain] %>" />
+      <meta property="twitter:title" content="<%= @site[:title] %>" />
+      <meta property="twitter:description" content="<%= @site[:title] %>" />
+      <meta property="twitter:image" content="<%= @site[:image] %>" />
+      <meta property="twitter:image:alt" content="<%= @site[:image_alt] %>" />
+      <meta property="twitter:url" content="<%= @site[:url] %>" />
+    <% end %>
 
-    <!-- twitter card tags additive with the og: tags -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="<%= @site[:domain] %>" />
-    <meta property="twitter:title" content="<%= @site[:title] %>" />
-    <meta property="twitter:description" content="<%= @site[:title] %>" />
-    <meta property="twitter:image" content="<%= @site[:image] %>" />
-    <meta property="twitter:url" content="<%= @site[:url] %>" />
-
-    <%= erb :_icons %>
+    <%= erb :_icons, locals: { color: @site[:color], touch_icon: @site[:touch_icon], precomposed_icon: @site[:precomposed_icon] } %>
     <%= erb :_style, locals: { color: @site[:color] } %>
   </head>
   <body>
