@@ -1,14 +1,14 @@
 # frozen_string_literal: true
 
-# FoodTracker is a Sinatra-based application to display the proper kitchen-based-items.
+# FoodTracker is a Sinatra-based app to display the proper kitchen-based-items.
 class FoodTracker < Sinatra::Base
   include Helpers::FoodTracker
-  
+
   set :environment, Env.to_sym
 
   before do
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
-      
+
     @site = site_settings request
   end
 
@@ -19,7 +19,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/in-the-kitchen' do
-    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }
+    @data_files = DataFile.load
 
     @site[:title] = 'In The Kitchen'
 
@@ -27,7 +27,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/expiring' do
-    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }.select(&:expiring?)
+    @data_files = DataFile.load type: :expiring
 
     @site[:color] = '#ffc0cb'
     @site[:title] = 'Expiring'
@@ -35,9 +35,9 @@ class FoodTracker < Sinatra::Base
 
     site_erb :expiring
   end
-  
+
   get '/out-of-stock' do
-    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }.select(&:out_of_stock?)
+    @data_files = DataFile.load type: :expiring
 
     @site[:color] = '#add8e6'
     @site[:title] = 'Out of Stock'
@@ -69,10 +69,10 @@ class FoodTracker < Sinatra::Base
   end
 
   private
-  
+
   def site_erb(view)
     @site = insert_touch_icons @site
-    
+
     erb view.to_sym
   end
 end
