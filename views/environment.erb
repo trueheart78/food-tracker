@@ -7,7 +7,7 @@
     <% bg_color = '#ffffff' %>
     <% ENV.each do |(key, value)| %>
       <%= erb :_env, locals: { key: key, value: value, bg_color: bg_color } %>
-    <% bg_color = (bg_color == '#ffffff') ? '#e5e4e2' : '#ffffff' %>
+      <% bg_color = (bg_color == '#ffffff') ? '#e5e4e2' : '#ffffff' %>
     <% end %>
   </table>
 </div>

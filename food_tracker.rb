@@ -2,27 +2,18 @@
 
 # FoodTracker is a Sinatra-based application to display the proper kitchen-based-items.
 class FoodTracker < Sinatra::Base
+  include Helpers::FoodTracker
+  
   set :environment, Env.to_sym
 
   before do
-    redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl?request
-    
-    @default = { color: '#ffdb58' }
+    redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
       
-    @site = { url:             Env.host(request),
-              image:           image('hamburger.png', request: request),
-              image_alt:       'hamburger',
-              twitter_creator: Env.twitter_creator,
-              twitter_site:    Env.twitter_site,
-              domain:          Env.domain(request),
-              title:           'Food, Pls?',
-              color:           @default[:color]
-    }
-    end
+    @site = site_settings request
   end
 
   get '/' do
-    @image = image 'hamburger.png'
+    @image = site_image
 
     site_erb :index
   end
@@ -40,7 +31,7 @@ class FoodTracker < Sinatra::Base
 
     @site[:color] = '#ffc0cb'
     @site[:title] = 'Expiring'
-    @success_gif = image 'hamburger-rotating.gif'
+    @success_gif = site_gif
 
     site_erb :expiring
   end
@@ -50,7 +41,7 @@ class FoodTracker < Sinatra::Base
 
     @site[:color] = '#add8e6'
     @site[:title] = 'Out of Stock'
-    @success_gif = image 'hamburger-rotating.gif'
+    @success_gif = site_gif
 
     site_erb :out_of_stock
   end
@@ -80,36 +71,8 @@ class FoodTracker < Sinatra::Base
   private
   
   def site_erb(view)
-    set_site_icons
+    @site = insert_touch_icons @site
     
     erb view.to_sym
-  end
-  
-  def set_site_icons
-    @site[:touch_icon] = 'apple-touch-icon.png'
-    @site[:precomposed_icon] = 'apple-touch-icon-procomposed.png'
-    
-    unless @site[:color] == @default[:color]
-      @site[:touch_icon] = touch_icon if public_file? touch_icon
-      @site[:precomposed_icon] = precomposed_icon if public_file? precomposed_json
-    end
-  end
-  
-  def public_file?(file)
-    File.exist? File.join('public', file)
-  end
-  
-  def touch_icon
-    "apple-touch-icon-#{@site[:color].sub('#', '')}.png"
-  end
-  
-  def precomposed_icon
-    "apple-touch-icon-precomposed-#{@site[:color].sub('#', '')}.png"
-  end
-
-  def image(name, request: nil)
-    return [Env.host(request), 'images', name].join('/') if request
-
-    ['/images', name].join '/'
   end
 end
