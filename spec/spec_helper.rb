@@ -4,11 +4,13 @@ ENV['RACK_ENV'] = 'test'
 
 require_relative '../booster_pack'
 
-# Load all support helpers
-include Support::Coverage
-include Support::Files
-
 RSpec.configure do |config|
+
+  # Load all support helpers
+  include Support::Coverage
+  include Support::Files
+  include Support::Time
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

@@ -32,7 +32,17 @@ class DataLine
 
     return false unless @expiration_dates.any?
 
-    false
+    expiring = false
+    @expiration_dates.each do |expiration_date|
+      next if expiration_date <= Date.today
+
+      if expiration_date >= (Date.today - 3)
+        expiring = true
+        break
+      end
+    end
+
+    expiring
   end
 
   def expired?
@@ -41,8 +51,8 @@ class DataLine
     return false unless @expiration_dates.any?
 
     expired = false
-    @expiration_dates.each do |date|
-      if Date.today > date
+    @expiration_dates.each do |expiration_date|
+      if Date.today >= expiration_date
         expired = true
         break
       end
