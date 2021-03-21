@@ -1,8 +1,8 @@
-Use `.scan`. An empty array means no matches.
+Use `.scan().flatten`. An empty array means no matches.
 
-- Expiration dates: `/(\[\d+\/\d+\/\d+\])/`
-- Best Buy Dates: `/(\|\d+\/\d+\/\d+\|)/`
-- Locations: `(\(fridge\)|\(freezer\)|\(cupboard\)|\(counter\)|\(pantry\)|\(candy dish\))`
+- Expiration dates: `%r{(\[\d+\/\d+\/\d+\])}`
+- Best Buy Dates: `%r{(\|\d+\/\d+\/\d+\|)}`
+- Locations: `%r{(\(fridge\)|\(freezer\)|\(cupboard\)|\(counter\)|\(pantry\)|\(candy dish\))}`
 - Brands: `/(?<=\{)[^}]+(?=\})/` does something....
 - Sample string: `{butts} English Muffins [3/10/21] |3/23/21| {Thomas’} (fridge)  |3/10/21| (cupboard) (candy dish) {Eatons Wantons}`
 
