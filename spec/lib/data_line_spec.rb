@@ -199,6 +199,38 @@ RSpec.describe DataLine, type: :model do
         expect(data_line.errors.count).to eq 8
       end
     end
+
+    context 'when the expiration date is invalid' do
+      let(:string) { 'text [13/33/29]' }
+
+      it 'is expected to have an error' do
+        expect(data_line.errors.count).to eq 1
+      end
+
+      it 'is expected to be a InvalidDate' do
+        expect(data_line.errors.first.exception.class).to eq DataLine::InvalidDate
+      end
+
+      it 'is expected to be have the invalid date in the message' do
+        expect(data_line.errors.first.exception.message).to eq 'Bad date found in [13/33/29]'
+      end
+    end
+
+    context 'when the best by date is invalid' do
+      let(:string) { 'text |13/33/29|' }
+
+      it 'is expected to have an error' do
+        expect(data_line.errors.count).to eq 1
+      end
+
+      it 'is expected to be a InvalidDate' do
+        expect(data_line.errors.first.exception.class).to eq DataLine::InvalidDate
+      end
+
+      it 'is expected to be have the invalid date in the message' do
+        expect(data_line.errors.first.exception.message).to eq 'Bad date found in |13/33/29|'
+      end
+    end
   end
 
   describe '#to_s' do

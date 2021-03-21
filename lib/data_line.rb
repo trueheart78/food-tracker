@@ -124,8 +124,8 @@ class DataLine
     matches = @string.scan(%r{(\|\d+\/\d+\/\d+\|)}).flatten
     matches.each do |match|
       date = match.sub('|', '')
-      @best_by_dates << Date.strptime(date, '%m/%d/%y')
       @string = @string.sub(match, '').rstrip
+      @best_by_dates << Date.strptime(date, '%m/%d/%y')
     end
   rescue ArgumentError => e
     raise e unless e.message == 'invalid date'
@@ -152,8 +152,8 @@ class DataLine
     matches = @string.scan(%r{(\[\d+\/\d+\/\d+\])}).flatten
     matches.each do |match|
       date = match.sub('[', '').sub(']', '')
-      @expiration_dates << Date.strptime(date, '%m/%d/%y')
       @string = @string.sub(match, '').rstrip
+      @expiration_dates << Date.strptime(date, '%m/%d/%y')
     end
   rescue ArgumentError => e
     raise e unless e.message == 'invalid date'
