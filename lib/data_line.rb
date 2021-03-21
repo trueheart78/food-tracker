@@ -8,6 +8,9 @@ class DataLine
   class ErroneusParenthesis < StandardError; end
   class ErroneusSquareBracket < StandardError; end
   class InvalidDate < StandardError; end
+  class InvalidLocation < StandardError; end
+
+  OUT_OF_STOCK_MARKER = '^oos^'
 
   def initialize(string)
     @string = string
@@ -105,6 +108,17 @@ class DataLine
     date >= (Date.today - 3)
   end
 
+  def supported_custom_location?(location)
+    [
+      'candy dish',
+      'counter',
+      'cupboard',
+      'fridge',
+      'freezer',
+      'pantry'
+    ].include? location
+  end
+
   def parse
     return if @parsed
 
@@ -119,9 +133,9 @@ class DataLine
     @parsed = true
   end
 
-  # best by dates are notated by bars
+  # Best By dates are notated by bars
   def extract_best_by_dates
-    matches = @string.scan(%r{(\|\d+\/\d+\/\d+\|)}).flatten
+    matches = @string.scan(%r{\|\d+\/\d+\/\d+\|})
     matches.each do |match|
       date = match.sub('|', '')
       @string = @string.sub(match, '').rstrip
@@ -133,23 +147,33 @@ class DataLine
     @errors << InvalidDate.new("Bad date found in #{matches.join(', ')}")
   end
 
-  # brands are notated by curly braces
+  # Brands are notated by curly braces
   def extract_brands
-
-  end
-
-  # custom locations are notated by parentheses
-  def extract_custom_locations
-    matches = @string.scan(/(\(candy dish\)|\(counter\)|\(cupboard\)|\(fridge\)|\(freezer\)|\(pantry\))/).flatten
-    matches.each do |match|
-      @custom_locations << match.sub('(', '').sub(')', '')
-      @string = @string.sub(match, '').rstrip
+    matches = @string.scan(/(?<=\{)[^}]+(?=\})/)
+    matches.each do |brand|
+      @string = @string.sub("{#{brand}}", '').rstrip
+      @brands << brand
     end
   end
 
-  # expiration dates are notated by square brackets
+  # Custom Locations are notated by parentheses
+  def extract_custom_locations
+    matches = @string.scan(/(?<=\()[^)]+(?=\))/)
+    matches.each do |custom_location|
+      @string = @string.sub("(#{custom_location})", '').rstrip
+      if supported_custom_location? custom_location
+        @custom_locations << custom_location
+      else
+        raise InvalidLocation, "Unsupported location found: #{custom_location}"
+      end
+    end
+  rescue InvalidLocation => e
+    @errors << e
+  end
+
+  # Expiration Dates are notated by square brackets
   def extract_expiration_dates
-    matches = @string.scan(%r{(\[\d+\/\d+\/\d+\])}).flatten
+    matches = @string.scan(%r{\[\d+\/\d+\/\d+\]})
     matches.each do |match|
       date = match.sub('[', '').sub(']', '')
       @string = @string.sub(match, '').rstrip
@@ -162,8 +186,8 @@ class DataLine
   end
 
   def extract_out_of_stock_marker
-    @out_of_stock = @string.include? '^oos^'
-    @string = @string.sub('^oos^', '').rstrip
+    @out_of_stock = @string.include? OUT_OF_STOCK_MARKER
+    @string = @string.sub(OUT_OF_STOCK_MARKER, '').rstrip
   end
 
   def validate_string

@@ -193,7 +193,7 @@ RSpec.describe DataLine, type: :model do
     end
 
     context 'when the string does have errors' do
-      let(:string) { 'text |(]}][4/30/29)^{' }
+      let(:string) { 'text )|(]}][4/30/29^{' }
 
       it 'is expected to have errors' do
         expect(data_line.errors.count).to eq 8
@@ -231,6 +231,22 @@ RSpec.describe DataLine, type: :model do
         expect(data_line.errors.first.exception.message).to eq 'Bad date found in |13/33/29|'
       end
     end
+
+    context 'when the custom location is not supported' do
+      let(:string) { 'text (bathroom)' }
+
+      it 'is expected to have an error' do
+        expect(data_line.errors.count).to eq 1
+      end
+
+      it 'is expected to be a InvalidCustomLocation' do
+        expect(data_line.errors.first.exception.class).to eq DataLine::InvalidLocation
+      end
+
+      it 'is expected to be have the invalid location in the message' do
+        expect(data_line.errors.first.exception.message).to eq 'Unsupported location found: bathroom'
+      end
+    end
   end
 
   describe '#to_s' do
@@ -258,8 +274,24 @@ RSpec.describe DataLine, type: :model do
       end
     end
 
+    context 'when there is a brand' do
+      let(:string) { 'text {Brand Name}' }
+
+      it 'trims off the trailing whitespace' do
+        expect(data_line.to_s).to eq 'text'
+      end
+    end
+
     context 'when there is a custom location' do
       let(:string) { 'text (freezer)' }
+
+      it 'trims off the trailing whitespace' do
+        expect(data_line.to_s).to eq 'text'
+      end
+    end
+
+    context 'when there is one of everything' do
+      let(:string) { 'text (freezer) {Bart\'s Best} |2/13/29| [12/25/29] ^oos^ {Eating Alone For Days}' }
 
       it 'trims off the trailing whitespace' do
         expect(data_line.to_s).to eq 'text'
