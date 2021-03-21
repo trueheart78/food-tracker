@@ -14,6 +14,10 @@ module Support
       days_from_now 1
     end
 
+    def a_week_from_now
+      days_from_now 7
+    end
+
     def two_days_from_now
       days_from_now 2
     end
@@ -40,6 +44,10 @@ module Support
 
     def four_days_ago
       days_ago 4
+    end
+
+    def a_week_ago
+      days_ago 7
     end
 
     def days_from_now(days)

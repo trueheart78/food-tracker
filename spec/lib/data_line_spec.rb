@@ -43,40 +43,80 @@ RSpec.describe DataLine, type: :model do
     before { Timecop.freeze static_time }
     after  { Timecop.return}
 
-    context 'when the expiration date has passed' do
-      let(:string) { "test [#{yesterday}]" }
+    context 'with a single expiration date' do
+      context 'when the expiration date has passed' do
+        let(:string) { "test [#{yesterday}]" }
 
-      it { is_expected.to_not be_expiring }
+        it { is_expected.to_not be_expiring }
+      end
+
+      context 'when the expiration date matches the current date' do
+        let(:string) { "test [#{today}]" }
+
+        it { is_expected.to_not be_expiring }
+      end
+
+      context 'when the expiration date is tomorrow' do
+        let(:string) { "test [#{tomorrow}]" }
+
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when the expiration date is in two days' do
+        let(:string) { "test [#{two_days_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when the expiration date is in three days' do
+        let(:string) { "test [#{three_days_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when the expiration date is in four days' do
+        let(:string) { "test [#{four_days_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
     end
 
-    context 'when the expiration date matches the current date' do
-      let(:string) { "test [#{today}]" }
+    context 'with multiple expiration dates' do
+      context 'when the expiration dates have passed' do
+        let(:string) { "test [#{yesterday}] [#{a_week_ago}]" }
 
-      it { is_expected.to_not be_expiring }
-    end
+        it { is_expected.to_not be_expiring }
+      end
 
-    context 'when the expiration date is tomorrow' do
-      let(:string) { "test [#{tomorrow}]" }
+      context 'when an expiration date matches the current date' do
+        let(:string) { "test [#{today}] [#{a_week_from_now}]" }
 
-      it { is_expected.to be_expiring }
-    end
+        it { is_expected.to_not be_expiring }
+      end
 
-    context 'when the expiration date is in two days' do
-      let(:string) { "test [#{two_days_from_now}]" }
+      context 'when an expiration date is tomorrow' do
+        let(:string) { "test [#{tomorrow}] [#{a_week_from_now}]" }
 
-      it { is_expected.to be_expiring }
-    end
+        it { is_expected.to be_expiring }
+      end
 
-    context 'when the expiration date is in three days' do
-      let(:string) { "test [#{three_days_from_now}]" }
+      context 'when an expiration date is in two days' do
+        let(:string) { "test [#{two_days_from_now}] [#{a_week_from_now}]" }
 
-      it { is_expected.to be_expiring }
-    end
+        it { is_expected.to be_expiring }
+      end
 
-    context 'when the expiration date is in four days' do
-      let(:string) { "test [#{four_days_from_now}]" }
+      context 'when an expiration date is in three days' do
+        let(:string) { "test [#{three_days_from_now}] [#{a_week_from_now}]" }
 
-      it { is_expected.to be_expiring }
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when an expiration date is in four days' do
+        let(:string) { "test [#{four_days_from_now}] [#{a_week_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
     end
   end
 
@@ -84,22 +124,44 @@ RSpec.describe DataLine, type: :model do
     before { Timecop.freeze static_time }
     after  { Timecop.return}
 
-    context 'when the expiration date has passed' do
-      let(:string) { "test [#{yesterday}]" }
+    context 'with a single expiration date' do
+      context 'when the expiration date has passed' do
+        let(:string) { "test [#{yesterday}]" }
 
-      it { is_expected.to be_expired }
+        it { is_expected.to be_expired }
+      end
+
+      context 'when the expiration date matches the current date' do
+        let(:string) { "test [#{today}]" }
+
+        it { is_expected.to be_expired }
+      end
+
+      context 'when the expiration date is in the future' do
+        let(:string) { "test [#{tomorrow}]" }
+
+        it { is_expected.to_not be_expired }
+      end
     end
 
-    context 'when the expiration date matches the current date' do
-      let(:string) { "test [#{today}]" }
+    context 'with multiple expiration dates' do
+      context 'when an expiration date has passed' do
+        let(:string) { "test [#{yesterday}] [#{tomorrow}]" }
 
-      it { is_expected.to be_expired }
-    end
+        it { is_expected.to be_expired }
+      end
 
-    context 'when the expiration date is in the future' do
-      let(:string) { "test [#{tomorrow}]" }
+      context 'when an expiration date matches the current date' do
+        let(:string) { "test [#{today}] [#{tomorrow}]" }
 
-      it { is_expected.to_not be_expired }
+        it { is_expected.to be_expired }
+      end
+
+      context 'when the expiration dates are in the future' do
+        let(:string) { "test [#{tomorrow}] [#{two_days_from_now}]" }
+
+        it { is_expected.to_not be_expired }
+      end
     end
   end
 
