@@ -7,26 +7,112 @@ RSpec.describe DataLine, type: :model do
     context 'when the string has content' do
       let(:string) { 'text' }
 
-      it 'is valid' do
-        expect(data_line).to be_valid
-      end
+      it { is_expected.to be_valid }
     end
 
     context 'when the string has content' do
       context 'when the string is empty' do
         let(:string) { '' }
 
-        it 'is invalid' do
-          expect(data_line).to_not be_valid
-        end
+        it { is_expected.to_not be_valid }
       end
 
       context 'when the string is nil' do
         let(:string) { nil }
 
-        it 'is invalid' do
-          expect(data_line).to_not be_valid
-        end
+        it { is_expected.to_not be_valid }
+      end
+    end
+  end
+
+  describe '#out_of_stock?' do
+    context 'when the string does not have the marker' do
+      let(:string) { 'text' }
+
+      it { is_expected.to_not be_out_of_stock }
+    end
+
+    context 'when the string does have the marker' do
+      let(:string) { 'text ^oos^' }
+
+      it { is_expected.to be_out_of_stock }
+    end
+  end
+
+  describe '#expiring?' do
+
+  end
+
+  describe '#expired?' do
+
+  end
+
+  describe '#errors?' do
+    context 'when the string does not have an error' do
+      let(:string) { 'text [4/30/29]' }
+
+      it 'is expected to not have errors' do
+        expect(data_line.errors?).to be_falsey
+      end
+    end
+
+    context 'when the string does have errors' do
+      let(:string) { 'text [[4/30/29])' }
+
+      it 'is expected to have errors' do
+        expect(data_line.errors?).to be_truthy
+      end
+    end
+  end
+
+  describe '#errors' do
+    context 'when the string does not have an error' do
+      let(:string) { 'text [4/30/29]' }
+
+      it 'is expected to be empty' do
+        expect(data_line.errors).to be_empty
+      end
+    end
+
+    context 'when the string does have errors' do
+      let(:string) { 'text |(]}][4/30/29)^{' }
+
+      it 'is expected to have errors' do
+        expect(data_line.errors.count).to eq 8
+      end
+    end
+  end
+
+  describe '#to_s' do
+    context 'when the out of stock marker is present' do
+      let(:string) { 'text ^oos^' }
+
+      it 'trims off the trailing whitespace' do
+        expect(data_line.to_s).to eq 'text'
+      end
+    end
+
+    context 'when there is an expiration date' do
+      let(:string) { 'text [12/12/21]' }
+
+      it 'trims off the trailing whitespace' do
+        expect(data_line.to_s).to eq 'text'
+      end
+    end
+
+    context 'when there is a best by date' do
+      let(:string) { 'text |12/12/21|' }
+
+      it 'trims off the trailing whitespace' do
+        expect(data_line.to_s).to eq 'text'
+      end
+    end
+
+    context 'when there is a custom location' do
+      let(:string) { 'text (freezer)' }
+
+      it 'trims off the trailing whitespace' do
+        expect(data_line.to_s).to eq 'text'
       end
     end
   end
