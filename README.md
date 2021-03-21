@@ -46,6 +46,16 @@ bundle exec ruby food_tracker.rb
 
 ### Data Files
 
+Utilizes YAML files, which are located in the `data/` directory.
+
+#### Locations
+
+Default locations are defined in the data files.
+
+#### Types
+
+Assigned types are defined in the data files.
+
 #### Notations
 
 Each data file supports the use of the following notations (even multiple times per entry):
@@ -60,10 +70,6 @@ Each data file supports the use of the following notations (even multiple times 
 ##### Out of Stock
 
 The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-order is required. These items will not show up on any page except the Out of Stock endpoint.
-
-### Locations
-
-Default locations are defined YAML files in the `data/` directory.
 
 ## Default Environment File (.env)
 
