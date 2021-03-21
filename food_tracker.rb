@@ -55,16 +55,6 @@ class FoodTracker < Sinatra::Base
     site_erb :out_of_stock
   end
 
-  get '/caching' do
-    @gif = image 'hamburger-rotating.gif'
-
-    site_erb :caching
-  end
-
-  get '/api' do
-    json food: 'I love to eat it!'
-  end
-
   get '/env' do
     redirect '/environment'
   end
