@@ -13,6 +13,20 @@ Each item supports multiple:
 
 Items also support a single "out of stock" flag.
 
+## Endpoints
+
+* Index: `/`
+  * Just a landing page, so as to not give site traversal to those that are unaware.
+* Kitchen: `/in-the-kitchen`
+  * Displays items in stock.
+* Expiring: `/expiring`
+  * Displays items expiring soon, already expired, and where the "best buy" date has passed.
+* Out of stock: `/out-of-stock`
+  * Displays items that are out of stock.
+* Environment: `/env`, `/environment`
+  * Displays all environment variables available.
+  * **Note:** Only available in the `development` environment.
+
 ## Development
 
 ### Running the Server Locally
@@ -45,18 +59,11 @@ Each data file supports the use of the following notations (even multiple times 
 
 ##### Out of Stock
 
-The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-rder is required. These items will not show up on any page except the Out of Stock page. 
+The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-order is required. These items will not show up on any page except the Out of Stock endpoint.
 
 ### Locations
 
-Default locations are defined in the `meta_data.json` file.
-
-### Updating the Meta Data
-
-When new files or types are desired, you'll need to edit `meta_data_generator.rb` directly,
-and then run `./meta_data_generator.rb` from the root directory.
-
-Make sure to commit and push the changes.
+Default locations are defined YAML files in the `data/` directory.
 
 ## Default Environment File (.env)
 
