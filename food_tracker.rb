@@ -7,6 +7,8 @@ class FoodTracker < Sinatra::Base
   set :environment, Env.to_sym
 
   before do
+    headers 'Referrer-Policy' => 'strict-origin-when-cross-origin'
+
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
 
     @site = site_settings request
