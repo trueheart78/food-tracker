@@ -7,9 +7,7 @@ class FoodTracker < Sinatra::Base
   set :environment, Env.to_sym
 
   before do
-    headers 'Referrer-Policy' => 'strict-origin-when-cross-origin'
-    headers 'Strict-Transport-Security' => 'max-age=16070400; includeSubDomains'
-    headers 'X-Xss-Protection' => '0'
+    set_header_restrictions
 
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
 
@@ -78,5 +76,16 @@ class FoodTracker < Sinatra::Base
     @site = insert_touch_icons @site
 
     erb view.to_sym
+  end
+
+  def set_header_restrictions
+    # strict-origin-when-cross-origin is also valid
+    headers 'Referrer-Policy' => 'no-referrer'
+    headers 'Strict-Transport-Security' => 'max-age=16070400; includeSubDomains'
+    headers 'X-Content-Type-Options' => 'nosniff'
+    headers 'X-Download-Options' => 'noopen'
+    headers 'X-Frame-Options' => 'sameorigin'
+    headers 'X-Permitted-Cross-Domain-Policies' => 'none'
+    headers 'X-XSS-Protection' => '0'
   end
 end
