@@ -87,5 +87,6 @@ class FoodTracker < Sinatra::Base
     headers 'X-Frame-Options' => 'sameorigin'
     headers 'X-Permitted-Cross-Domain-Policies' => 'none'
     headers 'X-XSS-Protection' => '0'
+    headers 'Permissions-Policy' => "geolocation=(self \"#{Env.domain(request)}\"), microphone=()"
   end
 end
