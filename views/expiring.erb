@@ -14,7 +14,7 @@
       <% @data_files.each do |data_file| %>
         <a name='<%= data_file.safe_name %>'></a>
         <p>
-        <%= erb :_data_file, locals: { data_file: data_file, in_stock: true } %>
+        <%= erb :_data_file, locals: { data_file: data_file } %>
         </p>
       <% end %>
     </div>

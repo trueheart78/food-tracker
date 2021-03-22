@@ -20,4 +20,15 @@ RSpec.describe DataFile, type: :model do
       end
     end
   end
+
+  describe '.load' do
+    subject(:data_files) { described_class.load type: type }
+    let(:type) { :out_of_stock }
+
+    it 'does something' do
+
+      binding.pry
+
+    end
+  end
 end
