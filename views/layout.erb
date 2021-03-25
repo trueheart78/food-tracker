@@ -23,8 +23,8 @@
       <meta property="twitter:url" content="<%= @site[:url] %>" />
     <% end %>
 
-    <%= erb :_icons, locals: { color: @site[:color], touch_icon: @site[:touch_icon], precomposed_icon: @site[:precomposed_icon] } %>
-    <%= erb :_style, locals: { color: @site[:color] } %>
+    <%= erb :_icons, locals: { color: @site[:color], touch_icon: @site[:touch_icons][:default], precomposed_icon: @site[:touch_icons][:precomposed] } %>
+    <%= erb :_style, locals: { stylesheets: @site[:stylesheets] } %>
   </head>
   <body>
     <%= yield %>

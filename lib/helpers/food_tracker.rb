@@ -16,9 +16,9 @@ module Helpers
         image:       image("#{site_icon}.png", request: request),
         twitter:     twitter_settings,
         domain:      Env.domain(request),
-        title:       default_settings[:title],
+        title:       'Food, Pls?',
         description: site_description,
-        color:       default_settings[:color]
+        style:       :default
       }
     end
 
@@ -32,35 +32,54 @@ module Helpers
 
     def default_settings
       {
-        title: 'Food, Pls?',
+        title: '',
         color: '#ffdb58'
       }
     end
 
-    def insert_touch_icons(site)
-      site[:touch_icon] = 'apple-touch-icon.png'
-      site[:precomposed_icon] = 'apple-touch-icon-procomposed.png'
-
-      unless site[:color] == default_settings[:color]
-        color = site[:color].downcase.sub('#', '')
-
-        site[:touch_icon] = touch_icon(color) if public? touch_icon(color)
-        site[:precomposed_icon] = precomposed_icon(color) if public? precomposed_icon(color)
-      end
-
+    def insert_stylesheets(site)
+      site[:stylesheets] = case site[:style]
+                           when :expiring
+                             ['main.css', 'background-colors/expiring.css']
+                           when :out_of_stock
+                             ['main.css', 'background-colors/out_of_stock.css']
+                           when :environment_vars
+                             ['environment_vars.css']
+                           else
+                             ['main.css', 'background-colors/default.css']
+                           end
       site
     end
 
-    def public?(file)
-      File.exist? File.join('public', file)
+    def insert_touch_icons(site)
+      site[:touch_icons] = case site[:style]
+                           when :expiring, :out_of_stock
+                             type = site[:style].to_s.tr('_', '-')
+                             {
+                               default: "apple-touch-icon-#{type}.png",
+                               precomposed: "apple-touch-icon-procomposed-#{type}.png"
+                             }
+                           else
+                             {
+                               default: 'apple-touch-icon.png',
+                               precomposed: 'apple-touch-icon-procomposed.png'
+                             }
+                           end
+      site
     end
 
-    def touch_icon(color)
-      "apple-touch-icon-#{color}.png"
-    end
-
-    def precomposed_icon(color)
-      "apple-touch-icon-precomposed-#{color}.png"
+    def insert_assigned_color(site)
+      site[:color] = case site[:style]
+                     when :expiring
+                       '#ffc0cb'
+                     when :out_of_stock
+                       '#add8e6'
+                     when :environment_vars
+                       '#ffffff'
+                     else
+                       '#ffdb58'
+                     end
+      site
     end
 
     def image(name, request: nil)

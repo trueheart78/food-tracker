@@ -31,8 +31,8 @@ class FoodTracker < Sinatra::Base
   get '/expiring' do
     @data_files = DataFile.load type: :expiring
 
-    @site[:color] = '#ffc0cb'
     @site[:title] = 'Expiring'
+    @site[:style] = :expiring
     @success_gif = site_gif
 
     site_erb :expiring
@@ -41,8 +41,8 @@ class FoodTracker < Sinatra::Base
   get '/out-of-stock' do
     @data_files = DataFile.load type: :expiring
 
-    @site[:color] = '#add8e6'
     @site[:title] = 'Out of Stock'
+    @site[:style] = :out_of_stock
     @success_gif = site_gif
 
     site_erb :out_of_stock
@@ -56,7 +56,7 @@ class FoodTracker < Sinatra::Base
     redirect '/' unless settings.development?
 
     @site[:title] = 'Environment Variables'
-    @site[:color] = '#ffffff'
+    @site[:style] = :environment_vars
 
     site_erb :environment
   end
@@ -74,6 +74,8 @@ class FoodTracker < Sinatra::Base
 
   def site_erb(view)
     @site = insert_touch_icons @site
+    @site = insert_stylesheets @site
+    @site = insert_assigned_color @site
 
     erb view.to_sym
   end
