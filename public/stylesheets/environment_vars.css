@@ -1,0 +1,31 @@
+body {
+  background-color: #ffffff;
+}
+
+table.environment_variables {
+  font-family: 'Fira Code', 'Consolas', 'Courier New', 'Courier';
+  border-collapse: collapse;
+}
+
+td.embiggen {
+  font-size: 24pt;
+  font-weight:bold;
+  padding-bottom:15px;
+  padding-left: 1em;
+}
+
+tr.odd {
+  background-color: #ffffff;
+}
+
+tr.even {
+  background-color: #e5e4e2;
+}
+
+td.key {
+  vertical-align: top;
+}
+
+td.value {
+  padding-left: 1.5em;
+}

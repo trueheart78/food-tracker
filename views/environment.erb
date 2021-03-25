@@ -1,13 +1,13 @@
 <div style='margin-left: 1em; '>
-  <table style='font-family: "Fira Code", Consolas, "Courier New", Courier;border-collapse: collapse;'>
+  <table class='environment_variables' style=''>
     <tr>
       <td>&nbsp;</td>
-      <td style='font-size: 20pt; font-weight:bold; padding-bottom:15px; padding-left: 1em;'>✨ Environment Variables ✨</td>
+      <td class='embiggen'>✨ Environment Variables ✨</td>
     </tr>
-    <% bg_color = '#ffffff' %>
+    <% row_class = 'odd' %>
     <% ENV.each do |(key, value)| %>
-      <%= erb :_env, locals: { key: key, value: value, bg_color: bg_color } %>
-    <% bg_color = (bg_color == '#ffffff') ? '#e5e4e2' : '#ffffff' %>
+      <%= erb :_env, locals: { key: key, value: value, row_class: row_class } %>
+      <% row_class = (row_class == 'odd') ? 'even' : 'odd' %>
     <% end %>
   </table>
 </div>

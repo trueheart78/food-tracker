@@ -2,23 +2,29 @@
 <html>
   <head>
     <title><%= @site[:title] %></title>
-    <!-- facebook open graph tags -->
+    
+    <!-- open graph tags -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="<%= @site[:url] %>" />
     <meta property="og:title" content="<%= @site[:title] %>" />
-    <meta property="og:description" content="<%= @site[:title] %>" />
+    <meta property="og:description" content="<%= @site[:description] %>" />
     <meta property="og:image" content="<%= @site[:image] %>" />
+    
+    <% if Env.twitter_handle? %>
+      <!-- twitter card tags - additive with the open graph tags -->
+      <meta property="twitter:card" content="summary_large_image" />
+      <meta property="twitter:site" content="<%= @site[:twitter][:site] %>" />
+      <meta property="twitter:creator" content="<%= @site[:twitter][:creator] %>" />
+      <meta property="twitter:domain" content="<%= @site[:domain] %>" />
+      <meta property="twitter:title" content="<%= @site[:title] %>" />
+      <meta property="twitter:description" content="<%= @site[:description] %>" />
+      <meta property="twitter:image" content="<%= @site[:image] %>" />
+      <meta property="twitter:image:alt" content="<%= @site[:twitter][:image_alt] %>" />
+      <meta property="twitter:url" content="<%= @site[:url] %>" />
+    <% end %>
 
-    <!-- twitter card tags additive with the og: tags -->
-    <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:domain" content="<%= @site[:domain] %>" />
-    <meta property="twitter:title" content="<%= @site[:title] %>" />
-    <meta property="twitter:description" content="<%= @site[:title] %>" />
-    <meta property="twitter:image" content="<%= @site[:image] %>" />
-    <meta property="twitter:url" content="<%= @site[:url] %>" />
-
-    <%= erb :_icons %>
-    <%= erb :_style, locals: { color: @site[:color] } %>
+    <%= erb :_icons, locals: { color: @site[:color], touch_icon: @site[:touch_icons][:default], precomposed_icon: @site[:touch_icons][:precomposed] } %>
+    <%= erb :_style, locals: { stylesheets: @site[:stylesheets] } %>
   </head>
   <body>
     <%= yield %>

@@ -1,64 +1,51 @@
 # frozen_string_literal: true
 
-# FoodTracker is a Sinatra-based application to display the proper kitchen-based-items.
+# FoodTracker is a Sinatra-based app to display the proper kitchen-based-items.
 class FoodTracker < Sinatra::Base
+  include Helpers::FoodTracker
+
   set :environment, Env.to_sym
 
   before do
-    if Env.force_ssl?(request)
-      redirect request.url.sub('http', 'https'), 308
-    else
-      @site = { url:    Env.host(request),
-                image:  image('hamburger.png', request: request),
-                domain: Env.domain(request),
-                title: 'Food, Pls?',
-                color: '#ffdb58'
-      }
-    end
+    set_header_restrictions
+
+    redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
+
+    @site = site_settings request
   end
 
   get '/' do
-    @image = image 'hamburger.png'
+    @image = site_image
 
-    erb :index
+    site_erb :index
   end
 
   get '/in-the-kitchen' do
-    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }
+    @data_files = DataFile.load
 
     @site[:title] = 'In The Kitchen'
 
-    erb :kitchen
+    site_erb :kitchen
   end
 
   get '/expiring' do
-    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }.select(&:expiring?)
+    @data_files = DataFile.load(type: :expiring).select(&:display?)
 
-    @site[:color] = '#ffc0cb'
     @site[:title] = 'Expiring'
-    @success_gif = image 'hamburger-rotating.gif'
+    @site[:style] = :expiring
+    @success_gif = site_gif
 
-    erb :expiring
+    site_erb :expiring
   end
-  
+
   get '/out-of-stock' do
-    @data_files = Dir['data/*.yaml'].sort.map { |file| DataFile.new(file) }.select(&:out_of_stock?)
+    @data_files = DataFile.load(type: :out_of_stock).select(&:display?)
 
-    @site[:color] = '#add8e6'
     @site[:title] = 'Out of Stock'
-    @success_gif = image 'hamburger-rotating.gif'
+    @site[:style] = :out_of_stock
+    @success_gif = site_gif
 
-    erb :out_of_stock
-  end
-
-  get '/caching' do
-    @gif = image 'hamburger-rotating.gif'
-
-    erb :caching
-  end
-
-  get '/api' do
-    json food: 'I love to eat it!'
+    site_erb :out_of_stock
   end
 
   get '/env' do
@@ -69,9 +56,9 @@ class FoodTracker < Sinatra::Base
     redirect '/' unless settings.development?
 
     @site[:title] = 'Environment Variables'
-    @site[:color] = '#ffffff'
+    @site[:style] = :environment_vars
 
-    erb :environment
+    site_erb :environment
   end
 
   # catch-all routes
@@ -83,11 +70,25 @@ class FoodTracker < Sinatra::Base
     404
   end
 
-  # private
+  private
 
-  def image(name, request: nil)
-    return [Env.host(request), 'images', name].join('/') if request
+  def site_erb(view)
+    @site = insert_touch_icons @site
+    @site = insert_stylesheets @site
+    @site = insert_assigned_color @site
 
-    ['/images', name].join '/'
+    erb view.to_sym
+  end
+
+  def set_header_restrictions
+    # strict-origin-when-cross-origin is also valid
+    headers 'Referrer-Policy' => 'no-referrer'
+    headers 'Strict-Transport-Security' => 'max-age=16070400; includeSubDomains'
+    headers 'X-Content-Type-Options' => 'nosniff'
+    headers 'X-Download-Options' => 'noopen'
+    headers 'X-Frame-Options' => 'sameorigin'
+    headers 'X-Permitted-Cross-Domain-Policies' => 'none'
+    headers 'X-XSS-Protection' => '0'
+    headers 'Permissions-Policy' => "geolocation=(self \"#{Env.host(request)}\"), microphone=()"
   end
 end
