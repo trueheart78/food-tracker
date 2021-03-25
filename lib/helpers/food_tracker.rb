@@ -30,13 +30,6 @@ module Helpers
       }
     end
 
-    def default_settings
-      {
-        title: '',
-        color: '#ffdb58'
-      }
-    end
-
     def insert_stylesheets(site)
       site[:stylesheets] = case site[:style]
                            when :expiring
