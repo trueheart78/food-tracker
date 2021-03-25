@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 RSpec.describe DataLine, type: :model do
-  subject(:data_line) { described_class.new string }
+  subject(:data_line) { described_class.new string, location: location }
+
+  let(:string)   { 'Orange Juice' }
+  let(:location) { 'Cupboard' }
 
   describe '#valid?' do
     context 'when the string has content' do
@@ -244,17 +247,34 @@ RSpec.describe DataLine, type: :model do
       end
 
       it 'is expected to be have the invalid location in the message' do
-        expect(data_line.errors.first.exception.message).to eq 'Unsupported location found: bathroom'
+        expect(data_line.errors.first.exception.message).to eq 'Unsupported custom location found: bathroom'
       end
     end
+
+    context 'when the default location is not supported' do
+      let(:location) { 'moon' }
+
+      it 'is expected to have an error' do
+        expect(data_line.errors.count).to eq 1
+      end
+
+      it 'is expected to be a InvalidCustomLocation' do
+        expect(data_line.errors.first.exception.class).to eq DataLine::InvalidLocation
+      end
+
+      it 'is expected to be have the invalid location in the message' do
+        expect(data_line.errors.first.exception.message).to eq "Unsupported default location found: #{location}"
+      end
+    end
+
   end
 
-  describe '#to_s' do
+  describe '#name' do
     context 'when the out of stock marker is present' do
       let(:string) { 'text ^oos^' }
 
       it 'trims off the trailing whitespace' do
-        expect(data_line.to_s).to eq 'text'
+        expect(data_line.name).to eq 'text'
       end
     end
 
@@ -262,7 +282,7 @@ RSpec.describe DataLine, type: :model do
       let(:string) { 'text [12/12/21]' }
 
       it 'trims off the trailing whitespace' do
-        expect(data_line.to_s).to eq 'text'
+        expect(data_line.name).to eq 'text'
       end
     end
 
@@ -270,7 +290,7 @@ RSpec.describe DataLine, type: :model do
       let(:string) { 'text |12/12/21|' }
 
       it 'trims off the trailing whitespace' do
-        expect(data_line.to_s).to eq 'text'
+        expect(data_line.name).to eq 'text'
       end
     end
 
@@ -278,7 +298,7 @@ RSpec.describe DataLine, type: :model do
       let(:string) { 'text {Brand Name}' }
 
       it 'trims off the trailing whitespace' do
-        expect(data_line.to_s).to eq 'text'
+        expect(data_line.name).to eq 'text'
       end
     end
 
@@ -286,7 +306,7 @@ RSpec.describe DataLine, type: :model do
       let(:string) { 'text (freezer)' }
 
       it 'trims off the trailing whitespace' do
-        expect(data_line.to_s).to eq 'text'
+        expect(data_line.name).to eq 'text'
       end
     end
 
@@ -294,7 +314,7 @@ RSpec.describe DataLine, type: :model do
       let(:string) { 'text (freezer) {Bart\'s Best} |2/13/29| [12/25/29] ^oos^ {Eating Alone For Days}' }
 
       it 'trims off the trailing whitespace' do
-        expect(data_line.to_s).to eq 'text'
+        expect(data_line.name).to eq 'text'
       end
     end
   end

@@ -12,8 +12,9 @@ class DataLine
 
   OUT_OF_STOCK_MARKER = '^oos^'
 
-  def initialize(string)
+  def initialize(string, location:)
     @string = string
+    @location = location
     @parsed = false
 
     @brands = []
@@ -92,7 +93,19 @@ class DataLine
     @errors
   end
 
+  def name
+    parse
+
+    @string
+  end
+
   def to_s
+    parse
+
+    @string
+  end
+
+  def to_html
     parse
 
     @string
@@ -121,6 +134,8 @@ class DataLine
 
   def parse
     return if @parsed
+
+    validate_location
 
     extract_best_by_dates
     extract_brands
@@ -162,9 +177,9 @@ class DataLine
     matches.each do |custom_location|
       @string = @string.sub("(#{custom_location})", '').rstrip
       if supported_custom_location? custom_location
-        @custom_locations << custom_location
+        @custom_locations << custom_location.split.map(&:capitalize).join(' ')
       else
-        raise InvalidLocation, "Unsupported location found: #{custom_location}"
+        raise InvalidLocation, "Unsupported custom location found: #{custom_location}"
       end
     end
   rescue InvalidLocation => e
@@ -188,6 +203,14 @@ class DataLine
   def extract_out_of_stock_marker
     @out_of_stock = @string.include? OUT_OF_STOCK_MARKER
     @string = @string.sub(OUT_OF_STOCK_MARKER, '').rstrip
+  end
+
+  def validate_location
+    unless supported_custom_location? @location.downcase
+      raise InvalidLocation, "Unsupported default location found: #{@location}"
+    end
+  rescue InvalidLocation => e
+    @errors << e
   end
 
   def validate_string
