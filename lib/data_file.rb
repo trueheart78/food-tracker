@@ -8,7 +8,7 @@ class DataFile
     @file_path = file_path
     @errors = []
 
-    raise InvalidType, "Unsupported type: :#{type}" unless supported_type? type
+    raise InvalidType, "Unsupported type: :#{type}" unless self.class.supported_type? type
 
     @type = type
   rescue InvalidType => e
@@ -33,22 +33,33 @@ class DataFile
   end
 
   def expiring?
-    in_stock_data_lines.any?(&:expiring?) || in_stock_data_lines.any?(&:expired?)
+    data_lines.any?(&:expiring?) || data_lines.any?(&:expired?)
   end
 
   def out_of_stock?
-    out_of_stock_data_lines.any?
+    data_lines.any?
+  end
+
+  def display?
+    return false unless valid?
+
+    return true if @type == :in_stock
+    return true if @type == :expiring && expiring?
+    return true if @type == :out_of_stock && data_lines.any?
+
+    false
   end
 
   def empty?
-
+    @type == :in_stock && data_lines.empty?
   end
 
-  def to_s
-    binding.pry
-    return '<li>🦖</li>' unless data_lines.any?
-
-    data_lines.map { |l| "<li>#{l}</li>\n" }.join
+  def to_html
+    if empty?
+      '<ol><li>🦖</li></ol>'
+    else
+      "<ol>#{data_lines.map(&:to_html).join}</ol>"
+    end
   end
 
   def name
@@ -62,19 +73,25 @@ class DataFile
   def self.load(type: :in_stock, directory: 'data')
     raise InvalidType, "Unsupported type: :#{type}" unless supported_type? type
 
-    # return data.select(&:expiring?) if type == :expiring
-    # return data.select(&:out_of_stock?) if type == :out_of_stock
-    Dir["#{directory}/*.yaml"].sort.map { |file| new file, type: type }
-  end
+    data = Dir["#{directory}/*.yaml"].sort.map { |file| new file, type: type }
 
-  private
+    if type == :expiring
+      data.select!(&:expiring?)
+    elsif type == :out_of_stock
+      data.select!(&:out_of_stock?)
+    end
+
+    data
+  end
 
   def self.supported_type?(type)
     %i[in_stock expiring out_of_stock].include? type.to_sym
   end
 
-  def supported_type?(type)
-    %i[in_stock expiring out_of_stock].include? type.to_sym
+  private
+
+  def location
+    @location ||= yaml_data[:location]
   end
 
   def yaml_data
@@ -86,16 +103,17 @@ class DataFile
   def data_lines
     return [] unless exists?
 
-    # return @data_lines if @data_lines
+    return @data_lines if @data_lines
 
-    data = yaml_data[:items].reject(&:empty?)
-    if @type == :in_stock
-      @data_lines = data.map { |s| DataLine.new s }.reject(&:out_of_stock?)
-    elsif @type == :expiring
-      @data_lines = data.map { |s| DataLine.new s }.reject(&:out_of_stock).select { |l| l.expiring? || l.expired? }
-    elsif @type == :out_of_stock
-      @data_lines = data.map { |s| DataLine.new s }.select(&:out_of_stock?)
-    end
+    data = yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
+    @data_lines = case @type
+                  when :expiring
+                    data.reject(&:out_of_stock?).select { |l| l.expiring? || l.expired? }
+                  when :out_of_stock
+                    data.select(&:out_of_stock?)
+                  else
+                    data.reject(&:out_of_stock?)
+                  end
   end
 
   def exists?

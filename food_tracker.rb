@@ -29,7 +29,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/expiring' do
-    @data_files = DataFile.load type: :expiring
+    @data_files = DataFile.load(type: :expiring).select(&:display?)
 
     @site[:title] = 'Expiring'
     @site[:style] = :expiring
@@ -39,7 +39,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/out-of-stock' do
-    @data_files = DataFile.load type: :expiring
+    @data_files = DataFile.load(type: :out_of_stock).select(&:display?)
 
     @site[:title] = 'Out of Stock'
     @site[:style] = :out_of_stock

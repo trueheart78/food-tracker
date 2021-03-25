@@ -44,7 +44,7 @@ RSpec.describe DataLine, type: :model do
 
   describe '#expiring?' do
     before { Timecop.freeze static_time }
-    after  { Timecop.return}
+    after  { Timecop.return }
 
     context 'with a single expiration date' do
       context 'when the expiration date has passed' do
@@ -80,7 +80,7 @@ RSpec.describe DataLine, type: :model do
       context 'when the expiration date is in four days' do
         let(:string) { "test [#{four_days_from_now}]" }
 
-        it { is_expected.to be_expiring }
+        it { is_expected.to_not be_expiring }
       end
     end
 
@@ -118,7 +118,7 @@ RSpec.describe DataLine, type: :model do
       context 'when an expiration date is in four days' do
         let(:string) { "test [#{four_days_from_now}] [#{a_week_from_now}]" }
 
-        it { is_expected.to be_expiring }
+        it { is_expected.to_not be_expiring }
       end
     end
   end

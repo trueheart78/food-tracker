@@ -1,13 +1,18 @@
 # frozen_string_literal: true
 
-# DataLine consumes a string
 class DataLine
   class ErroneusBar < StandardError; end
+
   class ErroneusCarrot < StandardError; end
+
   class ErroneusCurlyBrace < StandardError; end
+
   class ErroneusParenthesis < StandardError; end
+
   class ErroneusSquareBracket < StandardError; end
+
   class InvalidDate < StandardError; end
+
   class InvalidLocation < StandardError; end
 
   OUT_OF_STOCK_MARKER = '^oos^'
@@ -108,17 +113,44 @@ class DataLine
   def to_html
     parse
 
-    @string
+    html = [@string, expiration_html].join(' ')
+    "<li data=\"#{safe_name}\">#{html}</li>\n"
   end
 
   private
+
+  def safe_name
+    name.tr('"', '')
+  end
+
+  def date_format
+    '%-m/%-d/%y'
+  end
+
+  def expiration_html
+    return '' unless @expiration_dates.any?
+
+    html = []
+    @expiration_dates.each do |expiration_date|
+      css_class = if already_expired? expiration_date
+                    :expired
+                  elsif expiring_soon? expiration_date
+                    :expiring
+                  else
+                    :unexpired
+                  end
+      html << "<span class='#{css_class}'>[#{expiration_date.strftime(date_format)}]</span>"
+    end
+
+    html.join(' ')
+  end
 
   def already_expired?(date)
     date <= Date.today
   end
 
   def expiring_soon?(date)
-    date >= (Date.today - 3)
+    date <= (Date.today + 3)
   end
 
   def supported_custom_location?(location)
@@ -156,6 +188,7 @@ class DataLine
       @string = @string.sub(match, '').rstrip
       @best_by_dates << Date.strptime(date, '%m/%d/%y')
     end
+    @best_by_dates.uniq!
   rescue ArgumentError => e
     raise e unless e.message == 'invalid date'
 
@@ -169,6 +202,7 @@ class DataLine
       @string = @string.sub("{#{brand}}", '').rstrip
       @brands << brand
     end
+    @brands.uniq!
   end
 
   # Custom Locations are notated by parentheses
@@ -182,6 +216,7 @@ class DataLine
         raise InvalidLocation, "Unsupported custom location found: #{custom_location}"
       end
     end
+    @custom_locations.uniq!
   rescue InvalidLocation => e
     @errors << e
   end
@@ -194,6 +229,7 @@ class DataLine
       @string = @string.sub(match, '').rstrip
       @expiration_dates << Date.strptime(date, '%m/%d/%y')
     end
+    @expiration_dates.uniq!
   rescue ArgumentError => e
     raise e unless e.message == 'invalid date'
 

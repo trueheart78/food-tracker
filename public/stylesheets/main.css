@@ -8,3 +8,15 @@ a {
   font-family: Arial;
   font-size: 14pt;
 }
+
+.unexpired {
+  color: green;
+}
+
+.expiring {
+  color: darkorange;
+}
+
+.expired {
+  color: red;
+}

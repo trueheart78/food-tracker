@@ -26,9 +26,7 @@ RSpec.describe DataFile, type: :model do
     let(:type) { :out_of_stock }
 
     it 'does something' do
-
-      binding.pry
-
+      # binding.pry
     end
   end
 end
