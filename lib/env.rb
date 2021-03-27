@@ -4,23 +4,23 @@
 class Env
   class << self
     def production?
-      ENV['RACK_ENV'] == 'production'
+      ENV['APP_ENV'] == 'production'
     end
 
     def development?
-      ENV['RACK_ENV'] == 'development'
+      ENV['APP_ENV'] == 'development'
     end
 
     def test?
-      ENV['RACK_ENV'] == 'test'
+      ENV['APP_ENV'] == 'test'
     end
 
     def to_s
-      ENV['RACK_ENV']
+      ENV['APP_ENV']
     end
 
     def to_sym
-      ENV['RACK_ENV'].to_sym
+      ENV['APP_ENV'].to_sym
     end
 
     def twitter_handle?

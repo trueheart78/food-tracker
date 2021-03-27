@@ -1,5 +1,5 @@
-ENV['RACK_ENV'] = 'development' unless ENV['RACK_ENV']
-if ENV['RACK_ENV'] != 'production'
+ENV['APP_ENV'] = 'development' unless ENV['RAPP_ENV']
+if ENV['APP_ENV'] != 'production'
   require 'dotenv'
-  Dotenv.load ".env.#{ENV['RACK_ENV']}", '.env.local', '.env'
+  Dotenv.load ".env.#{ENV['APP_ENV']}", '.env.local', '.env'
 end

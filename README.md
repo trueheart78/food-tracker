@@ -82,9 +82,9 @@ vim .env.local
 
 Load order for `.env` files are as follows:
 
-1. `.env.RACK_ENV`, where `RACK_ENV` is `test` or `development`
+1. `.env.APP_ENV`, where `APP_ENV` is `test` or `development`
 2. `.env.local`
 3. `.env`
 
 You can setup a `.env.local` for data that is general, and put specifics in the
-`RACK_ENV` versions.
+`APP_ENV` versions.
