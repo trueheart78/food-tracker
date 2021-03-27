@@ -6,6 +6,7 @@ class DataFile
 
   def initialize(file_path, type: :in_stock)
     @file_path = file_path
+    @data_lines = nil
     @errors = []
 
     raise InvalidType, "Unsupported type: :#{type}" unless self.class.supported_type? type
