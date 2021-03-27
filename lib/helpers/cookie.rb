@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module Helpers
-  class Cookie
-    def self.settings
+  module Cookie
+    def settings
       cookie_settings = {
         key:           'usr',
         path:          '/',
@@ -14,5 +14,7 @@ module Helpers
 
       cookie_settings
     end
+    
+    module_function :settings
   end
 end
