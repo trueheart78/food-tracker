@@ -18,7 +18,8 @@ module Helpers
         domain:      Env.domain(request),
         title:       'Food, Pls?',
         description: site_description,
-        style:       :default
+        style:       :default,
+        show_footer: true
       }
     end
 
@@ -37,29 +38,31 @@ module Helpers
                            when :out_of_stock
                              ['main.css', 'background-colors/out_of_stock.css']
                            when :environment_vars
-                             ['environment_vars.css']
+                             ['main.css', 'environment_vars.css']
                            else
                              ['main.css', 'background-colors/default.css']
                            end
       site
     end
 
+    # rubocop:disable Metrics/MethodLength
     def insert_touch_icons(site)
       site[:touch_icons] = case site[:style]
                            when :expiring, :out_of_stock
                              type = site[:style].to_s.tr('_', '-')
                              {
-                               default: "apple-touch-icon-#{type}.png",
+                               default:     "apple-touch-icon-#{type}.png",
                                precomposed: "apple-touch-icon-procomposed-#{type}.png"
                              }
                            else
                              {
-                               default: 'apple-touch-icon.png',
+                               default:     'apple-touch-icon.png',
                                precomposed: 'apple-touch-icon-procomposed.png'
                              }
                            end
       site
     end
+    # rubocop:enable Metrics/MethodLength
 
     def insert_assigned_color(site)
       site[:color] = case site[:style]

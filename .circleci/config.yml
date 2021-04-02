@@ -1,0 +1,49 @@
+---
+version: 2
+
+machine:
+  timezone:
+    America/New_York
+
+jobs:
+  build:
+    working_directory: ~/food-tracker
+    docker:
+      - image: circleci/ruby:2.7.2
+        environment:
+          RAILS_ENV: test
+    steps:
+      - checkout
+
+      - run:
+          name: Force Bundler Version
+          command: |
+            sudo gem update --system
+            echo 'export BUNDLER_VERSION=$(cat Gemfile.lock | tail -1 | tr -d " ")' >> $BASH_ENV
+            source $BASH_ENV
+            gem install bundler
+
+      # Restore Cached Dependencies
+      - type: cache-restore
+        name: Restore bundle cache
+        key: food-tracker-{{ checksum "Gemfile.lock" }}
+
+      # Bundle install dependencies
+      - run:
+          name: Bundle Install
+          command: |
+            bundle config set --local path 'vendor/bundle'
+            bundle install
+
+      # Cache Dependencies
+      - type: cache-save
+        name: Store bundle cache
+        key: food-tracker-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Run the tests
+      - run: bundle exec rspec
+
+      # Run rubocop
+      - run: bundle exec rubocop

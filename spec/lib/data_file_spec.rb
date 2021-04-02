@@ -16,13 +16,14 @@ RSpec.describe DataFile, type: :model do
       let(:file) { fixture_path 'non_existing.yaml' }
 
       it 'is invalid' do
-        expect(data_file).to_not be_valid
+        expect(data_file).not_to be_valid
       end
     end
   end
 
   describe '.load' do
     subject(:data_files) { described_class.load type: type }
+
     let(:type) { :out_of_stock }
 
     it 'does something' do

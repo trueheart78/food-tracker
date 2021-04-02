@@ -33,9 +33,7 @@ class Env
       return '' if ENV['TWITTER_CREATOR'].nil?
       return '' if ENV['TWITTER_CREATOR'].empty?
 
-      unless ENV['TWITTER_CREATOR'].start_with? '@'
-        return "@#{ENV['TWITTER_CREATOR']}"
-      end
+      return "@#{ENV['TWITTER_CREATOR']}" unless ENV['TWITTER_CREATOR'].start_with? '@'
 
       ENV['TWITTER_CREATOR']
     end
@@ -44,9 +42,7 @@ class Env
       return twitter_creator if ENV['TWITTER_SITE'].nil?
       return twitter_creator if ENV['TWITTER_SITE'].empty?
 
-      unless ENV['TWITTER_SITE'].start_with? '@'
-        return "@#{ENV['TWITTER_SITE']}"
-      end
+      return "@#{ENV['TWITTER_SITE']}" unless ENV['TWITTER_SITE'].start_with? '@'
 
       ENV['TWITTER_SITE']
     end

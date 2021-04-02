@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class DataLine
   class ErroneusBar < StandardError; end
 
@@ -17,6 +18,8 @@ class DataLine
 
   OUT_OF_STOCK_MARKER = '^oos^'
 
+  attr_reader :errors
+
   def initialize(string, location:)
     @string = string
     @location = location
@@ -28,17 +31,15 @@ class DataLine
     @expiration_dates = []
     @out_of_stock = false
     @errors = []
+
+    parse
   end
 
   def empty?
-    parse
-
     @string.nil? || @string.empty?
   end
 
   def expiring?
-    parse
-
     return false unless @expiration_dates.any?
 
     expiring = false
@@ -55,8 +56,6 @@ class DataLine
   end
 
   def expired?
-    parse
-
     return false unless @expiration_dates.any?
 
     expired = false
@@ -71,14 +70,10 @@ class DataLine
   end
 
   def out_of_stock?
-    parse
-
     @out_of_stock
   end
 
   def valid?
-    parse unless @string.nil?
-
     return false if @string.nil?
     return false if empty?
     return false if @errors.any?
@@ -87,32 +82,18 @@ class DataLine
   end
 
   def errors?
-    parse
-
     @errors.any?
   end
 
-  def errors
-    parse
-
-    @errors
-  end
-
   def name
-    parse
-
     @string
   end
 
   def to_s
-    parse
-
     @string
   end
 
   def to_html
-    parse
-
     html = [@string, expiration_html].join(' ')
     "<li data=\"#{safe_name}\">#{html}</li>\n"
   end
@@ -127,23 +108,24 @@ class DataLine
     '%-m/%-d/%y'
   end
 
+  # rubocop:disable Metrics/MethodLength
   def expiration_html
     return '' unless @expiration_dates.any?
 
-    html = []
-    @expiration_dates.each do |expiration_date|
-      css_class = if already_expired? expiration_date
-                    :expired
-                  elsif expiring_soon? expiration_date
-                    :expiring
-                  else
-                    :unexpired
-                  end
-      html << "<span class='#{css_class}'>[#{expiration_date.strftime(date_format)}]</span>"
-    end
-
-    html.join(' ')
+    [].tap do |html|
+      @expiration_dates.each do |expiration_date|
+        css_class = if already_expired? expiration_date
+                      :expired
+                    elsif expiring_soon? expiration_date
+                      :expiring
+                    else
+                      :unexpired
+                    end
+        html << "<span class='#{css_class}'>[#{expiration_date.strftime(date_format)}]</span>"
+      end
+    end.join(' ')
   end
+  # rubocop:enable Metrics/MethodLength
 
   def already_expired?(date)
     date <= Date.today
@@ -165,7 +147,7 @@ class DataLine
   end
 
   def parse
-    return if @parsed
+    return if @parsed || @string.nil?
 
     validate_location
 
@@ -182,7 +164,7 @@ class DataLine
 
   # Best By dates are notated by bars
   def extract_best_by_dates
-    matches = @string.scan(%r{\|\d+\/\d+\/\d+\|})
+    matches = @string.scan(%r{\|\d+/\d+/\d+\|})
     matches.each do |match|
       date = match.sub('|', '')
       @string = @string.sub(match, '').rstrip
@@ -206,6 +188,7 @@ class DataLine
   end
 
   # Custom Locations are notated by parentheses
+  # rubocop:disable Style/GuardClause
   def extract_custom_locations
     matches = @string.scan(/(?<=\()[^)]+(?=\))/)
     matches.each do |custom_location|
@@ -220,10 +203,11 @@ class DataLine
   rescue InvalidLocation => e
     @errors << e
   end
+  # rubocop:enable Style/GuardClause
 
   # Expiration Dates are notated by square brackets
   def extract_expiration_dates
-    matches = @string.scan(%r{\[\d+\/\d+\/\d+\]})
+    matches = @string.scan(%r{\[\d+/\d+/\d+\]})
     matches.each do |match|
       date = match.sub('[', '').sub(']', '')
       @string = @string.sub(match, '').rstrip
@@ -270,25 +254,18 @@ class DataLine
   end
 
   def validate_curly_braces
-    if @string.include? '{'
-      @errors << ErroneusCurlyBrace.new('Extra opening curly brace detected')
-    end
+    @errors << ErroneusCurlyBrace.new('Extra opening curly brace detected') if @string.include? '{'
 
-    if @string.include? '}'
-      @errors << ErroneusCurlyBrace.new('Extra closing curly brace detected')
-    end
+    @errors << ErroneusCurlyBrace.new('Extra closing curly brace detected') if @string.include? '}'
   end
 
   def validate_parentheses
-    if @string.include? '('
-      @errors << ErroneusParenthesis.new('Extra opening parenthesis detected')
-    end
+    @errors << ErroneusParenthesis.new('Extra opening parenthesis detected') if @string.include? '('
 
-    if @string.include? ')'
-      @errors << ErroneusParenthesis.new('Extra closing parenthesis detected')
-    end
+    @errors << ErroneusParenthesis.new('Extra closing parenthesis detected') if @string.include? ')'
   end
 
+  # rubocop:disable Style/GuardClause
   def validate_square_brackets
     if @string.include? '['
       @errors << ErroneusSquareBracket.new('Extra opening square bracket detected')
@@ -298,4 +275,6 @@ class DataLine
       @errors << ErroneusSquareBracket.new('Extra closing square bracket detected')
     end
   end
+  # rubocop:enable Style/GuardClause
 end
+# rubocop:enable Metrics/ClassLength

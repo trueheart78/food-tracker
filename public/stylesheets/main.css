@@ -3,10 +3,23 @@ div, p, span {
   font-size: 14pt;
 }
 
+#footer {
+  margin-top: 30px;
+}
+
+#footer a {
+  font-size: 20pt !important;
+  text-decoration: none !important;
+}
+
 a {
   color: black;
   font-family: Arial;
   font-size: 14pt;
+}
+
+h1.embiggen {
+  font-size: 20pt;
 }
 
 .unexpired {
@@ -19,4 +32,16 @@ a {
 
 .expired {
   color: red;
+}
+
+div.page-width {
+  width: 800px;
+}
+
+.on-your-left {
+  text-align: left;
+}
+
+.dead-center {
+  text-align: center;
 }

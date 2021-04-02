@@ -1,16 +1,16 @@
 <div align='center'>
   <a name='page_top'></a>
-  <div style='width: 800px; text-align: center; border-style: none;'>
-    <h1 style='font-size:20pt;'>📅 Expiring 📅</h1>
+  <div class='page-width dead-center'>
+    <h1 class='embiggen'>📅 Expiring 📅</h1>
   </div>
   <% if @data_files.any? %>
-    <div style='width: 800px; text-align: left; border-style: none;'>
+    <div class='page-width on-your-left'>
       <% @data_files.each do |data_file| %>
         <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
         <%= '•' unless data_file == @data_files.last %> 
       <% end %>
     </div>
-    <div style='width: 800px; text-align: left; border-style: none;'>
+    <div class='page-width on-your-left'>
       <% @data_files.each do |data_file| %>
         <a name='<%= data_file.safe_name %>'></a>
         <p>
@@ -20,12 +20,14 @@
     </div>
   <% else %>
     <div align='center'>
-      <p>
+      <div class='page-width dead-center'>
+        <p>
         <img src="<%= @success_gif %>" alt="Rotating <%= site_icon %>" />
-      </p>
-      <p>
+        </p>
+        <p>
         No expiring food!
-      </p>
+        </p>
+      </div>
     </div>
   <% end %>
 </div>

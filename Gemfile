@@ -17,6 +17,8 @@ end
 group :development, :test do
   gem 'dotenv', require: false
   gem 'pry'
+  gem 'rubocop', require: false
+  gem 'rubocop-rspec', require: false
 end
 
 group :test do

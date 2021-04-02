@@ -4,14 +4,14 @@
 require_relative '../booster_pack'
 
 Dir['data/*.yaml'].sort.each do |filename|
-  puts "=> Opening #{filename}"
+  print "=> Opening #{filename} "
   data = YAML.load_file filename
 
-  puts '==> Sorting'
+  print '==> Sorting '
   data[:types].sort!
   data[:items].sort!
   File.open(filename, 'w+') do |file|
-    puts '==> Saving'
+    print '==> Saving '
     file.write data.to_yaml.sub("\n:items:", "\n\n:items:").gsub("\n-", "\n  -")
   end
   puts '==> Complete!'

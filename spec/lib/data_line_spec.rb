@@ -13,17 +13,17 @@ RSpec.describe DataLine, type: :model do
       it { is_expected.to be_valid }
     end
 
-    context 'when the string has content' do
+    context 'when the string has no content' do
       context 'when the string is empty' do
         let(:string) { '' }
 
-        it { is_expected.to_not be_valid }
+        it { is_expected.not_to be_valid }
       end
 
       context 'when the string is nil' do
         let(:string) { nil }
 
-        it { is_expected.to_not be_valid }
+        it { is_expected.not_to be_valid }
       end
     end
   end
@@ -32,7 +32,7 @@ RSpec.describe DataLine, type: :model do
     context 'when the string does not have the marker' do
       let(:string) { 'text' }
 
-      it { is_expected.to_not be_out_of_stock }
+      it { is_expected.not_to be_out_of_stock }
     end
 
     context 'when the string does have the marker' do
@@ -44,19 +44,20 @@ RSpec.describe DataLine, type: :model do
 
   describe '#expiring?' do
     before { Timecop.freeze static_time }
+
     after  { Timecop.return }
 
     context 'with a single expiration date' do
       context 'when the expiration date has passed' do
         let(:string) { "test [#{yesterday}]" }
 
-        it { is_expected.to_not be_expiring }
+        it { is_expected.not_to be_expiring }
       end
 
       context 'when the expiration date matches the current date' do
         let(:string) { "test [#{today}]" }
 
-        it { is_expected.to_not be_expiring }
+        it { is_expected.not_to be_expiring }
       end
 
       context 'when the expiration date is tomorrow' do
@@ -80,7 +81,7 @@ RSpec.describe DataLine, type: :model do
       context 'when the expiration date is in four days' do
         let(:string) { "test [#{four_days_from_now}]" }
 
-        it { is_expected.to_not be_expiring }
+        it { is_expected.not_to be_expiring }
       end
     end
 
@@ -88,13 +89,13 @@ RSpec.describe DataLine, type: :model do
       context 'when the expiration dates have passed' do
         let(:string) { "test [#{yesterday}] [#{a_week_ago}]" }
 
-        it { is_expected.to_not be_expiring }
+        it { is_expected.not_to be_expiring }
       end
 
       context 'when an expiration date matches the current date' do
         let(:string) { "test [#{today}] [#{a_week_from_now}]" }
 
-        it { is_expected.to_not be_expiring }
+        it { is_expected.not_to be_expiring }
       end
 
       context 'when an expiration date is tomorrow' do
@@ -118,14 +119,15 @@ RSpec.describe DataLine, type: :model do
       context 'when an expiration date is in four days' do
         let(:string) { "test [#{four_days_from_now}] [#{a_week_from_now}]" }
 
-        it { is_expected.to_not be_expiring }
+        it { is_expected.not_to be_expiring }
       end
     end
   end
 
   describe '#expired?' do
     before { Timecop.freeze static_time }
-    after  { Timecop.return}
+
+    after  { Timecop.return }
 
     context 'with a single expiration date' do
       context 'when the expiration date has passed' do
@@ -143,7 +145,7 @@ RSpec.describe DataLine, type: :model do
       context 'when the expiration date is in the future' do
         let(:string) { "test [#{tomorrow}]" }
 
-        it { is_expected.to_not be_expired }
+        it { is_expected.not_to be_expired }
       end
     end
 
@@ -163,7 +165,7 @@ RSpec.describe DataLine, type: :model do
       context 'when the expiration dates are in the future' do
         let(:string) { "test [#{tomorrow}] [#{two_days_from_now}]" }
 
-        it { is_expected.to_not be_expired }
+        it { is_expected.not_to be_expired }
       end
     end
   end
@@ -266,7 +268,6 @@ RSpec.describe DataLine, type: :model do
         expect(data_line.errors.first.exception.message).to eq "Unsupported default location found: #{location}"
       end
     end
-
   end
 
   describe '#name' do
@@ -311,7 +312,9 @@ RSpec.describe DataLine, type: :model do
     end
 
     context 'when there is one of everything' do
-      let(:string) { 'text (freezer) {Bart\'s Best} |2/13/29| [12/25/29] ^oos^ {Eating Alone For Days}' }
+      let(:string) do
+        'text (freezer) {Bart\'s Best} |2/13/29| [12/25/29] ^oos^ {Eating Alone For Days}'
+      end
 
       it 'trims off the trailing whitespace' do
         expect(data_line.name).to eq 'text'

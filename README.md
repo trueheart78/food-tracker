@@ -1,4 +1,4 @@
-# Food Tracker :hamburger:
+# Food Tracker :hamburger: [![CircleCI](https://circleci.com/gh/trueheart78/food-tracker.svg?style=shield)](https://circleci.com/gh/trueheart78/food-tracker)
 
 Tracks food.
 
