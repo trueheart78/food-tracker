@@ -17,6 +17,8 @@ class DataLine
 
   OUT_OF_STOCK_MARKER = '^oos^'
 
+  attr_reader :errors
+
   def initialize(string, location:)
     @string = string
     @location = location
@@ -28,17 +30,15 @@ class DataLine
     @expiration_dates = []
     @out_of_stock = false
     @errors = []
+
+    parse
   end
 
   def empty?
-    parse
-
     @string.nil? || @string.empty?
   end
 
   def expiring?
-    parse
-
     return false unless @expiration_dates.any?
 
     expiring = false
@@ -55,8 +55,6 @@ class DataLine
   end
 
   def expired?
-    parse
-
     return false unless @expiration_dates.any?
 
     expired = false
@@ -71,14 +69,10 @@ class DataLine
   end
 
   def out_of_stock?
-    parse
-
     @out_of_stock
   end
 
   def valid?
-    parse unless @string.nil?
-
     return false if @string.nil?
     return false if empty?
     return false if @errors.any?
@@ -87,32 +81,18 @@ class DataLine
   end
 
   def errors?
-    parse
-
     @errors.any?
   end
 
-  def errors
-    parse
-
-    @errors
-  end
-
   def name
-    parse
-
     @string
   end
 
   def to_s
-    parse
-
     @string
   end
 
   def to_html
-    parse
-
     html = [@string, expiration_html].join(' ')
     "<li data=\"#{safe_name}\">#{html}</li>\n"
   end
@@ -130,19 +110,18 @@ class DataLine
   def expiration_html
     return '' unless @expiration_dates.any?
 
-    html = []
-    @expiration_dates.each do |expiration_date|
-      css_class = if already_expired? expiration_date
-                    :expired
-                  elsif expiring_soon? expiration_date
-                    :expiring
-                  else
-                    :unexpired
-                  end
-      html << "<span class='#{css_class}'>[#{expiration_date.strftime(date_format)}]</span>"
-    end
-
-    html.join(' ')
+    [].tap do |html|
+      @expiration_dates.each do |expiration_date|
+        css_class = if already_expired? expiration_date
+                      :expired
+                    elsif expiring_soon? expiration_date
+                      :expiring
+                    else
+                      :unexpired
+                    end
+        html << "<span class='#{css_class}'>[#{expiration_date.strftime(date_format)}]</span>"
+      end
+    end.join(' ')
   end
 
   def already_expired?(date)
@@ -165,7 +144,7 @@ class DataLine
   end
 
   def parse
-    return if @parsed
+    return if @parsed || @string.nil?
 
     validate_location
 
