@@ -40,3 +40,6 @@ jobs:
 
       # Run the tests
       - run: bundle exec rspec
+
+      # Run rubocop
+      - run: bundle exec rubocop

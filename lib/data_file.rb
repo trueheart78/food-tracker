@@ -74,9 +74,10 @@ class DataFile
 
     data = Dir["#{directory}/*.yaml"].sort.map { |file| new file, type: type }
 
-    if type == :expiring
+    case type
+    when :expiring
       data.select!(&:expiring?)
-    elsif type == :out_of_stock
+    when :out_of_stock
       data.select!(&:out_of_stock?)
     end
 
@@ -105,15 +106,21 @@ class DataFile
     return @data_lines if @data_lines
 
     data = yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
-    @data_lines = case @type
-                  when :expiring
-                    data.reject(&:out_of_stock?).select { |l| l.expiring? || l.expired? }
-                  when :out_of_stock
-                    data.select(&:out_of_stock?)
-                  else
-                    data.reject(&:out_of_stock?)
-                  end
+    @data_lines = select_data data
   end
+
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def select_data(data)
+    case @type
+    when :expiring
+      data.reject(&:out_of_stock?).select { |l| l.expiring? || l.expired? }
+    when :out_of_stock
+      data.select(&:out_of_stock?)
+    else
+      data.reject(&:out_of_stock?)
+    end
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
 
   def exists?
     File.exist? @file_path

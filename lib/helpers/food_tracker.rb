@@ -45,6 +45,7 @@ module Helpers
       site
     end
 
+    # rubocop:disable Metrics/MethodLength
     def insert_touch_icons(site)
       site[:touch_icons] = case site[:style]
                            when :expiring, :out_of_stock
@@ -61,6 +62,7 @@ module Helpers
                            end
       site
     end
+    # rubocop:enable Metrics/MethodLength
 
     def insert_assigned_color(site)
       site[:color] = case site[:style]

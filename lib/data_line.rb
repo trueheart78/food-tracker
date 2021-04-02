@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/ClassLength
 class DataLine
   class ErroneusBar < StandardError; end
 
@@ -107,6 +108,7 @@ class DataLine
     '%-m/%-d/%y'
   end
 
+  # rubocop:disable Metrics/MethodLength
   def expiration_html
     return '' unless @expiration_dates.any?
 
@@ -123,6 +125,7 @@ class DataLine
       end
     end.join(' ')
   end
+  # rubocop:enable Metrics/MethodLength
 
   def already_expired?(date)
     date <= Date.today
@@ -185,6 +188,7 @@ class DataLine
   end
 
   # Custom Locations are notated by parentheses
+  # rubocop:disable Style/GuardClause
   def extract_custom_locations
     matches = @string.scan(/(?<=\()[^)]+(?=\))/)
     matches.each do |custom_location|
@@ -199,6 +203,7 @@ class DataLine
   rescue InvalidLocation => e
     @errors << e
   end
+  # rubocop:enable Style/GuardClause
 
   # Expiration Dates are notated by square brackets
   def extract_expiration_dates
@@ -260,6 +265,7 @@ class DataLine
     @errors << ErroneusParenthesis.new('Extra closing parenthesis detected') if @string.include? ')'
   end
 
+  # rubocop:disable Style/GuardClause
   def validate_square_brackets
     if @string.include? '['
       @errors << ErroneusSquareBracket.new('Extra opening square bracket detected')
@@ -269,4 +275,6 @@ class DataLine
       @errors << ErroneusSquareBracket.new('Extra closing square bracket detected')
     end
   end
+  # rubocop:enable Style/GuardClause
 end
+# rubocop:enable Metrics/ClassLength
