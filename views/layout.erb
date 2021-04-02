@@ -28,5 +28,8 @@
   </head>
   <body>
     <%= yield %>
+    <% if @site[:show_footer] %>
+      <%= erb :_footer, locals: {} %>
+    <% end %>
   </body>
 </html>

@@ -16,6 +16,7 @@ class FoodTracker < Sinatra::Base
 
   get '/' do
     @image = site_image
+    @site[:show_footer] = false unless settings.development?
 
     site_erb :index
   end
