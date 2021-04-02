@@ -161,7 +161,7 @@ class DataLine
 
   # Best By dates are notated by bars
   def extract_best_by_dates
-    matches = @string.scan(%r{\|\d+\/\d+\/\d+\|})
+    matches = @string.scan(%r{\|\d+/\d+/\d+\|})
     matches.each do |match|
       date = match.sub('|', '')
       @string = @string.sub(match, '').rstrip
@@ -202,7 +202,7 @@ class DataLine
 
   # Expiration Dates are notated by square brackets
   def extract_expiration_dates
-    matches = @string.scan(%r{\[\d+\/\d+\/\d+\]})
+    matches = @string.scan(%r{\[\d+/\d+/\d+\]})
     matches.each do |match|
       date = match.sub('[', '').sub(']', '')
       @string = @string.sub(match, '').rstrip
@@ -249,23 +249,15 @@ class DataLine
   end
 
   def validate_curly_braces
-    if @string.include? '{'
-      @errors << ErroneusCurlyBrace.new('Extra opening curly brace detected')
-    end
+    @errors << ErroneusCurlyBrace.new('Extra opening curly brace detected') if @string.include? '{'
 
-    if @string.include? '}'
-      @errors << ErroneusCurlyBrace.new('Extra closing curly brace detected')
-    end
+    @errors << ErroneusCurlyBrace.new('Extra closing curly brace detected') if @string.include? '}'
   end
 
   def validate_parentheses
-    if @string.include? '('
-      @errors << ErroneusParenthesis.new('Extra opening parenthesis detected')
-    end
+    @errors << ErroneusParenthesis.new('Extra opening parenthesis detected') if @string.include? '('
 
-    if @string.include? ')'
-      @errors << ErroneusParenthesis.new('Extra closing parenthesis detected')
-    end
+    @errors << ErroneusParenthesis.new('Extra closing parenthesis detected') if @string.include? ')'
   end
 
   def validate_square_brackets

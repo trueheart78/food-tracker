@@ -2,7 +2,7 @@
 
 module Support
   module Coverage
-    def self.included(klass)
+    def self.included(_klass)
       require 'simplecov'
 
       SimpleCov.minimum_coverage 90

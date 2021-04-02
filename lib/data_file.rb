@@ -29,9 +29,7 @@ class DataFile
     @errors.any?
   end
 
-  def errors
-    @errors
-  end
+  attr_reader :errors
 
   def expiring?
     data_lines.any?(&:expiring?) || data_lines.any?(&:expired?)

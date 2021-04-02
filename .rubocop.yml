@@ -1,0 +1,26 @@
+require: rubocop-rspec
+
+AllCops:
+  TargetRubyVersion: 2.7
+  NewCops: enable
+  RubyInterpreters:
+    - ruby
+  Exclude:
+    - vendor/**/*
+    - .bundle/**/*
+    - data/**/*
+Style/Documentation:
+  Enabled: false
+Style/RedundantFetchBlock:
+  Enabled: false
+Style/ClassAndModuleChildren:
+  Enabled: false
+Style/RaiseArgs:
+  EnforcedStyle: exploded
+Layout/HashAlignment:
+  EnforcedHashRocketStyle: table
+  EnforcedColonStyle: table
+Layout/LineLength:
+  Max: 100
+Metrics/MethodLength:
+  Max: 12
