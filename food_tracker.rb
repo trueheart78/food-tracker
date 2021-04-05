@@ -7,7 +7,6 @@ class FoodTracker < Sinatra::Base
   use Rollbar::Middleware::Sinatra
   include Helpers::FoodTracker
 
-
   before do
     set_header_restrictions
 
