@@ -9,6 +9,7 @@ gem 'puma'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'zeitwerk'
+gem 'rollbar'
 
 group :development do
   gem 'shotgun'
