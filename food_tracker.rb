@@ -2,9 +2,11 @@
 
 # FoodTracker is a Sinatra-based app to display the proper kitchen-based-items.
 class FoodTracker < Sinatra::Base
+  set :environment, Env.to_sym
+
+  use Rollbar::Middleware::Sinatra
   include Helpers::FoodTracker
 
-  set :environment, Env.to_sym
 
   before do
     set_header_restrictions
