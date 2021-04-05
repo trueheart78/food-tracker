@@ -6,10 +6,10 @@ ruby '~> 2.7.2' # keep this in sync with .ruby-version
 
 gem 'encrypted_cookie'
 gem 'puma'
+gem 'rollbar'
 gem 'sinatra'
 gem 'sinatra-contrib'
 gem 'zeitwerk'
-gem 'rollbar'
 
 group :development do
   gem 'shotgun'
