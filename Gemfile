@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.7.2' # keep this in sync with .ruby-version
+ruby '2.7.2' # keep this in sync with .ruby-version
 
 gem 'encrypted_cookie'
 gem 'puma'
