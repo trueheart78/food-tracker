@@ -2,7 +2,8 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.2' # keep this in sync with .ruby-version
+# keep this in sync with .ruby-version, .rubocop.yml, and .circleci/config.yml
+ruby '2.7.2'
 
 gem 'encrypted_cookie'
 gem 'puma'
