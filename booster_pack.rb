@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require './config/environment'
-require './init/bundler'
-require './init/rollbar'
-require './init/zeitwerk'
+require_relative 'config/environment'
+require_relative 'init/bundler'
+require_relative 'init/zeitwerk'
+require_relative 'init/rollbar'
