@@ -31,17 +31,11 @@ Items also support a single "out of stock" flag.
 
 ### Running the Server Locally
 
-It is designed to be run with `Shotgun`, to enable code reloading
-without having to restart the server.
+It is designed to be run with `Shotgun`, to enable code reloading without having to restart the
+server.
 
 ```
 bundle exec shotgun
-```
-
-You can also run it via basic Ruby.
-
-```
-bundle exec ruby food_tracker.rb
 ```
 
 ### Data Files
