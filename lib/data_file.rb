@@ -4,6 +4,8 @@
 class DataFile
   class InvalidType < StandardError; end
 
+  attr_reader :errors
+
   def initialize(file_path, type: :in_stock)
     @file_path = file_path
     @data_lines = nil
@@ -12,6 +14,8 @@ class DataFile
     raise InvalidType, "Unsupported type: :#{type}" unless self.class.supported_type? type
 
     @type = type
+
+    parse_yaml_file
   rescue InvalidType => e
     @errors << e
   end
@@ -20,7 +24,7 @@ class DataFile
     return false if @errors.any?
     return false unless File.extname(@file_path) == '.yaml'
     return false unless exists?
-    return false if data_lines.none?(&:valid?)
+    return false if @data_lines.none?(&:valid?)
 
     true
   end
@@ -29,14 +33,12 @@ class DataFile
     @errors.any?
   end
 
-  attr_reader :errors
-
   def expiring?
-    data_lines.any?(&:expiring?) || data_lines.any?(&:expired?)
+    @data_lines.any?(&:expiring?) || @data_lines.any?(&:expired?)
   end
 
   def out_of_stock?
-    data_lines.any?
+    @data_lines.any?
   end
 
   def display?
@@ -44,25 +46,25 @@ class DataFile
 
     return true if @type == :in_stock
     return true if @type == :expiring && expiring?
-    return true if @type == :out_of_stock && data_lines.any?
+    return true if @type == :out_of_stock && @data_lines.any?
 
     false
   end
 
   def empty?
-    @type == :in_stock && data_lines.empty?
+    @type == :in_stock && @data_lines.empty?
   end
 
   def to_html
     if empty?
       '<ol><li>🦖</li></ol>'
     else
-      "<ol>#{data_lines.map(&:to_html).join}</ol>"
+      "<ol>#{@data_lines.map(&:to_html).join}</ol>"
     end
   end
 
   def name
-    yaml_data[:name]
+    @yaml_data[:name]
   end
 
   def safe_name
@@ -91,21 +93,23 @@ class DataFile
   private
 
   def location
-    @location ||= yaml_data[:location]
+    @location ||= @yaml_data[:location]
   end
 
-  def yaml_data
-    return {} unless exists?
-
+  def load_yaml_data
     @yaml_data ||= YAML.load_file(@file_path)
+
+    true
+  rescue Errno::ENOENT => e
+    @errors << e
+
+    false
   end
 
-  def data_lines
-    return [] unless exists?
+  def parse_yaml_file
+    return unless load_yaml_data
 
-    return @data_lines if @data_lines
-
-    data = yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
+    data = @yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
     @data_lines = select_data data
   end
 
