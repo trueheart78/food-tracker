@@ -4,5 +4,5 @@ require 'honeybadger'
 
 Honeybadger.configure do |config|
   config.api_key = ENV['HONEYBADGER_API_KEY']
-  # config.exceptions.ignore += [CustomError]
+  config.env = ENV['APP_ENV']
 end
