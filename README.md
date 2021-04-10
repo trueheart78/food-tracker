@@ -72,7 +72,6 @@ Each data file supports the use of the following notations (even multiple times 
 
 The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-order is required. These items will not show up on any page except the Out of Stock endpoint.
 
-
 ## Development
 
 ### Running the Server Locally
