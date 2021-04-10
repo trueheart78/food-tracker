@@ -6,6 +6,7 @@ source 'https://rubygems.org'
 ruby '2.7.2'
 
 gem 'encrypted_cookie'
+gem 'honeybadger', require: false
 gem 'puma'
 gem 'rollbar'
 gem 'sinatra'

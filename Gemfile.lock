@@ -8,6 +8,7 @@ GEM
     dotenv (2.7.6)
     encrypted_cookie (0.1.0)
       rack (>= 1.1, < 3)
+    honeybadger (4.8.0)
     method_source (1.0.0)
     multi_json (1.15.0)
     mustermann (1.1.1)
@@ -87,6 +88,7 @@ PLATFORMS
 DEPENDENCIES
   dotenv
   encrypted_cookie
+  honeybadger
   pry
   puma
   rollbar
