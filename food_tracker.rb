@@ -25,7 +25,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/in-the-kitchen' do
-    @data_files = DataFile.load
+    @data_files = DataFile.load(type: :in_stock).select(&:display?)
 
     @site[:title] = 'In The Kitchen'
 
@@ -50,6 +50,14 @@ class FoodTracker < Sinatra::Base
     @success_gif = site_gif
 
     site_erb :out_of_stock
+  end
+
+  get '/all-items' do
+    @data_files = DataFile.load(type: :all).select(&:display?)
+
+    @site[:title] = 'All Items'
+
+    site_erb :all
   end
 
   get '/env' do

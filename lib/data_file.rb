@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
-# DataFile consumes a text-based file
+# rubocop:disable Metrics/ClassLength
 class DataFile
   class InvalidType < StandardError; end
 
   attr_reader :errors
 
-  def initialize(file_path, type: :in_stock)
+  def initialize(file_path, type: :all)
     @file_path = file_path
     @data_lines = nil
     @errors = []
@@ -43,12 +43,9 @@ class DataFile
 
   def display?
     return false unless valid?
+    return false unless valid_type?
 
-    return true if @type == :in_stock
-    return true if @type == :expiring && expiring?
-    return true if @type == :out_of_stock && @data_lines.any?
-
-    false
+    true
   end
 
   def empty?
@@ -87,10 +84,19 @@ class DataFile
   end
 
   def self.supported_type?(type)
-    %i[in_stock expiring out_of_stock].include? type.to_sym
+    %i[all in_stock expiring out_of_stock].include? type.to_sym
   end
 
   private
+
+  def valid_type?
+    return true if @type == :all
+    return true if @type == :in_stock
+    return true if @type == :expiring && expiring?
+    return true if @type == :out_of_stock && @data_lines.any?
+
+    false
+  end
 
   def location
     @location ||= @yaml_data[:location]
@@ -120,8 +126,10 @@ class DataFile
       data.reject(&:out_of_stock?).select { |l| l.expiring? || l.expired? }
     when :out_of_stock
       data.select(&:out_of_stock?)
-    else
+    when :in_stock
       data.reject(&:out_of_stock?)
+    else
+      data
     end
   end
   # rubocop:enable Metrics/CyclomaticComplexity
@@ -130,3 +138,4 @@ class DataFile
     File.exist? @file_path
   end
 end
+# rubocop:enable Metrics/ClassLength

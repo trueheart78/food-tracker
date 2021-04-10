@@ -4,7 +4,7 @@ RSpec.describe DataFile, type: :model do
   subject(:data_file) { described_class.new file, type: type }
 
   let(:file) { fixture_path 'basic_valid.yaml' }
-  let(:type) { :in_stock }
+  let(:type) { :all }
 
   describe '#valid?' do
     context 'when the file does exist' do
@@ -19,8 +19,8 @@ RSpec.describe DataFile, type: :model do
       it { is_expected.not_to be_valid }
     end
 
-    context 'when the type is :in_stock' do
-      let(:type) { :in_stock }
+    context 'when the type is :all' do
+      let(:type) { :all }
 
       it { is_expected.to be_valid }
     end
