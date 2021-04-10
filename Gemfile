@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# keep this in sync with .ruby-version, .rubocop.yml, and .circleci/config.yml
+# Heroku needs this. Keep this in sync with .ruby-version, .rubocop.yml, and .circleci/config.yml
 ruby '2.7.3'
 
 gem 'encrypted_cookie'
