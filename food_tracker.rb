@@ -4,7 +4,9 @@
 class FoodTracker < Sinatra::Base
   set :environment, Env.to_sym
 
-  use Rollbar::Middleware::Sinatra
+  use Honeybadger::Rack::UserInformer
+  use Honeybadger::Rack::UserFeedback
+
   include Helpers::FoodTracker
 
   before do
