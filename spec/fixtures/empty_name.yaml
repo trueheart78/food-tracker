@@ -1,0 +1,8 @@
+---
+:name: 
+:location: Counter
+:types:
+  - food
+
+:items:
+  - food name
