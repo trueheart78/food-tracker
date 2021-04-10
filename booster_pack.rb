@@ -3,4 +3,4 @@
 require_relative 'config/environment'
 require_relative 'init/bundler'
 require_relative 'init/zeitwerk'
-require_relative 'init/rollbar'
+require_relative 'init/honeybadger'
