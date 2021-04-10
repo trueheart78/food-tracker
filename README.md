@@ -27,15 +27,22 @@ Items also support a single "out of stock" flag.
   * Displays all environment variables available.
   * **Note:** Only available in the `development` environment.
 
-## Development
+## Tasks
 
-### Running the Server Locally
+#### Sort Data
 
-It is designed to be run with `Shotgun`, to enable code reloading without having to restart the
-server.
+Sorts the types and items in the `data/` YAML files, alphabetically.
 
+```sh
+./tasks/sort_data.rb
 ```
-bundle exec shotgun
+
+#### Date Detector (WIP)
+
+Sends an email with items that are expiring, expired, and out-of-stock.
+
+```sh
+./tasks/date_detector.rb
 ```
 
 ### Data Files
@@ -65,7 +72,19 @@ Each data file supports the use of the following notations (even multiple times 
 
 The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-order is required. These items will not show up on any page except the Out of Stock endpoint.
 
-## Default Environment File (.env)
+
+## Development
+
+### Running the Server Locally
+
+It is designed to be run with `Shotgun`, to enable code reloading without having to restart the
+server.
+
+```
+bundle exec shotgun
+```
+
+### Environment File (.env)
 
 Create a copy of the `.env` file, and then make sure to update it with relevant details:
 
