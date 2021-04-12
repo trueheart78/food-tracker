@@ -17,12 +17,14 @@ Items also support a single "out of stock" flag.
 
 * Index: `/`
   * Just a landing page, so as to not give site traversal to those that are unaware.
-* Kitchen: `/in-the-kitchen`
-  * Displays items in stock.
+* Kitchen: `/in-the-kitchen` 
+  * Displays items in stock that aren't fully expired.
 * Expiring: `/expiring`
   * Displays items expiring soon, already expired, and where the "best buy" date has passed.
 * Out of stock: `/out-of-stock`
   * Displays items that are out of stock.
+* All items: `/all-items`
+  * Displays all items, regardless of status. 
 * Environment: `/env`, `/environment`
   * Displays all environment variables available.
   * **Note:** Only available in the `development` environment.
