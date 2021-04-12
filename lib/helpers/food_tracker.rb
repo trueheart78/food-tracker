@@ -37,6 +37,8 @@ module Helpers
                              ['main.css', 'background-colors/expiring.css']
                            when :out_of_stock
                              ['main.css', 'background-colors/out_of_stock.css']
+                           when :all_items
+                             ['main.css', 'background-colors/all_items.css']
                            when :environment_vars
                              ['main.css', 'environment_vars.css']
                            else
@@ -64,12 +66,15 @@ module Helpers
     end
     # rubocop:enable Metrics/MethodLength
 
+    # rubocop:disable Metrics/MethodLength
     def insert_assigned_color(site)
       site[:color] = case site[:style]
                      when :expiring
                        '#ffc0cb'
                      when :out_of_stock
                        '#add8e6'
+                     when :all_items
+                       '#e9ffdb'
                      when :environment_vars
                        '#ffffff'
                      else
@@ -77,6 +82,7 @@ module Helpers
                      end
       site
     end
+    # rubocop:enable Metrics/MethodLength
 
     def image(name, request: nil)
       return [Env.host(request), 'images', name].join('/') if request

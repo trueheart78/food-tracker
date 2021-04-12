@@ -56,6 +56,7 @@ class FoodTracker < Sinatra::Base
     @data_files = DataFile.load(type: :all).select(&:display?)
 
     @site[:title] = 'All Items'
+    @site[:style] = :all_items
 
     site_erb :all
   end
