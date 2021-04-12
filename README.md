@@ -31,7 +31,7 @@ Items also support a single "out of stock" flag.
 
 ## Tasks
 
-#### Sort Data
+### Sort Data
 
 Sorts the types and items in the `data/` YAML files, alphabetically.
 
@@ -39,7 +39,7 @@ Sorts the types and items in the `data/` YAML files, alphabetically.
 ./tasks/sort_data.rb
 ```
 
-#### Date Detector (WIP)
+### Date Detector (WIP)
 
 Sends an email with items that are expiring, expired, and out-of-stock.
 
@@ -47,19 +47,19 @@ Sends an email with items that are expiring, expired, and out-of-stock.
 ./tasks/date_detector.rb
 ```
 
-### Data Files
+## Data Files
 
 Utilizes YAML files, which are located in the `data/` directory.
 
-#### Locations
+### Locations
 
 Default locations are defined in the data files.
 
-#### Types
+### Types
 
 Assigned types are defined in the data files.
 
-#### Notations
+### Notations
 
 Each data file supports the use of the following notations (even multiple times per entry):
 
@@ -70,7 +70,7 @@ Each data file supports the use of the following notations (even multiple times 
 
 **Note:** For each entry, spacing between the notations does not matter, neither does the order.
 
-##### Out of Stock
+#### Out of Stock
 
 The only limited notation is for the "out of stock" marker, which is denoted by `^oos^`. These are items that are generally available, so a re-order is required. These items will not show up on any page except the Out of Stock endpoint.
 
