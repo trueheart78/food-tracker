@@ -33,12 +33,8 @@ module Helpers
 
     def insert_stylesheets(site)
       site[:stylesheets] = case site[:style]
-                           when :expiring
-                             ['main.css', 'background-colors/expiring.css']
-                           when :out_of_stock
-                             ['main.css', 'background-colors/out_of_stock.css']
-                           when :all_items
-                             ['main.css', 'background-colors/all_items.css']
+                           when :expiring, :out_of_stock, :all_items
+                             ['main.css', "background-colors/#{site[:style]}.css"]
                            when :environment_vars
                              ['main.css', 'environment_vars.css']
                            else
