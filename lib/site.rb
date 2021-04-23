@@ -22,25 +22,16 @@ class Site
     @show_footer
   end
 
+  def png_url
+    image "#{@icon}.png", full_url: true
+  end
+
   def png
     image "#{@icon}.png"
   end
 
   def gif
     image "#{@icon}-rotating.gif"
-  end
-
-  def settings
-    {
-      url:         @url,
-      image:       image("#{@icon}.png", full_url: true),
-      twitter:     {}, # twitter_settings,
-      domain:      @domain,
-      title:       @title,
-      description: @description,
-      style:       @style,
-      show_footer: @show_footer
-    }
   end
 
   private
