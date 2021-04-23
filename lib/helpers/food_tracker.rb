@@ -12,7 +12,7 @@ module Helpers
 
     def site_settings(request)
       {
-        url:         Env.host(request),
+        url:         Env.url(request),
         image:       image("#{site_icon}.png", request: request),
         twitter:     twitter_settings,
         domain:      Env.domain(request),
@@ -81,7 +81,7 @@ module Helpers
     # rubocop:enable Metrics/MethodLength
 
     def image(name, request: nil)
-      return [Env.host(request), 'images', name].join('/') if request
+      return [Env.url(request), 'images', name].join('/') if request
 
       ['/images', name].join '/'
     end

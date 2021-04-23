@@ -47,7 +47,7 @@ class Env
       ENV['TWITTER_SITE']
     end
 
-    def host(request)
+    def url(request)
       request.base_url
     end
 
