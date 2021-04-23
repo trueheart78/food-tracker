@@ -42,8 +42,5 @@ jobs:
         paths:
           - vendor/bundle
 
-      # Run the tests
+      # Run the tests - they include RuboCop
       - run: bundle exec rspec
-
-      # Run rubocop
-      - run: bundle exec rubocop
