@@ -50,4 +50,16 @@ RSpec.describe Site, type: :model do
       it { is_expected.to eq false }
     end
   end
+
+  describe '#png' do
+    subject(:png) { default_site.png }
+
+    it { is_expected.to eq '/images/hamburger.png' }
+  end
+
+  describe '#gif' do
+    subject(:gif) { default_site.gif }
+
+    it { is_expected.to eq '/images/hamburger-rotating.gif' }
+  end
 end
