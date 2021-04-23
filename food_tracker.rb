@@ -15,11 +15,18 @@ class FoodTracker < Sinatra::Base
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
 
     @site = site_settings request
+    @xsite = Site.new url: Env.url(request), domain: Env.domain(request)
+    @twitter = OpenStruct.new creator:   Env.twitter_creator,
+                              site:      Env.twitter_site,
+                              image_alt: @xsite.icon
   end
 
   get '/' do
     @image = site_image
     @site[:show_footer] = false unless settings.development?
+
+    @image = @xsite.png
+    @xsite.disable_footer unless settings.development?
 
     site_erb :index
   end
@@ -28,6 +35,7 @@ class FoodTracker < Sinatra::Base
     @data_files = DataFile.load(type: :in_stock).select(&:display?)
 
     @site[:title] = 'In The Kitchen'
+    @xsite.title = 'In The Kitchen'
 
     site_erb :kitchen
   end
@@ -39,6 +47,10 @@ class FoodTracker < Sinatra::Base
     @site[:style] = :expiring
     @success_gif = site_gif
 
+    @xsite.title = 'Expiring'
+    @xsite.style = :expiring
+    @success_gif = @xsite.gif
+
     site_erb :expiring
   end
 
@@ -49,6 +61,10 @@ class FoodTracker < Sinatra::Base
     @site[:style] = :out_of_stock
     @success_gif = site_gif
 
+    @xsite.title = 'Out of Stock'
+    @xsite.style = :out_of_stock
+    @success_gif = @site.gif
+
     site_erb :out_of_stock
   end
 
@@ -57,6 +73,9 @@ class FoodTracker < Sinatra::Base
 
     @site[:title] = 'All Items'
     @site[:style] = :all_items
+
+    @xsite.title = 'All Items'
+    @xsite.style = :all_items
 
     site_erb :all
   end
@@ -70,6 +89,9 @@ class FoodTracker < Sinatra::Base
 
     @site[:title] = 'Environment Variables'
     @site[:style] = :environment_vars
+
+    @xsite.title = 'Environment Variables'
+    @xsite.style = :environment_vars
 
     site_erb :environment
   end
