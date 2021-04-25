@@ -45,11 +45,9 @@ class FoodTracker < Sinatra::Base
 
     @site[:title] = 'Expiring'
     @site[:style] = :expiring
-    @success_gif = site_gif
 
     @xsite.title = 'Expiring'
     @xsite.style = :expiring
-    @success_gif = @xsite.gif
 
     site_erb :expiring
   end
@@ -59,11 +57,9 @@ class FoodTracker < Sinatra::Base
 
     @site[:title] = 'Out of Stock'
     @site[:style] = :out_of_stock
-    @success_gif = site_gif
 
     @xsite.title = 'Out of Stock'
     @xsite.style = :out_of_stock
-    @success_gif = @site.gif
 
     site_erb :out_of_stock
   end
