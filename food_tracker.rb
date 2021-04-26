@@ -28,6 +28,7 @@ class FoodTracker < Sinatra::Base
     @data_files = DataFile.load(type: :in_stock).select(&:display?)
 
     @site.title = 'In The Kitchen'
+    @site.style = :in_stock
 
     erb :kitchen
   end
