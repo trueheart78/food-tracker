@@ -36,7 +36,7 @@ class Site
 
   def stylesheets
     case style
-    when :expiring, :out_of_stock, :all_items
+    when :in_stock, :expiring, :out_of_stock, :all_items
       ['main.css', "background-colors/#{style}.css"]
     when :environment_vars
       ['main.css', 'environment_vars.css']
@@ -60,8 +60,11 @@ class Site
     end
   end
 
+  # rubocop:disable Metrics/MethodLength
   def color
     case style
+    when :in_stock
+      '#ffdb57' # hamburger yellow
     when :expiring
       '#ffc0cb' # pink
     when :out_of_stock
@@ -74,6 +77,7 @@ class Site
       '#ffdb58' # hamburger yellow
     end
   end
+  # rubocop:enable Metrics/MethodLength
 
   private
 

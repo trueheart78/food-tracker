@@ -68,4 +68,106 @@ RSpec.describe Site, type: :model do
 
     it { is_expected.to eq '/images/hamburger-rotating.gif' }
   end
+
+  describe '#stylesheets' do
+    subject(:stylesheets) { default_site.stylesheets }
+
+    context 'when style is :in_stock' do
+      before { default_site.style = :in_stock }
+
+      it { is_expected.to eq ['main.css', 'background-colors/in_stock.css'] }
+    end
+
+    context 'when style is :expiring' do
+      before { default_site.style = :expiring }
+
+      it { is_expected.to eq ['main.css', 'background-colors/expiring.css'] }
+    end
+
+    context 'when style is :out_of_stock' do
+      before { default_site.style = :out_of_stock }
+
+      it { is_expected.to eq ['main.css', 'background-colors/out_of_stock.css'] }
+    end
+
+    context 'when style is :all_items' do
+      before { default_site.style = :all_items }
+
+      it { is_expected.to eq ['main.css', 'background-colors/all_items.css'] }
+    end
+
+    context 'when style is :environment_vars' do
+      before { default_site.style = :environment_vars }
+
+      it { is_expected.to eq ['main.css', 'environment_vars.css'] }
+    end
+
+    context 'when style is anything else' do
+      before { default_site.style = :anything_else }
+
+      it { is_expected.to eq ['main.css', 'background-colors/default.css'] }
+    end
+  end
+
+  describe '#touch_icons' do
+    subject(:touch_icons) { default_site.touch_icons }
+
+    context 'when style is :expiring' do
+      before { default_site.style = :expiring }
+
+      it { is_expected.to include default: 'apple-touch-icon-expiring.png', precomposed: 'apple-touch-icon-procomposed-expiring.png' }
+    end
+
+    context 'when style is :out_of_stock' do
+      before { default_site.style = :out_of_stock }
+
+      it { is_expected.to include default: 'apple-touch-icon-out-of-stock.png', precomposed: 'apple-touch-icon-procomposed-out-of-stock.png' }
+    end
+
+    context 'when style is anything else' do
+      before { default_site.style = :anything_else }
+
+      it { is_expected.to include default: 'apple-touch-icon.png', precomposed: 'apple-touch-icon-procomposed.png' }
+    end
+  end
+
+  describe '#color' do
+    subject(:color) { default_site.color }
+
+    context 'when style is :in_stock' do
+      before { default_site.style = :in_stock }
+
+      it { is_expected.to eq '#ffdb57' }
+    end
+
+    context 'when style is :expiring' do
+      before { default_site.style = :expiring }
+
+      it { is_expected.to eq '#ffc0cb' }
+    end
+
+    context 'when style is :out_of_stock' do
+      before { default_site.style = :out_of_stock }
+
+      it { is_expected.to eq '#add8e6' }
+    end
+
+    context 'when style is :all_items' do
+      before { default_site.style = :all_items }
+
+      it { is_expected.to eq '#e9ffdb' }
+    end
+
+    context 'when style is :environment_vars' do
+      before { default_site.style = :environment_vars }
+
+      it { is_expected.to eq '#ffffff' }
+    end
+
+    context 'when style is anything else' do
+      before { default_site.style = :anything_else }
+
+      it { is_expected.to eq '#ffdb58' }
+    end
+  end
 end
