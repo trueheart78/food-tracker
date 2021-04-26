@@ -23,21 +23,21 @@ class Site
   end
 
   def png_url
-    image "#{@icon}.png", full_url: true
+    image "#{icon}.png", full_url: true
   end
 
   def png
-    image "#{@icon}.png"
+    image "#{icon}.png"
   end
 
   def gif
-    image "#{@icon}-rotating.gif"
+    image "#{icon}-rotating.gif"
   end
 
   private
 
   def image(name, full_url: false)
-    return [@url, 'images', name].join('/') if full_url
+    return [url, 'images', name].join('/') if full_url
 
     ['/images', name].join '/'
   end
