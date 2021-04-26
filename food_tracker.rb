@@ -14,7 +14,6 @@ class FoodTracker < Sinatra::Base
 
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
 
-    @site = site_settings request
     @xsite = Site.new url: Env.url(request), domain: Env.domain(request)
     @twitter = OpenStruct.new creator:   Env.twitter_creator,
                               site:      Env.twitter_site,
@@ -22,56 +21,44 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/' do
-    @site[:show_footer] = false unless settings.development?
-
     @xsite.disable_footer unless settings.development?
 
-    site_erb :index
+    erb :index
   end
 
   get '/in-the-kitchen' do
     @data_files = DataFile.load(type: :in_stock).select(&:display?)
 
-    @site[:title] = 'In The Kitchen'
     @xsite.title = 'In The Kitchen'
 
-    site_erb :kitchen
+    erb :kitchen
   end
 
   get '/expiring' do
     @data_files = DataFile.load(type: :expiring).select(&:display?)
 
-    @site[:title] = 'Expiring'
-    @site[:style] = :expiring
-
     @xsite.title = 'Expiring'
     @xsite.style = :expiring
 
-    site_erb :expiring
+    erb :expiring
   end
 
   get '/out-of-stock' do
     @data_files = DataFile.load(type: :out_of_stock).select(&:display?)
 
-    @site[:title] = 'Out of Stock'
-    @site[:style] = :out_of_stock
-
     @xsite.title = 'Out of Stock'
     @xsite.style = :out_of_stock
 
-    site_erb :out_of_stock
+    erb :out_of_stock
   end
 
   get '/all-items' do
     @data_files = DataFile.load(type: :all).select(&:display?)
 
-    @site[:title] = 'All Items'
-    @site[:style] = :all_items
-
     @xsite.title = 'All Items'
     @xsite.style = :all_items
 
-    site_erb :all
+    erb :all
   end
 
   get '/env' do
@@ -81,13 +68,10 @@ class FoodTracker < Sinatra::Base
   get '/environment' do
     redirect '/' unless settings.development?
 
-    @site[:title] = 'Environment Variables'
-    @site[:style] = :environment_vars
-
     @xsite.title = 'Environment Variables'
     @xsite.style = :environment_vars
 
-    site_erb :environment
+    erb :environment
   end
 
   # catch-all routes
@@ -100,14 +84,6 @@ class FoodTracker < Sinatra::Base
   end
 
   private
-
-  def site_erb(view)
-    @site = insert_touch_icons @site
-    @site = insert_stylesheets @site
-    @site = insert_assigned_color @site
-
-    erb view.to_sym
-  end
 
   def set_header_restrictions
     # strict-origin-when-cross-origin is also valid
