@@ -156,4 +156,33 @@ RSpec.describe Env do
       end
     end
   end
+
+  describe '.url' do
+    let(:request) { dummy_request url: 'https://food-tracker.com' }
+
+    it 'returns the request\'s base_url' do
+      expect(described_class.url(request)).to eq request.base_url
+    end
+  end
+
+  describe '.domain' do
+    let(:request) { dummy_request url: url }
+    let(:domain)  { 'food-tracker.com' }
+
+    context 'with a secure protocol' do
+      let(:url) { "https://#{domain}" }
+
+      it 'returns the domain without the secure protocol' do
+        expect(described_class.domain(request)).to eq domain
+      end
+    end
+
+    context 'with an insecure protocol' do
+      let(:url) { "http://#{domain}" }
+
+      it 'returns the domain without the insecure protocol' do
+        expect(described_class.domain(request)).to eq domain
+      end
+    end
+  end
 end
