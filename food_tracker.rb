@@ -72,6 +72,15 @@ class FoodTracker < Sinatra::Base
     erb :environment
   end
 
+  get '/stylesheets/background-colors/:style.css' do
+    @site.style = params[:style].to_sym
+
+    headers 'Content-Type' => 'text/css'
+    headers 'Content-Length' => css.length
+
+    css
+  end
+
   # catch-all routes
   get '/*' do
     redirect '/'
@@ -82,6 +91,10 @@ class FoodTracker < Sinatra::Base
   end
 
   private
+
+  def css
+    "body {\n  background-color: #{@site.color};\n}\n"
+  end
 
   def set_header_restrictions
     # strict-origin-when-cross-origin is also valid
