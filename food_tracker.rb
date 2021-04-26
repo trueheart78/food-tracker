@@ -7,8 +7,6 @@ class FoodTracker < Sinatra::Base
   use Honeybadger::Rack::UserInformer
   use Honeybadger::Rack::UserFeedback
 
-  include Helpers::FoodTracker
-
   before do
     set_header_restrictions
 
