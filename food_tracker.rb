@@ -14,14 +14,14 @@ class FoodTracker < Sinatra::Base
 
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
 
-    @xsite = Site.new url: Env.url(request), domain: Env.domain(request)
+    @site = Site.new url: Env.url(request), domain: Env.domain(request)
     @twitter = OpenStruct.new creator:   Env.twitter_creator,
                               site:      Env.twitter_site,
-                              image_alt: @xsite.icon
+                              image_alt: @site.icon
   end
 
   get '/' do
-    @xsite.disable_footer unless settings.development?
+    @site.disable_footer unless settings.development?
 
     erb :index
   end
@@ -29,7 +29,7 @@ class FoodTracker < Sinatra::Base
   get '/in-the-kitchen' do
     @data_files = DataFile.load(type: :in_stock).select(&:display?)
 
-    @xsite.title = 'In The Kitchen'
+    @site.title = 'In The Kitchen'
 
     erb :kitchen
   end
@@ -37,8 +37,8 @@ class FoodTracker < Sinatra::Base
   get '/expiring' do
     @data_files = DataFile.load(type: :expiring).select(&:display?)
 
-    @xsite.title = 'Expiring'
-    @xsite.style = :expiring
+    @site.title = 'Expiring'
+    @site.style = :expiring
 
     erb :expiring
   end
@@ -46,8 +46,8 @@ class FoodTracker < Sinatra::Base
   get '/out-of-stock' do
     @data_files = DataFile.load(type: :out_of_stock).select(&:display?)
 
-    @xsite.title = 'Out of Stock'
-    @xsite.style = :out_of_stock
+    @site.title = 'Out of Stock'
+    @site.style = :out_of_stock
 
     erb :out_of_stock
   end
@@ -55,8 +55,8 @@ class FoodTracker < Sinatra::Base
   get '/all-items' do
     @data_files = DataFile.load(type: :all).select(&:display?)
 
-    @xsite.title = 'All Items'
-    @xsite.style = :all_items
+    @site.title = 'All Items'
+    @site.style = :all_items
 
     erb :all
   end
@@ -68,8 +68,8 @@ class FoodTracker < Sinatra::Base
   get '/environment' do
     redirect '/' unless settings.development?
 
-    @xsite.title = 'Environment Variables'
-    @xsite.style = :environment_vars
+    @site.title = 'Environment Variables'
+    @site.style = :environment_vars
 
     erb :environment
   end

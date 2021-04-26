@@ -1,34 +1,34 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= @xsite.title %></title>
+    <title><%= @site.title %></title>
     
     <!-- open graph tags -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="<%= @xsite.url %>" />
-    <meta property="og:title" content="<%= @xsite.title %>" />
-    <meta property="og:description" content="<%= @xsite.description %>" />
-    <meta property="og:image" content="<%= @xsite.png_url %>" />
+    <meta property="og:url" content="<%= @site.url %>" />
+    <meta property="og:title" content="<%= @site.title %>" />
+    <meta property="og:description" content="<%= @site.description %>" />
+    <meta property="og:image" content="<%= @site.png_url %>" />
     
     <% if Env.twitter_handle? %>
       <!-- twitter card tags - additive with the open graph tags -->
       <meta property="twitter:card" content="summary_large_image" />
       <meta property="twitter:site" content="<%= @twitter.site %>" />
       <meta property="twitter:creator" content="<%= @twitter.creator %>" />
-      <meta property="twitter:domain" content="<%= @xsite.domain %>" />
-      <meta property="twitter:title" content="<%= @xsite.title %>" />
-      <meta property="twitter:description" content="<%= @xsite.description %>" />
-      <meta property="twitter:image" content="<%= @xsite.png_url %>" />
+      <meta property="twitter:domain" content="<%= @site.domain %>" />
+      <meta property="twitter:title" content="<%= @site.title %>" />
+      <meta property="twitter:description" content="<%= @site.description %>" />
+      <meta property="twitter:image" content="<%= @site.png_url %>" />
       <meta property="twitter:image:alt" content="<%= @twitter.image_alt %>" />
-      <meta property="twitter:url" content="<%= @xsite.url %>" />
+      <meta property="twitter:url" content="<%= @site.url %>" />
     <% end %>
 
-    <%= erb :_icons, locals: { color: @xsite.color, touch_icon: @xsite.touch_icons[:default], precomposed_icon: @xsite.touch_icons[:precomposed] } %>
-    <%= erb :_style, locals: { stylesheets: @xsite.stylesheets } %>
+    <%= erb :_icons, locals: { color: @site.color, touch_icon: @site.touch_icons[:default], precomposed_icon: @site.touch_icons[:precomposed] } %>
+    <%= erb :_style, locals: { stylesheets: @site.stylesheets } %>
   </head>
   <body>
     <%= yield %>
-    <% if @xsite.footer? %>
+    <% if @site.footer? %>
       <%= erb :_footer, locals: {} %>
     <% end %>
   </body>
