@@ -15,10 +15,6 @@ class Env
       ENV['APP_ENV'] == 'test'
     end
 
-    def to_s
-      ENV['APP_ENV']
-    end
-
     def to_sym
       ENV['APP_ENV'].to_sym
     end
