@@ -34,11 +34,56 @@ class Site
     image "#{icon}-rotating.gif"
   end
 
+  def stylesheets
+    case style
+    when :expiring, :out_of_stock, :all_items
+      ['main.css', "background-colors/#{style}.css"]
+    when :environment_vars
+      ['main.css', 'environment_vars.css']
+    else
+      ['main.css', 'background-colors/default.css']
+    end
+  end
+
+  def touch_icons
+    case style
+    when :expiring, :out_of_stock
+      {
+        default:     "apple-touch-icon-#{type}.png",
+        precomposed: "apple-touch-icon-procomposed-#{type}.png"
+      }
+    else
+      {
+        default:     'apple-touch-icon.png',
+        precomposed: 'apple-touch-icon-procomposed.png'
+      }
+    end
+  end
+
+  def color
+    case style
+    when :expiring
+      '#ffc0cb'
+    when :out_of_stock
+      '#add8e6'
+    when :all_items
+      '#e9ffdb'
+    when :environment_vars
+      '#ffffff'
+    else
+      '#ffdb58'
+    end
+  end
+
   private
 
   def image(name, full_url: false)
     return [url, 'images', name].join('/') if full_url
 
     ['/images', name].join '/'
+  end
+
+  def type
+    style.to_s.tr('_', '-')
   end
 end
