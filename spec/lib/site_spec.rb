@@ -51,6 +51,12 @@ RSpec.describe Site, type: :model do
     end
   end
 
+  describe '#png_url' do
+    subject(:png_url) { default_site.png_url }
+
+    it { is_expected.to eq "#{url}/images/hamburger.png" }
+  end
+
   describe '#png' do
     subject(:png) { default_site.png }
 
