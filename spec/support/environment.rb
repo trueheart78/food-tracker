@@ -8,12 +8,9 @@ module Support
 
     def set_env(name, value)
       name = name.to_s
-      value = value.to_s
-
-      raise "Cache already exists for #{name}: #{cached_vars[name]}" if cached_vars.key? name
 
       cached_vars[name] = ENV[name]
-      ENV[name] = value
+      ENV[name] = value.to_s
     end
 
     def restore_env(name: nil)
