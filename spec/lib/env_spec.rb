@@ -56,4 +56,66 @@ RSpec.describe Env do
       end
     end
   end
+
+  describe '.to_sym' do
+    context 'when the test environment' do
+      before { set_env :APP_ENV, :test }
+
+      it 'is the symbol version' do
+        expect(described_class.to_sym).to eq :test
+      end
+    end
+  end
+
+  describe '.twitter_handle?' do
+    context 'when the twitter_creator has content' do
+      before { set_env :TWITTER_CREATOR, :username }
+
+      it 'is true' do
+        expect(described_class.twitter_handle?).to eq true
+      end
+    end
+
+    context 'when the twitter_creator is empty' do
+      before { set_env :TWITTER_CREATOR, '' }
+
+      it 'is true' do
+        expect(described_class.twitter_handle?).to eq false
+      end
+    end
+  end
+
+  describe '.twitter_creator' do
+    context 'when the environment variable is unset' do
+      before { set_env :TWITTER_CREATOR, nil }
+
+      it 'returns an empty string' do
+        expect(described_class.twitter_creator).to eq ''
+      end
+    end
+
+    context 'when the environment variable is empty' do
+      before { set_env :TWITTER_CREATOR, '' }
+
+      it 'returns an empty string' do
+        expect(described_class.twitter_creator).to eq ''
+      end
+    end
+
+    context 'when the environment variable does not have a leading @' do
+      before { set_env :TWITTER_CREATOR, :username }
+
+      it 'returns the username with a leading @' do
+        expect(described_class.twitter_creator).to eq '@username'
+      end
+    end
+
+    context 'when the environment variable has a leading @' do
+      before { set_env :TWITTER_CREATOR, '@username' }
+
+      it 'returns the username' do
+        expect(described_class.twitter_creator).to eq '@username'
+      end
+    end
+  end
 end
