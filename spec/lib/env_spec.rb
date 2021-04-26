@@ -185,4 +185,38 @@ RSpec.describe Env do
       end
     end
   end
+
+  describe '.force_ssl?' do
+    context 'when in the production environment' do
+      before { set_env :APP_ENV, :production }
+
+      let(:request) { dummy_request url: '', ssl: ssl }
+
+      context 'when SSL is enabled' do
+        let(:ssl) { true }
+
+        it 'returns false' do
+          expect(described_class.force_ssl?(request)).to eq false
+        end
+      end
+
+      context 'when SSL is not enabled' do
+        let(:ssl) { false }
+
+        it 'returns true' do
+          expect(described_class.force_ssl?(request)).to eq true
+        end
+      end
+    end
+
+    context 'when not in the production environment' do
+      before { set_env :APP_ENV, :test }
+
+      let(:request) { dummy_request url: '', ssl: true }
+
+      it 'returns false' do
+        expect(described_class.force_ssl?(request)).to eq false
+      end
+    end
+  end
 end
