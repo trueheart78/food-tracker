@@ -63,15 +63,15 @@ class Site
   def color
     case style
     when :expiring
-      '#ffc0cb'
+      '#ffc0cb' # pink
     when :out_of_stock
-      '#add8e6'
+      '#add8e6' # light blue
     when :all_items
-      '#e9ffdb'
+      '#e9ffdb' # nyanza
     when :environment_vars
-      '#ffffff'
+      '#ffffff' # white
     else
-      '#ffdb58'
+      '#ffdb58' # hamburger yellow
     end
   end
 
