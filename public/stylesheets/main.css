@@ -1,6 +1,6 @@
-div, p, span {
+div, p, span, a {
   font-family: Arial;
-  font-size: 16pt;
+  font-size: 20pt;
 }
 
 #page, #page-footer {
@@ -26,18 +26,16 @@ div, p, span {
 }
 
 #footer a {
-  font-size: 24pt !important;
+  font-size: 28pt !important;
   text-decoration: none !important;
 }
 
 a {
   color: black;
-  font-family: Arial;
-  font-size: 16pt;
 }
 
 h1.embiggen {
-  font-size: 24pt;
+  font-size: 28pt;
 }
 
 div.double-spaced {
@@ -49,7 +47,7 @@ div.spaced {
 }
 
 b.embiggen {
-  font-size: 18pt;
+  font-size: 24;
 }
 
 ol {
