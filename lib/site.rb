@@ -34,6 +34,10 @@ class Site
     image "#{icon}-rotating.gif"
   end
 
+  def type
+    style.to_s.tr('_', ' ')
+  end
+
   def stylesheets
     case style
     when :in_stock, :expiring, :out_of_stock, :all_items
@@ -49,8 +53,8 @@ class Site
     case style
     when :expiring, :out_of_stock
       {
-        default:     "apple-touch-icon-#{type}.png",
-        precomposed: "apple-touch-icon-procomposed-#{type}.png"
+        default:     "apple-touch-icon-#{transpose}.png",
+        precomposed: "apple-touch-icon-procomposed-#{transpose}.png"
       }
     else
       {
@@ -87,7 +91,7 @@ class Site
     ['/images', name].join '/'
   end
 
-  def type
+  def transpose
     style.to_s.tr('_', '-')
   end
 end

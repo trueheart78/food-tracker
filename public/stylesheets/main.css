@@ -3,8 +3,26 @@ div, p, span {
   font-size: 14pt;
 }
 
+#page, #page-footer {
+  justify-content: center;
+  margin: 0 auto;
+  width: 800px;
+}
+
+#header, #center {
+  width: 100%;
+  text-align: center;
+}
+
+#navigation, #content {
+  width: 100%;
+  text-align: left;
+}
+
 #footer {
   margin-top: 30px;
+  width: 100%;
+  text-align: center;
 }
 
 #footer a {
@@ -19,7 +37,23 @@ a {
 }
 
 h1.embiggen {
-  font-size: 20pt;
+  font-size: 24pt;
+}
+
+div.double-spaced {
+  padding-top: 20px;
+}
+
+div.spaced {
+  padding-top: 10px;
+}
+
+strong.embiggen {
+  font-size: 18pt;
+}
+
+ol {
+  margin: 0;
 }
 
 .unexpired {
@@ -32,16 +66,4 @@ h1.embiggen {
 
 .expired {
   color: red;
-}
-
-div.page-width {
-  width: 800px;
-}
-
-.on-your-left {
-  text-align: left;
-}
-
-.dead-center {
-  text-align: center;
 }

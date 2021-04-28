@@ -6,14 +6,14 @@ class DataFile
 
   attr_reader :errors
 
-  def initialize(file_path, type: :all)
+  def initialize(file_path, type: :all_items)
     @file_path = file_path
     @data_lines = nil
     @errors = []
 
     raise InvalidType, "Unsupported type: :#{type}" unless self.class.supported_type? type
 
-    @type = type
+    @type = type.to_sym
 
     parse_yaml_file
   rescue InvalidType => e
@@ -48,16 +48,8 @@ class DataFile
     true
   end
 
-  def empty?
-    @type == :in_stock && @data_lines.empty?
-  end
-
   def to_html
-    if empty?
-      '<ol><li>🦖</li></ol>'
-    else
-      "<ol>#{@data_lines.map(&:to_html).join}</ol>"
-    end
+    "<ol>#{@data_lines.map(&:to_html).join}</ol>"
   end
 
   def name
@@ -84,13 +76,13 @@ class DataFile
   end
 
   def self.supported_type?(type)
-    %i[all in_stock expiring out_of_stock].include? type.to_sym
+    %i[all_items in_stock expiring out_of_stock].include? type.to_sym
   end
 
   private
 
   def valid_type?
-    return true if @type == :all
+    return true if @type == :all_items
     return true if @type == :in_stock
     return true if @type == :expiring && expiring?
     return true if @type == :out_of_stock && @data_lines.any?
@@ -115,8 +107,17 @@ class DataFile
   def parse_yaml_file
     return unless load_yaml_data
 
-    data = @yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
+    data = if show_everything?
+             @yaml_data[:items].uniq.map { |s| DataLine.new s, location: location }
+           else
+             @yaml_data[:items].uniq.reject(&:empty?).map { |s| DataLine.new s, location: location }
+           end
+
     @data_lines = select_data data
+  end
+
+  def show_everything?
+    %i[in_stock all_items].include? @type
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity

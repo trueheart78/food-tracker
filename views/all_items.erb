@@ -1,0 +1,5 @@
+<div id='page'>
+  <%= erb :_header, locals: { title: '📚 All Items 📚' } %>
+  <%= erb :_navigation, locals: { data_files: @data_files } %>
+  <%= erb :_data_files, locals: { data_files: @data_files } %>
+</div>

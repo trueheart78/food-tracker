@@ -1,0 +1,5 @@
+<div id='content'>
+  <% data_files.each do |data_file| %>
+    <%= erb :_data_file, locals: { data_file: data_file } %>
+  <% end %>
+</div>

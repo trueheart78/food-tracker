@@ -1,0 +1,5 @@
+<div id='navigation'>
+  <% data_files.each do |data_file| %>
+    <%= '•' unless data_file == data_files.first %> <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
+  <% end %>
+</div>

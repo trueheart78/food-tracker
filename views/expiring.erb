@@ -1,33 +1,12 @@
-<div align='center'>
-  <a name='page_top'></a>
-  <div class='page-width dead-center'>
-    <h1 class='embiggen'>📅 Expiring 📅</h1>
-  </div>
+<div id='page'>
+  <%= erb :_header, locals: { title: '📅 Expiring 📅' } %>
   <% if @data_files.any? %>
-    <div class='page-width on-your-left'>
-      <% @data_files.each do |data_file| %>
-        <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
-        <%= '•' unless data_file == @data_files.last %> 
-      <% end %>
-    </div>
-    <div class='page-width on-your-left'>
-      <% @data_files.each do |data_file| %>
-        <a name='<%= data_file.safe_name %>'></a>
-        <p>
-        <%= erb :_data_file, locals: { data_file: data_file } %>
-        </p>
-      <% end %>
-    </div>
+    <%= erb :_navigation, locals: { data_files: @data_files } %>
+    <%= erb :_data_files, locals: { data_files: @data_files } %>
   <% else %>
-    <div align='center'>
-      <div class='page-width dead-center'>
-        <p>
-        <img src="<%= @site.gif %>" alt="Rotating <%= @site.icon %>" />
-        </p>
-        <p>
-        No expiring food!
-        </p>
-      </div>
-    </div>
+    <%= erb :_no_items, locals: { image: @site.gif,
+                                  icon: @site.icon,
+                                  type: @site.type
+                                } %>
   <% end %>
 </div>
