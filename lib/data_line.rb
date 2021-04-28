@@ -75,7 +75,7 @@ class DataLine
 
   def valid?
     return false if @string.nil?
-    return false if empty?
+    # return false if empty?
     return false if @errors.any?
 
     true
@@ -94,8 +94,10 @@ class DataLine
   end
 
   def to_html
+    return '<li>🦖</li>' if empty?
+
     html = [@string, expiration_html].join(' ')
-    "<li title=\"#{safe_name}\">#{html}</li>\n"
+    "<li>#{html}</li>\n"
   end
 
   private

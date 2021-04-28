@@ -13,7 +13,7 @@ class DataFile
 
     raise InvalidType, "Unsupported type: :#{type}" unless self.class.supported_type? type
 
-    @type = type
+    @type = type.to_sym
 
     parse_yaml_file
   rescue InvalidType => e
@@ -48,16 +48,8 @@ class DataFile
     true
   end
 
-  def empty?
-    @type == :in_stock && @data_lines.empty?
-  end
-
   def to_html
-    if empty?
-      '<ol><li>🦖</li></ol>'
-    else
-      "<ol>#{@data_lines.map(&:to_html).join}</ol>"
-    end
+    "<ol>#{@data_lines.map(&:to_html).join}</ol>"
   end
 
   def name
@@ -115,8 +107,17 @@ class DataFile
   def parse_yaml_file
     return unless load_yaml_data
 
-    data = @yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
+    data = if show_everything?
+             @yaml_data[:items].map { |s| DataLine.new s, location: location }
+           else
+             @yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
+           end
+
     @data_lines = select_data data
+  end
+
+  def show_everything?
+    %i[in_stock all_items].include? @type
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity
