@@ -7,58 +7,57 @@ class FoodTracker < Sinatra::Base
   use Honeybadger::Rack::UserInformer
   use Honeybadger::Rack::UserFeedback
 
-  include Helpers::FoodTracker
-
   before do
     set_header_restrictions
 
     redirect(request.url.sub('http', 'https'), 308) if Env.force_ssl? request
 
-    @site = site_settings request
+    @site = Site.new url: Env.url(request), domain: Env.domain(request)
+    @twitter = OpenStruct.new creator:   Env.twitter_creator,
+                              site:      Env.twitter_site,
+                              image_alt: @site.icon
   end
 
   get '/' do
-    @image = site_image
-    @site[:show_footer] = false unless settings.development?
+    @site.disable_footer unless settings.development?
 
-    site_erb :index
+    erb :index
   end
 
   get '/in-the-kitchen' do
     @data_files = DataFile.load(type: :in_stock).select(&:display?)
 
-    @site[:title] = 'In The Kitchen'
+    @site.title = 'In The Kitchen'
+    @site.style = :in_stock
 
-    site_erb :kitchen
+    erb :kitchen
   end
 
   get '/expiring' do
     @data_files = DataFile.load(type: :expiring).select(&:display?)
 
-    @site[:title] = 'Expiring'
-    @site[:style] = :expiring
-    @success_gif = site_gif
+    @site.title = 'Expiring'
+    @site.style = :expiring
 
-    site_erb :expiring
+    erb :expiring
   end
 
   get '/out-of-stock' do
     @data_files = DataFile.load(type: :out_of_stock).select(&:display?)
 
-    @site[:title] = 'Out of Stock'
-    @site[:style] = :out_of_stock
-    @success_gif = site_gif
+    @site.title = 'Out of Stock'
+    @site.style = :out_of_stock
 
-    site_erb :out_of_stock
+    erb :out_of_stock
   end
 
   get '/all-items' do
     @data_files = DataFile.load(type: :all).select(&:display?)
 
-    @site[:title] = 'All Items'
-    @site[:style] = :all_items
+    @site.title = 'All Items'
+    @site.style = :all_items
 
-    site_erb :all
+    erb :all
   end
 
   get '/env' do
@@ -68,10 +67,19 @@ class FoodTracker < Sinatra::Base
   get '/environment' do
     redirect '/' unless settings.development?
 
-    @site[:title] = 'Environment Variables'
-    @site[:style] = :environment_vars
+    @site.title = 'Environment Variables'
+    @site.style = :environment_vars
 
-    site_erb :environment
+    erb :environment
+  end
+
+  get '/stylesheets/background-colors/:style.css' do
+    headers 'Content-Type' => 'text/css'
+    headers 'Content-Length' => css.length
+
+    @site.style = params[:style].to_sym
+
+    css
   end
 
   # catch-all routes
@@ -85,12 +93,8 @@ class FoodTracker < Sinatra::Base
 
   private
 
-  def site_erb(view)
-    @site = insert_touch_icons @site
-    @site = insert_stylesheets @site
-    @site = insert_assigned_color @site
-
-    erb view.to_sym
+  def css
+    "body {\n  background-color: #{@site.color};\n}\n"
   end
 
   def set_header_restrictions
@@ -102,6 +106,6 @@ class FoodTracker < Sinatra::Base
     headers 'X-Frame-Options' => 'sameorigin'
     headers 'X-Permitted-Cross-Domain-Policies' => 'none'
     headers 'X-XSS-Protection' => '0'
-    headers 'Permissions-Policy' => "geolocation=(self \"#{Env.host(request)}\"), microphone=()"
+    headers 'Permissions-Policy' => "geolocation=(self \"#{Env.url(request)}\"), microphone=()"
   end
 end
