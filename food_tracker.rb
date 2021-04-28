@@ -94,7 +94,7 @@ class FoodTracker < Sinatra::Base
   private
 
   def css
-    "body {\n  background-color: #{@site.color};\n}\n"
+    "body {\n  background-color: #{@site.color[:code]}; /* #{@site.color[:name]} */\n}\n"
   end
 
   def set_header_restrictions

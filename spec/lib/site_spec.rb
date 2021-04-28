@@ -177,37 +177,37 @@ RSpec.describe Site, type: :model do
     context 'when style is :in_stock' do
       before { default_site.style = :in_stock }
 
-      it { is_expected.to eq '#ffdb57' }
+      it { is_expected.to include code: '#ffdb57', name: 'hamburger yellow' }
     end
 
     context 'when style is :expiring' do
       before { default_site.style = :expiring }
 
-      it { is_expected.to eq '#ffc0cb' }
+      it { is_expected.to include code: '#ffc0cb', name: 'pink' }
     end
 
     context 'when style is :out_of_stock' do
       before { default_site.style = :out_of_stock }
 
-      it { is_expected.to eq '#add8e6' }
+      it { is_expected.to include code: '#add8e6', name: 'light blue' }
     end
 
     context 'when style is :all_items' do
       before { default_site.style = :all_items }
 
-      it { is_expected.to eq '#e9ffdb' }
+      it { is_expected.to include code: '#e9ffdb', name: 'nyanza' }
     end
 
     context 'when style is :environment_vars' do
       before { default_site.style = :environment_vars }
 
-      it { is_expected.to eq '#ffffff' }
+      it { is_expected.to include code: '#ffffff', name: 'white' }
     end
 
     context 'when style is anything else' do
       before { default_site.style = :anything_else }
 
-      it { is_expected.to eq '#ffdb58' }
+      it { is_expected.to include code: '#ffdb58', name: 'hamburger yellow' }
     end
   end
 
