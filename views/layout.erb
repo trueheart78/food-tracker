@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8"/>
+
     <title><%= @site.title %></title>
     
     <!-- open graph tags -->
@@ -27,6 +29,7 @@
     <%= erb :_style, locals: { stylesheets: @site.stylesheets } %>
   </head>
   <body>
+    <a id='page_top'></a>
     <%= yield %>
     <% if @site.footer? %>
       <%= erb :_footer, locals: {} %>
