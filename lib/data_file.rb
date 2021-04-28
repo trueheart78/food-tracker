@@ -4,7 +4,7 @@
 class DataFile
   class InvalidType < StandardError; end
 
-  attr_reader :errors
+  attr_reader :errors, :data_lines
 
   def initialize(file_path, type: :all_items)
     @file_path = file_path
@@ -46,10 +46,6 @@ class DataFile
     return false unless valid_type?
 
     true
-  end
-
-  def to_html
-    "<ol>#{@data_lines.map(&:to_html).join}</ol>"
   end
 
   def name

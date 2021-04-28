@@ -94,10 +94,9 @@ class DataLine
   end
 
   def to_html
-    return '<li>🦖</li>' if empty?
+    return '🦖' if empty?
 
-    html = [@string, expiration_html].join(' ')
-    "<li>#{html}</li>\n"
+    [@string, expiration_html].join(' ')
   end
 
   private
