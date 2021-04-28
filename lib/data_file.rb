@@ -55,6 +55,10 @@ class DataFile
     name.downcase.sub(' ', '_')
   end
 
+  def location
+    @yaml_data[:location]
+  end
+
   def self.load(type: :in_stock, directory: 'data')
     raise InvalidType, "Unsupported type: :#{type}" unless supported_type? type
 
@@ -83,10 +87,6 @@ class DataFile
     return true if @type == :out_of_stock && @data_lines.any?
 
     false
-  end
-
-  def location
-    @location ||= @yaml_data[:location]
   end
 
   def load_yaml_data
