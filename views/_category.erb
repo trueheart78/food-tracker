@@ -1,5 +1,6 @@
 <div class='double-spaced'>
-  <b class='embiggen'><%= data_file.name %> (<%= data_file.location %>)</b> <a href='#page_top' style='text-decoration: none;'>🔝</a><a id='<%= data_file.safe_name %>'></a>
+  <a id='<%= data_file.safe_name %>'></a>
+  <b class='embiggen'><%= data_file.name %> (<%= data_file.location %>)</b> <a href='#page_top' style='text-decoration: none;'>🔝</a>
   <div class='spaced'>
     <%= erb :_line_items, locals: { data_lines: data_file.data_lines } %>
   </div>
