@@ -2,12 +2,7 @@
   <div id='header'>
     <h1 class='embiggen'>📚 All Items 📚</h1>
   </div>
-  <div id='nav'>
-    <% @data_files.each do |data_file| %>
-      <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
-      <%= '•' unless data_file == @data_files.last %> 
-    <% end %>
-  </div>
+  <%= erb :_navigation, locals: { data_files: @data_files } %>
   <div id='content'>
     <% @data_files.each do |data_file| %>
       <a id='<%= data_file.safe_name %>'></a>

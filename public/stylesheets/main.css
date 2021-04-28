@@ -14,7 +14,7 @@ div, p, span {
   text-align: center;
 }
 
-#nav, #content {
+#navigation, #content {
   width: 100%;
   text-align: left;
 }
