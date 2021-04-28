@@ -30,7 +30,7 @@ class FoodTracker < Sinatra::Base
     @site.title = 'In The Kitchen'
     @site.style = :in_stock
 
-    erb :kitchen
+    erb :in_stock
   end
 
   get '/expiring' do
