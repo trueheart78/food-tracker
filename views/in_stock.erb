@@ -1,14 +1,14 @@
-<div align='center'>
-  <div class='page-width dead-center'>
+<div id='page'>
+  <div id='header'>
     <h1 class='embiggen'>🍔 In The Kitchen 🍔</h1>
   </div>
-  <div class='page-width on-your-left'>
+  <div id='nav'>
     <% @data_files.each do |data_file| %>
       <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
       <%= '•' unless data_file == @data_files.last %> 
     <% end %>
   </div>
-  <div class='page-width on-your-left'>
+  <div id='content'>
     <% @data_files.each do |data_file| %>
       <a id='<%= data_file.safe_name %>'></a>
       <p>

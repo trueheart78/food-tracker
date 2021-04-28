@@ -3,8 +3,26 @@ div, p, span {
   font-size: 14pt;
 }
 
+#page, #page-footer {
+  justify-content: center;
+  margin: 0 auto;
+  width: 800px;
+}
+
+#header, #center {
+  width: 100%;
+  text-align: center;
+}
+
+#nav, #content {
+  width: 100%;
+  text-align: left;
+}
+
 #footer {
   margin-top: 30px;
+  width: 100%;
+  text-align: center;
 }
 
 #footer a {
@@ -32,16 +50,4 @@ h1.embiggen {
 
 .expired {
   color: red;
-}
-
-div.page-width {
-  width: 800px;
-}
-
-.on-your-left {
-  text-align: left;
-}
-
-.dead-center {
-  text-align: center;
 }
