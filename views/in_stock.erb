@@ -1,7 +1,5 @@
 <div id='page'>
-  <div id='header'>
-    <h1 class='embiggen'>🍔 In The Kitchen 🍔</h1>
-  </div>
+  <%= erb :_header, locals: { title: '🍔 In The Kitchen 🍔' } %>
   <%= erb :_navigation, locals: { data_files: @data_files } %>
   <div id='content'>
     <% @data_files.each do |data_file| %>

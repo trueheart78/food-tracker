@@ -1,7 +1,5 @@
 <div id='page'>
-  <div id='header'>
-    <h1 class='embiggen'>📅 Expiring 📅</h1>
-  </div>
+  <%= erb :_header, locals: { title: '📅 Expiring 📅' } %>
   <% if @data_files.any? %>
     <%= erb :_navigation, locals: { data_files: @data_files } %>
     <div id='content'>
