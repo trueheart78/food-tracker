@@ -13,18 +13,16 @@ RSpec.describe DataLine, type: :model do
       it { is_expected.to be_valid }
     end
 
-    context 'when the string has no content' do
-      context 'when the string is empty' do
-        let(:string) { '' }
+    context 'when the string is empty' do
+      let(:string) { '' }
 
-        it { is_expected.not_to be_valid }
-      end
+      it { is_expected.to be_valid }
+    end
 
-      context 'when the string is nil' do
-        let(:string) { nil }
+    context 'when the string is nil' do
+      let(:string) { nil }
 
-        it { is_expected.not_to be_valid }
-      end
+      it { is_expected.not_to be_valid }
     end
   end
 
