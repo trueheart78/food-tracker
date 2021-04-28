@@ -83,6 +83,25 @@ class Site
   end
   # rubocop:enable Metrics/MethodLength
 
+  # rubocop:disable Metrics/MethodLength
+  def header
+    case style
+    when :in_stock
+      '🍔 In The Kitchen 🍔'
+    when :expiring
+      '📅 Expiring 📅'
+    when :out_of_stock
+      '📝 Out of Stock 📝'
+    when :all_items
+      '📚 All Items 📚'
+    when :environment_vars
+      '📖 Environment Variables 📖'
+    else
+      ''
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
+
   private
 
   def image(name, full_url: false)
