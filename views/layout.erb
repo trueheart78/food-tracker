@@ -25,14 +25,12 @@
       <meta property="twitter:url" content="<%= @site.url %>" />
     <% end %>
 
-    <%= erb :_icons, locals: { color: @site.color, touch_icon: @site.touch_icons[:default], precomposed_icon: @site.touch_icons[:precomposed] } %>
+    <%= erb :_icons, locals: { color_code: @site.color[:code], touch_icon: @site.touch_icons[:default], precomposed_icon: @site.touch_icons[:precomposed] } %>
     <%= erb :_style, locals: { stylesheets: @site.stylesheets } %>
   </head>
   <body>
     <a id='page_top'></a>
     <%= yield %>
-    <% if @site.footer? %>
-      <%= erb :_footer, locals: {} %>
-    <% end %>
+    <%= erb :_footer, locals: {} if @site.footer? %>
   </body>
 </html>

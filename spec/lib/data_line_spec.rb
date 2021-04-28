@@ -1,10 +1,23 @@
 # frozen_string_literal: true
 
 RSpec.describe DataLine, type: :model do
-  subject(:data_line) { described_class.new string, location: location }
+  subject(:data_line) { default_data_line }
 
-  let(:string)   { 'Orange Juice' }
-  let(:location) { 'Cupboard' }
+  let(:default_data_line) { described_class.new string, location: location }
+  let(:string)            { 'Orange Juice' }
+  let(:location)          { 'Cupboard' }
+
+  describe 'OUT_OF_STOCK_MARKER' do
+    subject(:marker) { described_class::OUT_OF_STOCK_MARKER }
+
+    it { is_expected.to eq '^oos^' }
+  end
+
+  describe 'EXPIRING_SOON_DAYS' do
+    subject(:days) { described_class::EXPIRING_SOON_DAYS }
+
+    it { is_expected.to eq 5 }
+  end
 
   describe '#valid?' do
     context 'when the string has content' do
@@ -79,6 +92,18 @@ RSpec.describe DataLine, type: :model do
       context 'when the expiration date is in four days' do
         let(:string) { "test [#{four_days_from_now}]" }
 
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when the expiration date is in five days' do
+        let(:string) { "test [#{five_days_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when the expiration date is in six days' do
+        let(:string) { "test [#{six_days_from_now}]" }
+
         it { is_expected.not_to be_expiring }
       end
     end
@@ -116,6 +141,18 @@ RSpec.describe DataLine, type: :model do
 
       context 'when an expiration date is in four days' do
         let(:string) { "test [#{four_days_from_now}] [#{a_week_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when an expiration date is in five days' do
+        let(:string) { "test [#{five_days_from_now}] [#{a_week_from_now}]" }
+
+        it { is_expected.to be_expiring }
+      end
+
+      context 'when an expiration date is in size days' do
+        let(:string) { "test [#{six_days_from_now}] [#{a_week_from_now}]" }
 
         it { is_expected.not_to be_expiring }
       end

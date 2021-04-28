@@ -68,17 +68,36 @@ class Site
   def color
     case style
     when :in_stock
-      '#ffdb57' # hamburger yellow
+      { code: '#f5f5f5', name: 'white smoke' }
     when :expiring
-      '#ffc0cb' # pink
+      { code: '#ffc0cb', name: 'pink' }
     when :out_of_stock
-      '#add8e6' # light blue
+      { code: '#add8e6', name: 'light blue' }
     when :all_items
-      '#e9ffdb' # nyanza
+      { code: '#e9ffdb', name: 'nyanza' }
     when :environment_vars
-      '#ffffff' # white
+      { code: '#ffffff', name: 'white' }
     else
-      '#ffdb58' # hamburger yellow
+      { code: '#ffdb58', name: 'hamburger yellow' }
+    end
+  end
+  # rubocop:enable Metrics/MethodLength
+
+  # rubocop:disable Metrics/MethodLength
+  def header
+    case style
+    when :in_stock
+      '🍔 In The Kitchen 🍔'
+    when :expiring
+      '📅 Expiring 📅'
+    when :out_of_stock
+      '📝 Out of Stock 📝'
+    when :all_items
+      '📚 All Items 📚'
+    when :environment_vars
+      '📖 Environment Variables 📖'
+    else
+      ''
     end
   end
   # rubocop:enable Metrics/MethodLength

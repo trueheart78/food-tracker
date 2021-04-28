@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class DataFile
   class InvalidType < StandardError; end
 
-  attr_reader :errors
+  attr_reader :errors, :data_lines
 
   def initialize(file_path, type: :all_items)
     @file_path = file_path
@@ -48,16 +47,16 @@ class DataFile
     true
   end
 
-  def to_html
-    "<ol>#{@data_lines.map(&:to_html).join}</ol>"
-  end
-
   def name
     @yaml_data[:name]
   end
 
   def safe_name
     name.downcase.sub(' ', '_')
+  end
+
+  def location
+    @yaml_data[:location]
   end
 
   def self.load(type: :in_stock, directory: 'data')
@@ -88,10 +87,6 @@ class DataFile
     return true if @type == :out_of_stock && @data_lines.any?
 
     false
-  end
-
-  def location
-    @location ||= @yaml_data[:location]
   end
 
   def load_yaml_data
@@ -139,4 +134,3 @@ class DataFile
     File.exist? @file_path
   end
 end
-# rubocop:enable Metrics/ClassLength

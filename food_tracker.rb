@@ -30,7 +30,7 @@ class FoodTracker < Sinatra::Base
 
     @data_files = DataFile.load(type: @site.style).select(&:display?)
 
-    erb @site.style
+    erb :items
   end
 
   get '/expiring' do
@@ -39,7 +39,7 @@ class FoodTracker < Sinatra::Base
 
     @data_files = DataFile.load(type: @site.style).select(&:display?)
 
-    erb @site.style
+    erb :items
   end
 
   get '/out-of-stock' do
@@ -48,7 +48,7 @@ class FoodTracker < Sinatra::Base
 
     @data_files = DataFile.load(type: @site.style).select(&:display?)
 
-    erb @site.style
+    erb :items
   end
 
   get '/all-items' do
@@ -57,7 +57,7 @@ class FoodTracker < Sinatra::Base
 
     @data_files = DataFile.load(type: @site.style).select(&:display?)
 
-    erb @site.style
+    erb :items
   end
 
   get '/env' do
@@ -94,7 +94,7 @@ class FoodTracker < Sinatra::Base
   private
 
   def css
-    "body {\n  background-color: #{@site.color};\n}\n"
+    "body {\n  background-color: #{@site.color[:code]}; /* #{@site.color[:name]} */\n}\n"
   end
 
   def set_header_restrictions
