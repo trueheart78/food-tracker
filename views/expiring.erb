@@ -13,13 +13,9 @@
       <% end %>
     </div>
   <% else %>
-    <div id='center'>
-      <p>
-      <img src="<%= @site.gif %>" alt="Rotating <%= @site.icon %>" />
-      </p>
-      <p>
-      No expiring food!
-      </p>
-    </div>
+    <%= erb :_no_items, locals: { image: @site.gif,
+                                  icon: @site.icon,
+                                  type: @site.type
+                                } %>
   <% end %>
 </div>

@@ -69,6 +69,46 @@ RSpec.describe Site, type: :model do
     it { is_expected.to eq '/images/hamburger-rotating.gif' }
   end
 
+  describe '#type' do
+    subject(:type) { default_site.type }
+
+    context 'when style is :in_stock' do
+      before { default_site.style = :in_stock }
+
+      it { is_expected.to eq 'in stock' }
+    end
+
+    context 'when style is :expiring' do
+      before { default_site.style = :expiring }
+
+      it { is_expected.to eq 'expiring' }
+    end
+
+    context 'when style is :out_of_stock' do
+      before { default_site.style = :out_of_stock }
+
+      it { is_expected.to eq 'out of stock' }
+    end
+
+    context 'when style is :all_items' do
+      before { default_site.style = :all_items }
+
+      it { is_expected.to eq 'all items' }
+    end
+
+    context 'when style is :environment_vars' do
+      before { default_site.style = :environment_vars }
+
+      it { is_expected.to eq 'environment vars' }
+    end
+
+    context 'when style is anything else' do
+      before { default_site.style = :anything_else }
+
+      it { is_expected.to eq 'anything else' }
+    end
+  end
+
   describe '#stylesheets' do
     subject(:stylesheets) { default_site.stylesheets }
 
