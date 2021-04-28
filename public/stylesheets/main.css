@@ -37,7 +37,23 @@ a {
 }
 
 h1.embiggen {
-  font-size: 20pt;
+  font-size: 24pt;
+}
+
+div.double-spaced {
+  padding-top: 20px;
+}
+
+div.spaced {
+  padding-top: 10px;
+}
+
+strong.embiggen {
+  font-size: 18pt;
+}
+
+ol {
+  margin: 0;
 }
 
 .unexpired {
