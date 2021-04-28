@@ -31,8 +31,6 @@
   <body>
     <a id='page_top'></a>
     <%= yield %>
-    <% if @site.footer? %>
-      <%= erb :_footer, locals: {} %>
-    <% end %>
+    <%= erb :_footer, locals: {} if @site.footer? %>
   </body>
 </html>
