@@ -2,7 +2,7 @@
   <%= erb :_header, locals: { title: @site.header } %>
   <% if @data_files.any? %>
     <%= erb :_navigation, locals: { data_files: @data_files } %>
-    <%= erb :_data_files, locals: { data_files: @data_files } %>
+    <%= erb :_categories, locals: { data_files: @data_files } %>
   <% else %>
     <%= erb :_no_items, locals: { image: @site.gif,
                                   icon: @site.icon,

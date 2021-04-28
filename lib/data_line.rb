@@ -76,7 +76,6 @@ class DataLine
 
   def valid?
     return false if @string.nil?
-    # return false if empty?
     return false if @errors.any?
 
     true
@@ -128,6 +127,10 @@ class DataLine
     end.join(' ')
   end
   # rubocop:enable Metrics/MethodLength
+
+  def brand_html
+    ''
+  end
 
   def already_expired?(date)
     date <= Date.today
