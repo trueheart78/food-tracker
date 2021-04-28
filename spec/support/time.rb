@@ -30,6 +30,14 @@ module Support
       days_from_now 4
     end
 
+    def five_days_from_now
+      days_from_now 5
+    end
+
+    def six_days_from_now
+      days_from_now 6
+    end
+
     def yesterday
       days_ago 1
     end

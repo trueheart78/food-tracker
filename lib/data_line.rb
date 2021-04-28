@@ -17,6 +17,7 @@ class DataLine
   class InvalidLocation < StandardError; end
 
   OUT_OF_STOCK_MARKER = '^oos^'
+  EXPIRING_SOON_DAYS  = 5
 
   attr_reader :errors
 
@@ -96,7 +97,7 @@ class DataLine
   def to_html
     return '🦖' if empty?
 
-    [@string, expiration_html].join(' ')
+    [@string, expiration_html, brand_html].join(' ').rstrip
   end
 
   private
@@ -133,7 +134,7 @@ class DataLine
   end
 
   def expiring_soon?(date)
-    date <= (Date.today + 3)
+    date <= (Date.today + EXPIRING_SOON_DAYS)
   end
 
   def supported_custom_location?(location)
