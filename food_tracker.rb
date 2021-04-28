@@ -74,7 +74,7 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/stylesheets/background-colors/:style.css' do
-    headers 'Content-Type' => 'text/css'
+    headers 'Content-Type' => 'text/css;charset=utf-8'
     headers 'Content-Length' => css.length
 
     @site.style = params[:style].to_sym
