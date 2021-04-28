@@ -1,5 +1,13 @@
 div, p, span, a {
   font-family: Arial;
+  font-size: 16pt;
+}
+
+h1.embiggen {
+  font-size: 24pt;
+}
+
+b.embiggen {
   font-size: 20pt;
 }
 
@@ -26,16 +34,12 @@ div, p, span, a {
 }
 
 #footer a {
-  font-size: 28pt !important;
+  font-size: 24pt !important;
   text-decoration: none !important;
 }
 
 a {
   color: black;
-}
-
-h1.embiggen {
-  font-size: 28pt;
 }
 
 div.double-spaced {
@@ -44,10 +48,6 @@ div.double-spaced {
 
 div.spaced {
   padding-top: 10px;
-}
-
-b.embiggen {
-  font-size: 24;
 }
 
 ol {
