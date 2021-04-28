@@ -68,7 +68,7 @@ class Site
   def color
     case style
     when :in_stock
-      { code: '#f5f5f5', name: 'white smoke' }
+      { code: '#ffdb57', name: 'hamburger yellow' }
     when :expiring
       { code: '#ffc0cb', name: 'pink' }
     when :out_of_stock

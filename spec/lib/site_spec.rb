@@ -177,7 +177,7 @@ RSpec.describe Site, type: :model do
     context 'when style is :in_stock' do
       before { default_site.style = :in_stock }
 
-      it { is_expected.to include code: '#f5f5f5', name: 'white smoke' }
+      it { is_expected.to include code: '#ffdb57', name: 'hamburger yellow' }
     end
 
     context 'when style is :expiring' do
