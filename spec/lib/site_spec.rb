@@ -210,4 +210,44 @@ RSpec.describe Site, type: :model do
       it { is_expected.to eq '#ffdb58' }
     end
   end
+
+  describe '#header' do
+    subject(:header) { default_site.header }
+
+    context 'when style is :in_stock' do
+      before { default_site.style = :in_stock }
+
+      it { is_expected.to eq '🍔 In The Kitchen 🍔' }
+    end
+
+    context 'when style is :expiring' do
+      before { default_site.style = :expiring }
+
+      it { is_expected.to eq '📅 Expiring 📅' }
+    end
+
+    context 'when style is :out_of_stock' do
+      before { default_site.style = :out_of_stock }
+
+      it { is_expected.to eq '📝 Out of Stock 📝' }
+    end
+
+    context 'when style is :all_items' do
+      before { default_site.style = :all_items }
+
+      it { is_expected.to eq '📚 All Items 📚' }
+    end
+
+    context 'when style is :environment_vars' do
+      before { default_site.style = :environment_vars }
+
+      it { is_expected.to eq '📖 Environment Variables 📖' }
+    end
+
+    context 'when style is anything else' do
+      before { default_site.style = :anything_else }
+
+      it { is_expected.to be_empty }
+    end
+  end
 end
