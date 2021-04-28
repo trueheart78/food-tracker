@@ -6,7 +6,7 @@ class DataFile
 
   attr_reader :errors
 
-  def initialize(file_path, type: :all)
+  def initialize(file_path, type: :all_items)
     @file_path = file_path
     @data_lines = nil
     @errors = []
@@ -84,13 +84,13 @@ class DataFile
   end
 
   def self.supported_type?(type)
-    %i[all in_stock expiring out_of_stock].include? type.to_sym
+    %i[all_items in_stock expiring out_of_stock].include? type.to_sym
   end
 
   private
 
   def valid_type?
-    return true if @type == :all
+    return true if @type == :all_items
     return true if @type == :in_stock
     return true if @type == :expiring && expiring?
     return true if @type == :out_of_stock && @data_lines.any?

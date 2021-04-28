@@ -95,7 +95,7 @@ class DataLine
 
   def to_html
     html = [@string, expiration_html].join(' ')
-    "<li data=\"#{safe_name}\">#{html}</li>\n"
+    "<li title=\"#{safe_name}\">#{html}</li>\n"
   end
 
   private

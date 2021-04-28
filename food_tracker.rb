@@ -25,39 +25,39 @@ class FoodTracker < Sinatra::Base
   end
 
   get '/in-the-kitchen' do
-    @data_files = DataFile.load(type: :in_stock).select(&:display?)
-
     @site.title = 'In The Kitchen'
     @site.style = :in_stock
 
-    erb :in_stock
+    @data_files = DataFile.load(type: @site.style).select(&:display?)
+
+    erb @site.style
   end
 
   get '/expiring' do
-    @data_files = DataFile.load(type: :expiring).select(&:display?)
-
     @site.title = 'Expiring'
     @site.style = :expiring
 
-    erb :expiring
+    @data_files = DataFile.load(type: @site.style).select(&:display?)
+
+    erb @site.style
   end
 
   get '/out-of-stock' do
-    @data_files = DataFile.load(type: :out_of_stock).select(&:display?)
-
     @site.title = 'Out of Stock'
     @site.style = :out_of_stock
 
-    erb :out_of_stock
+    @data_files = DataFile.load(type: @site.style).select(&:display?)
+
+    erb @site.style
   end
 
   get '/all-items' do
-    @data_files = DataFile.load(type: :all).select(&:display?)
-
     @site.title = 'All Items'
     @site.style = :all_items
 
-    erb :all
+    @data_files = DataFile.load(type: @site.style).select(&:display?)
+
+    erb @site.style
   end
 
   get '/env' do
