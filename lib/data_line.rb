@@ -96,7 +96,7 @@ class DataLine
   def to_html
     return '🦖' if empty?
 
-    [@string, expiration_html, brand_html].join(' ').rstrip
+    [string_html, brand_html, expiration_html, location_html].join(' ').rstrip
   end
 
   private
@@ -107,6 +107,10 @@ class DataLine
 
   def date_format
     '%-m/%-d/%y'
+  end
+
+  def string_html
+    @string.gsub(' - ', '; ')
   end
 
   # rubocop:disable Metrics/MethodLength
@@ -129,7 +133,27 @@ class DataLine
   # rubocop:enable Metrics/MethodLength
 
   def brand_html
-    ''
+    return '' unless @brands.any?
+
+    unshown_brands = @brands.reject { |b| @string.include? b }
+
+    return '' unless unshown_brands.any?
+
+    "&ndash; #{unshown_brands.join(', ')}"
+  end
+
+  def location_html
+    return '' unless @custom_locations.any?
+
+    unshown_locations = @custom_locations.reject { |l| l == @location }
+
+    return '' unless unshown_locations.any?
+
+    [].tap do |html|
+      unshown_locations.each do |locale|
+        html << "(#{locale})"
+      end
+    end.join(' ')
   end
 
   def already_expired?(date)
@@ -199,7 +223,7 @@ class DataLine
     matches.each do |custom_location|
       @string = @string.sub("(#{custom_location})", '').rstrip
       if supported_custom_location? custom_location
-        @custom_locations << custom_location.split.map(&:capitalize).join(' ')
+        @custom_locations << custom_location.split.map(&:downcase).join(' ')
       else
         raise InvalidLocation, "Unsupported custom location found: #{custom_location}"
       end
