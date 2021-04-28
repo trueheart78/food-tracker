@@ -1,6 +1,5 @@
 <div id='navigation'>
   <% data_files.each do |data_file| %>
-    <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
-    <%= '•' unless data_file == data_files.last %> 
+    <%= '•' unless data_file == data_files.first %> <a href='#<%= data_file.safe_name %>'><%= data_file.name %></a>
   <% end %>
 </div>
