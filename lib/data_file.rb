@@ -108,9 +108,9 @@ class DataFile
     return unless load_yaml_data
 
     data = if show_everything?
-             @yaml_data[:items].map { |s| DataLine.new s, location: location }
+             @yaml_data[:items].uniq.map { |s| DataLine.new s, location: location }
            else
-             @yaml_data[:items].reject(&:empty?).map { |s| DataLine.new s, location: location }
+             @yaml_data[:items].uniq.reject(&:empty?).map { |s| DataLine.new s, location: location }
            end
 
     @data_lines = select_data data
