@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
 class DataFile
   class InvalidType < StandardError; end
 
@@ -135,4 +134,3 @@ class DataFile
     File.exist? @file_path
   end
 end
-# rubocop:enable Metrics/ClassLength
