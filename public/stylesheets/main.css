@@ -59,9 +59,9 @@ ol {
 }
 
 .expiring {
-  color: darkorange;
+  color: #ffd800; /* School Bus Yellow */
 }
 
 .expired {
-  color: red;
+  color: crimson;
 }
