@@ -23,8 +23,6 @@ Items also support a single "out of stock" flag.
   * Displays items expiring soon, already expired, and where the "best buy" date has passed.
 * Out of stock: `/out-of-stock`
   * Displays items that are out of stock.
-* All items: `/all-items`
-  * Displays all items, regardless of status. 
 * Environment: `/env`, `/environment`
   * Displays all environment variables available.
   * **Note:** Only available in the `development` environment.
