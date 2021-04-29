@@ -68,7 +68,7 @@ class Site
   def color
     case style
     when :in_stock
-      { code: '#ffdb57', name: 'hamburger yellow' }
+      { code: '#c4aead', name: 'silver pink' }
     when :expiring
       { code: '#ffc0cb', name: 'pink' }
     when :out_of_stock
@@ -87,7 +87,7 @@ class Site
   def header
     case style
     when :in_stock
-      '🍔 In The Kitchen 🍔'
+      '🍉 In The Kitchen 🍉'
     when :expiring
       '📅 Expiring 📅'
     when :out_of_stock
