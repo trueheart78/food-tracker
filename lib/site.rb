@@ -49,18 +49,12 @@ class Site
     end
   end
 
-  def touch_icons
+  def touch_icon
     case style
-    when :expiring, :out_of_stock
-      {
-        default:     "apple-touch-icon-#{transpose}.png",
-        precomposed: "apple-touch-icon-procomposed-#{transpose}.png"
-      }
+    when :expiring, :out_of_stock, :all_items
+      "apple-touch-icon-#{style.to_s.tr('_', '-')}.png"
     else
-      {
-        default:     'apple-touch-icon.png',
-        precomposed: 'apple-touch-icon-procomposed.png'
-      }
+      'apple-touch-icon.png'
     end
   end
 
@@ -74,11 +68,11 @@ class Site
     when :out_of_stock
       { code: '#add8e6', name: 'light blue' }
     when :all_items
-      { code: '#e9ffdb', name: 'nyanza' }
+      { code: '#ffdb58', name: 'hamburger yellow' }
     when :environment_vars
       { code: '#ffffff', name: 'white' }
     else
-      { code: '#ffdb58', name: 'hamburger yellow' }
+      { code: '#e9ffdb', name: 'nyanza' }
     end
   end
   # rubocop:enable Metrics/MethodLength
@@ -108,9 +102,5 @@ class Site
     return [url, 'images', name].join('/') if full_url
 
     ['/images', name].join '/'
-  end
-
-  def transpose
-    style.to_s.tr('_', '-')
   end
 end

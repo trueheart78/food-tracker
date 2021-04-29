@@ -62,7 +62,7 @@ RSpec.describe Site, type: :model do
 
     it { is_expected.to eq '/images/watermelon.png' }
 
-    it 'is expected to exist' do
+    it 'the image file exists' do
       png_path = File.join 'public', default_site.png
 
       expect(File.exist?(png_path)).to eq true
@@ -74,7 +74,7 @@ RSpec.describe Site, type: :model do
 
     it { is_expected.to eq '/images/watermelon-rotating.gif' }
 
-    it 'is expected to exist' do
+    it 'the image file exists' do
       gif_path = File.join 'public', default_site.gif
 
       expect(File.exist?(gif_path)).to eq true
@@ -161,25 +161,55 @@ RSpec.describe Site, type: :model do
     end
   end
 
-  describe '#touch_icons' do
-    subject(:touch_icons) { default_site.touch_icons }
+  describe '#touch_icon' do
+    subject(:touch_icon) { default_site.touch_icon }
 
     context 'when style is :expiring' do
       before { default_site.style = :expiring }
 
-      it { is_expected.to include default: 'apple-touch-icon-expiring.png', precomposed: 'apple-touch-icon-procomposed-expiring.png' }
+      it { is_expected.to eq 'apple-touch-icon-expiring.png' }
+
+      it 'the icon file exists' do
+        expiring_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(expiring_icon_path)).to eq true
+      end
     end
 
     context 'when style is :out_of_stock' do
       before { default_site.style = :out_of_stock }
 
-      it { is_expected.to include default: 'apple-touch-icon-out-of-stock.png', precomposed: 'apple-touch-icon-procomposed-out-of-stock.png' }
+      it { is_expected.to eq 'apple-touch-icon-out-of-stock.png' }
+
+      it 'the icon file exists' do
+        out_of_stock_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(out_of_stock_icon_path)).to eq true
+      end
+    end
+
+    context 'when style is :all_items' do
+      before { default_site.style = :all_items }
+
+      it { is_expected.to eq 'apple-touch-icon-all-items.png' }
+
+      it 'the icon file exists' do
+        all_items_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(all_items_icon_path)).to eq true
+      end
     end
 
     context 'when style is anything else' do
       before { default_site.style = :anything_else }
 
-      it { is_expected.to include default: 'apple-touch-icon.png', precomposed: 'apple-touch-icon-procomposed.png' }
+      it { is_expected.to eq 'apple-touch-icon.png' }
+
+      it 'the icon file exists' do
+        default_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(default_icon_path)).to eq true
+      end
     end
   end
 
@@ -207,7 +237,7 @@ RSpec.describe Site, type: :model do
     context 'when style is :all_items' do
       before { default_site.style = :all_items }
 
-      it { is_expected.to include code: '#e9ffdb', name: 'nyanza' }
+      it { is_expected.to include code: '#ffdb58', name: 'hamburger yellow' }
     end
 
     context 'when style is :environment_vars' do
@@ -219,7 +249,7 @@ RSpec.describe Site, type: :model do
     context 'when style is anything else' do
       before { default_site.style = :anything_else }
 
-      it { is_expected.to include code: '#ffdb58', name: 'hamburger yellow' }
+      it { is_expected.to include code: '#e9ffdb', name: 'nyanza' }
     end
   end
 
