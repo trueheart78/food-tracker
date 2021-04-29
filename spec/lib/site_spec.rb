@@ -237,7 +237,7 @@ RSpec.describe Site, type: :model do
     context 'when style is :all_items' do
       before { default_site.style = :all_items }
 
-      it { is_expected.to include code: '#ffdb58', name: 'hamburger yellow' }
+      it { is_expected.to include code: '#99e6b3', name: 'teal deer' }
     end
 
     context 'when style is :environment_vars' do

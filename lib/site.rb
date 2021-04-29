@@ -68,7 +68,7 @@ class Site
     when :out_of_stock
       { code: '#add8e6', name: 'light blue' }
     when :all_items
-      { code: '#ffdb58', name: 'hamburger yellow' }
+      { code: '#99e6b3', name: 'teal deer' }
     when :environment_vars
       { code: '#ffffff', name: 'white' }
     else
