@@ -158,6 +158,18 @@ RSpec.describe Site, type: :model do
   describe '#touch_icon' do
     subject(:touch_icon) { default_site.touch_icon }
 
+    context 'when style is :in_stock' do
+      before { default_site.style = :in_stock }
+
+      it { is_expected.to eq 'apple-touch-icon-in-stock.png' }
+
+      it 'the icon file exists' do
+        expiring_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(expiring_icon_path)).to eq true
+      end
+    end
+
     context 'when style is :expiring' do
       before { default_site.style = :expiring }
 
@@ -174,6 +186,18 @@ RSpec.describe Site, type: :model do
       before { default_site.style = :out_of_stock }
 
       it { is_expected.to eq 'apple-touch-icon-out-of-stock.png' }
+
+      it 'the icon file exists' do
+        out_of_stock_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(out_of_stock_icon_path)).to eq true
+      end
+    end
+
+    context 'when style is :environment_vars' do
+      before { default_site.style = :environment_vars }
+
+      it { is_expected.to eq 'apple-touch-icon-environment-vars.png' }
 
       it 'the icon file exists' do
         out_of_stock_icon_path = File.join 'public', default_site.touch_icon

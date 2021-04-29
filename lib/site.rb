@@ -51,7 +51,7 @@ class Site
 
   def touch_icon
     case style
-    when :expiring, :out_of_stock
+    when :in_stock, :expiring, :out_of_stock, :environment_vars
       "apple-touch-icon-#{style.to_s.tr('_', '-')}.png"
     else
       'apple-touch-icon.png'
