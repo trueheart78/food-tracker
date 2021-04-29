@@ -142,12 +142,6 @@ RSpec.describe Site, type: :model do
       it { is_expected.to eq ['main.css', 'background-colors/out_of_stock.css'] }
     end
 
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to eq ['main.css', 'background-colors/all_items.css'] }
-    end
-
     context 'when style is :environment_vars' do
       before { default_site.style = :environment_vars }
 
@@ -188,18 +182,6 @@ RSpec.describe Site, type: :model do
       end
     end
 
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to eq 'apple-touch-icon-all-items.png' }
-
-      it 'the icon file exists' do
-        all_items_icon_path = File.join 'public', default_site.touch_icon
-
-        expect(File.exist?(all_items_icon_path)).to eq true
-      end
-    end
-
     context 'when style is anything else' do
       before { default_site.style = :anything_else }
 
@@ -234,12 +216,6 @@ RSpec.describe Site, type: :model do
       it { is_expected.to include code: '#add8e6', name: 'light blue' }
     end
 
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to include code: '#99e6b3', name: 'teal deer' }
-    end
-
     context 'when style is :environment_vars' do
       before { default_site.style = :environment_vars }
 
@@ -272,12 +248,6 @@ RSpec.describe Site, type: :model do
       before { default_site.style = :out_of_stock }
 
       it { is_expected.to eq '📝 Out of Stock 📝' }
-    end
-
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to eq '📚 All Items 📚' }
     end
 
     context 'when style is :environment_vars' do

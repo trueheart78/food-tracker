@@ -5,7 +5,7 @@ class DataFile
 
   attr_reader :errors, :data_lines
 
-  def initialize(file_path, type: :all_items)
+  def initialize(file_path, type: :in_stock)
     @file_path = file_path
     @data_lines = nil
     @errors = []
@@ -75,13 +75,12 @@ class DataFile
   end
 
   def self.supported_type?(type)
-    %i[all_items in_stock expiring out_of_stock].include? type.to_sym
+    %i[in_stock expiring out_of_stock].include? type.to_sym
   end
 
   private
 
   def valid_type?
-    return true if @type == :all_items
     return true if @type == :in_stock
     return true if @type == :expiring && expiring?
     return true if @type == :out_of_stock && @data_lines.any?
@@ -102,17 +101,13 @@ class DataFile
   def parse_yaml_file
     return unless load_yaml_data
 
-    data = if show_everything?
+    data = if @type == :in_stock
              @yaml_data[:items].uniq.map { |s| DataLine.new s, location: location }
            else
              @yaml_data[:items].uniq.reject(&:empty?).map { |s| DataLine.new s, location: location }
            end
 
     @data_lines = select_data data
-  end
-
-  def show_everything?
-    %i[in_stock all_items].include? @type
   end
 
   # rubocop:disable Metrics/CyclomaticComplexity

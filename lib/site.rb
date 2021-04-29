@@ -40,7 +40,7 @@ class Site
 
   def stylesheets
     case style
-    when :in_stock, :expiring, :out_of_stock, :all_items
+    when :in_stock, :expiring, :out_of_stock
       ['main.css', "background-colors/#{style}.css"]
     when :environment_vars
       ['main.css', 'environment_vars.css']
@@ -51,14 +51,13 @@ class Site
 
   def touch_icon
     case style
-    when :expiring, :out_of_stock, :all_items
+    when :expiring, :out_of_stock
       "apple-touch-icon-#{style.to_s.tr('_', '-')}.png"
     else
       'apple-touch-icon.png'
     end
   end
 
-  # rubocop:disable Metrics/MethodLength
   def color
     case style
     when :in_stock
@@ -67,17 +66,13 @@ class Site
       { code: '#ffc0cb', name: 'pink' }
     when :out_of_stock
       { code: '#add8e6', name: 'light blue' }
-    when :all_items
-      { code: '#99e6b3', name: 'teal deer' }
     when :environment_vars
       { code: '#ffffff', name: 'white' }
     else
       { code: '#e9ffdb', name: 'nyanza' }
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
-  # rubocop:disable Metrics/MethodLength
   def header
     case style
     when :in_stock
@@ -86,15 +81,12 @@ class Site
       '📅 Expiring 📅'
     when :out_of_stock
       '📝 Out of Stock 📝'
-    when :all_items
-      '📚 All Items 📚'
     when :environment_vars
       '📖 Environment Variables 📖'
     else
       ''
     end
   end
-  # rubocop:enable Metrics/MethodLength
 
   private
 
