@@ -7,7 +7,7 @@ class Site
   def initialize(url:, domain:)
     @url         = url
     @domain      = domain
-    @icon        = :hamburger
+    @icon        = :watermelon
     @title       = 'Food, Pls?'
     @description = 'A personalized food tracker.'
     @style       = :default

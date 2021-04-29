@@ -17,7 +17,7 @@ RSpec.describe Site, type: :model do
     end
 
     it 'has the icon' do
-      expect(site.icon).to eq :hamburger
+      expect(site.icon).to eq :watermelon
     end
 
     it 'has the default title' do
@@ -54,19 +54,31 @@ RSpec.describe Site, type: :model do
   describe '#png_url' do
     subject(:png_url) { default_site.png_url }
 
-    it { is_expected.to eq "#{url}/images/hamburger.png" }
+    it { is_expected.to eq "#{url}/images/watermelon.png" }
   end
 
   describe '#png' do
     subject(:png) { default_site.png }
 
-    it { is_expected.to eq '/images/hamburger.png' }
+    it { is_expected.to eq '/images/watermelon.png' }
+
+    it 'is expected to exist' do
+      png_path = File.join 'public', default_site.png
+
+      expect(File.exist?(png_path)).to eq true
+    end
   end
 
   describe '#gif' do
     subject(:gif) { default_site.gif }
 
-    it { is_expected.to eq '/images/hamburger-rotating.gif' }
+    it { is_expected.to eq '/images/watermelon-rotating.gif' }
+
+    it 'is expected to exist' do
+      gif_path = File.join 'public', default_site.gif
+
+      expect(File.exist?(gif_path)).to eq true
+    end
   end
 
   describe '#type' do
