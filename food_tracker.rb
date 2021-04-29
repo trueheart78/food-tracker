@@ -51,15 +51,6 @@ class FoodTracker < Sinatra::Base
     erb :items
   end
 
-  get '/all-items' do
-    @site.title = 'All Items'
-    @site.style = :all_items
-
-    @data_files = DataFile.load(type: @site.style).select(&:display?)
-
-    erb :items
-  end
-
   get '/env' do
     redirect '/environment'
   end

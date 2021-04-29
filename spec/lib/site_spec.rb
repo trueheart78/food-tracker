@@ -17,7 +17,7 @@ RSpec.describe Site, type: :model do
     end
 
     it 'has the icon' do
-      expect(site.icon).to eq :hamburger
+      expect(site.icon).to eq :watermelon
     end
 
     it 'has the default title' do
@@ -54,19 +54,31 @@ RSpec.describe Site, type: :model do
   describe '#png_url' do
     subject(:png_url) { default_site.png_url }
 
-    it { is_expected.to eq "#{url}/images/hamburger.png" }
+    it { is_expected.to eq "#{url}/images/watermelon.png" }
   end
 
   describe '#png' do
     subject(:png) { default_site.png }
 
-    it { is_expected.to eq '/images/hamburger.png' }
+    it { is_expected.to eq '/images/watermelon.png' }
+
+    it 'the image file exists' do
+      png_path = File.join 'public', default_site.png
+
+      expect(File.exist?(png_path)).to eq true
+    end
   end
 
   describe '#gif' do
     subject(:gif) { default_site.gif }
 
-    it { is_expected.to eq '/images/hamburger-rotating.gif' }
+    it { is_expected.to eq '/images/watermelon-rotating.gif' }
+
+    it 'the image file exists' do
+      gif_path = File.join 'public', default_site.gif
+
+      expect(File.exist?(gif_path)).to eq true
+    end
   end
 
   describe '#type' do
@@ -130,12 +142,6 @@ RSpec.describe Site, type: :model do
       it { is_expected.to eq ['main.css', 'background-colors/out_of_stock.css'] }
     end
 
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to eq ['main.css', 'background-colors/all_items.css'] }
-    end
-
     context 'when style is :environment_vars' do
       before { default_site.style = :environment_vars }
 
@@ -149,25 +155,67 @@ RSpec.describe Site, type: :model do
     end
   end
 
-  describe '#touch_icons' do
-    subject(:touch_icons) { default_site.touch_icons }
+  describe '#touch_icon' do
+    subject(:touch_icon) { default_site.touch_icon }
+
+    context 'when style is :in_stock' do
+      before { default_site.style = :in_stock }
+
+      it { is_expected.to eq 'apple-touch-icon-in-stock.png' }
+
+      it 'the icon file exists' do
+        expiring_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(expiring_icon_path)).to eq true
+      end
+    end
 
     context 'when style is :expiring' do
       before { default_site.style = :expiring }
 
-      it { is_expected.to include default: 'apple-touch-icon-expiring.png', precomposed: 'apple-touch-icon-procomposed-expiring.png' }
+      it { is_expected.to eq 'apple-touch-icon-expiring.png' }
+
+      it 'the icon file exists' do
+        expiring_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(expiring_icon_path)).to eq true
+      end
     end
 
     context 'when style is :out_of_stock' do
       before { default_site.style = :out_of_stock }
 
-      it { is_expected.to include default: 'apple-touch-icon-out-of-stock.png', precomposed: 'apple-touch-icon-procomposed-out-of-stock.png' }
+      it { is_expected.to eq 'apple-touch-icon-out-of-stock.png' }
+
+      it 'the icon file exists' do
+        out_of_stock_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(out_of_stock_icon_path)).to eq true
+      end
+    end
+
+    context 'when style is :environment_vars' do
+      before { default_site.style = :environment_vars }
+
+      it { is_expected.to eq 'apple-touch-icon-environment-vars.png' }
+
+      it 'the icon file exists' do
+        out_of_stock_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(out_of_stock_icon_path)).to eq true
+      end
     end
 
     context 'when style is anything else' do
       before { default_site.style = :anything_else }
 
-      it { is_expected.to include default: 'apple-touch-icon.png', precomposed: 'apple-touch-icon-procomposed.png' }
+      it { is_expected.to eq 'apple-touch-icon.png' }
+
+      it 'the icon file exists' do
+        default_icon_path = File.join 'public', default_site.touch_icon
+
+        expect(File.exist?(default_icon_path)).to eq true
+      end
     end
   end
 
@@ -192,12 +240,6 @@ RSpec.describe Site, type: :model do
       it { is_expected.to include code: '#add8e6', name: 'light blue' }
     end
 
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to include code: '#e9ffdb', name: 'nyanza' }
-    end
-
     context 'when style is :environment_vars' do
       before { default_site.style = :environment_vars }
 
@@ -207,7 +249,7 @@ RSpec.describe Site, type: :model do
     context 'when style is anything else' do
       before { default_site.style = :anything_else }
 
-      it { is_expected.to include code: '#ffdb58', name: 'hamburger yellow' }
+      it { is_expected.to include code: '#e9ffdb', name: 'nyanza' }
     end
   end
 
@@ -230,12 +272,6 @@ RSpec.describe Site, type: :model do
       before { default_site.style = :out_of_stock }
 
       it { is_expected.to eq '📝 Out of Stock 📝' }
-    end
-
-    context 'when style is :all_items' do
-      before { default_site.style = :all_items }
-
-      it { is_expected.to eq '📚 All Items 📚' }
     end
 
     context 'when style is :environment_vars' do

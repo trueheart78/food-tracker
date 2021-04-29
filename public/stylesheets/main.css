@@ -59,9 +59,9 @@ ol {
 }
 
 .expiring {
-  color: darkorange;
+  color: #ffdb58; /* Mustard */
 }
 
 .expired {
-  color: red;
+  color: crimson;
 }
