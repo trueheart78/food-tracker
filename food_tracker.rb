@@ -51,10 +51,6 @@ class FoodTracker < Sinatra::Base
     erb :items
   end
 
-  get '/env' do
-    redirect '/environment'
-  end
-
   get '/environment' do
     redirect '/' unless settings.development?
 
