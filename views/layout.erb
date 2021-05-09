@@ -25,7 +25,7 @@
       <meta property="twitter:url" content="<%= @site.url %>" />
     <% end %>
 
-    <%= erb :_icons, locals: { color_code: @site.color[:code], touch_icon: @site.touch_icon } %>
+    <%= erb :_icons, locals: { color_code: @site.color[:code] } %>
     <%= erb :_style, locals: { stylesheets: @site.stylesheets } %>
   </head>
   <body>
